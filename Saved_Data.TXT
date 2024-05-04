@@ -1,0 +1,4 @@
+Player score: 13
+Levels completed: 15
+Lives: 14
+

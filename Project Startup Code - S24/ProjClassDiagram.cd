@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="grid" Collapsed="true">
+    <Position X="3.25" Y="1" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="grid::__unnamed_enum_0040_1" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>grid.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AgAEAAAAAAIAAEQAQAJhAAAAAACAAAABAAAAACAIACA=</HashCode>
+      <FileName>grid.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="activeShape" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="shapeList" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="game" Collapsed="true">
+    <Position X="6.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAgAAAAAAgAAQAgAAAIBAAAAAAAAIBAAABgAggAI=</HashCode>
+      <FileName>game.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="shapesGrid" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="shape" Collapsed="true">
+    <Position X="5.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAACAABACAABQA=</HashCode>
+      <FileName>shape.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="pGame" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Rect" Collapsed="true">
+    <Position X="6.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAKAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BasicShapes.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sign" Collapsed="true">
+    <Position X="3.75" Y="3.5" Width="1.5" />
+    <AssociationLine Name="base" Type="Rect" ManuallyRouted="true">
+      <Path>
+        <Point X="5.25" Y="3.846" />
+        <Point X="5.75" Y="3.846" />
+        <Point X="5.75" Y="3.846" />
+        <Point X="6.25" Y="3.846" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAABAAAAIAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CompositeShapes.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="base" />
+      <Field Name="top" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="operation" Collapsed="true">
+    <Position X="0.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACABAEA=</HashCode>
+      <FileName>operations.h</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="pGame" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="operAddSign" Collapsed="true">
+    <Position X="0.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>operations.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

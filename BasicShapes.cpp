@@ -1,0 +1,584 @@
+#include <vector>
+#include "BasicShapes.h"
+#include "gameConfig.h"
+#include "game.h"
+
+point rotate_coordinates(point coords, double angle, point origin);
+point reflect_coordinates(point coords, point origin);
+
+////////////////////////////////////////////////////  class Rect  ///////////////////////////////////////
+
+void Rect::calculate_points() {
+	upperLeft.x = RefPoint.x - wdth / 2;
+	upperLeft.y = RefPoint.y - hght / 2;
+	lowerBottom.x = RefPoint.x + wdth / 2;
+	lowerBottom.y = RefPoint.y + hght / 2;
+}
+
+Rect::Rect(game* r_pGame, point ref, int r_hght, int r_wdth):shape(r_pGame,ref)
+{
+	pGame = r_pGame;
+	hght = r_hght;
+	wdth = r_wdth;
+
+	this->calculate_points();
+}
+
+void Rect::set_dims(vector<double> dims) {
+	this->wdth = dims[0]; this->hght = dims[1];
+}
+
+void Rect::draw(int x = 1) const
+{
+	window* pW = pGame->getWind();	//get interface window
+	pW->SetPen(config.penColor, config.penWidth);
+	pW->SetBrush(config.fillColor);
+
+	pW->DrawRectangle(upperLeft.x, upperLeft.y, lowerBottom.x, lowerBottom.y, FILLED);
+}
+
+void Rect::resize(double factor) {
+	this->hght *= factor;
+	this->wdth *= factor;
+
+	this->calculate_points();
+}
+
+//void Rect::resize(double factor){
+//	const double Twicehght = 2*hght;
+//	const double Twicewdth = 2*wdth;
+//	const double halfhght = 0.5 * hght;
+//	const double halfwdth = 0.5 * wdth;
+//	if (factor > 1) {
+//		if (hght < (Twicehght) && wdth < (Twicewdth)) {
+//			hght *= factor;
+//			wdth *= factor;
+//		}
+//	}
+//	if (factor < 1) {
+//		if (hght > (halfhght) && wdth > halfwdth) {
+//			hght *= factor;
+//			wdth *= factor;
+//		}
+//	}
+//}
+
+void Rect::rotate(point reference)
+{
+	vector<double> dimensions; dimensions.push_back(this->wdth); dimensions.push_back(this->hght);
+
+	RectangleTransform RT(this->RefPoint, dimensions); RT.rotate(reference);
+
+	this->RefPoint = RT.get_rot_ref();
+	vector<double> new_dims = RT.get_rot_dims();
+	vector<point> new_coords = RT.get_rot_coords();
+
+	this->wdth = new_dims[0]; this->hght = new_dims[1];
+
+	this->upperLeft = new_coords[0]; this->lowerBottom = new_coords[1];
+
+	this->draw(1);
+
+}
+
+void Rect::flip(point reference)
+{
+	if (reference.x != this->RefPoint.x && reference.y != this->RefPoint.y) {
+		vector<double> dimensions; dimensions[0] = this->wdth; dimensions[1] = this->hght;
+
+		RectangleTransform RT(this->RefPoint, dimensions); RT.flip(reference);
+
+		this->RefPoint = RT.get_flip_ref();
+		vector<double> new_dims = RT.get_flip_dims();
+		vector<point> new_coords = RT.get_flip_coords();
+
+		this->wdth = new_dims[0]; this->hght = new_dims[1];
+
+		this->upperLeft = new_coords[0]; this->lowerBottom = new_coords[1];
+
+		this->draw(1);
+	}
+}
+
+
+void Rect::move(char c){
+
+	
+	if (c == 2) {// arrrow down
+		upperLeft.y += config.gridSpacing;
+		lowerBottom.y += config.gridSpacing;
+	}
+	else if (c == 4) {
+		upperLeft.x -= config.gridSpacing;
+		lowerBottom.x -= config.gridSpacing;
+	}
+	else if (c == 6) { // arrow down
+		upperLeft.x += config.gridSpacing;
+		lowerBottom.x += config.gridSpacing;
+	}
+	else if (c == 8) {
+		upperLeft.y -= config.gridSpacing;
+		lowerBottom.y -= config.gridSpacing;
+	}
+
+
+}
+
+
+RectangleTransform::RectangleTransform(point reference, vector<double> dimensions) {
+	ref = reference;
+	dims = dimensions;
+}
+
+point RectangleTransform::get_rot_ref() {
+	return rotate_ref;
+}
+
+point RectangleTransform::get_flip_ref() {
+	return flip_ref;
+}
+
+vector<double> RectangleTransform::get_rot_dims() {
+	return rotate_dims;
+}
+
+vector<double> RectangleTransform::get_flip_dims() {
+	return flip_dims;
+}
+
+vector<point> RectangleTransform::get_rot_coords() {
+	if (rotate_coords.empty()) {
+		point uL{}, lR{};
+		uL.x = rotate_ref.x - rotate_dims[0] / 2;
+		uL.y = rotate_ref.y - rotate_dims[1] / 2;
+		lR.x = rotate_ref.x + rotate_dims[0] / 2;
+		lR.y = rotate_ref.y + rotate_dims[1] / 2;
+
+		rotate_coords.push_back(uL); rotate_coords.push_back(lR);
+		return rotate_coords;
+	}
+	else
+		return rotate_coords;
+}
+
+vector<point> RectangleTransform::get_flip_coords() {
+	if (flip_coords.empty()) {
+		point uL{}, lR{};
+		uL.x = flip_ref.x - flip_dims[0] / 2;
+		uL.y = flip_ref.y - flip_dims[1] / 2;
+		lR.x = flip_ref.x + flip_dims[0] / 2;
+		lR.y = flip_ref.y + flip_dims[1] / 2;
+
+		flip_coords.push_back(uL); flip_coords.push_back(lR);
+		return flip_coords;
+	}
+	else
+		return flip_coords;
+}
+
+void RectangleTransform::rotate(point rot_reference, double angle) {
+	rotate_ref = rotate_coordinates(ref, angle, rot_reference);
+	rotate_dims.push_back(dims[1]); rotate_dims.push_back(dims[0]);
+}
+
+void RectangleTransform::flip(point flip_reference) {
+	rotate_ref = reflect_coordinates(ref, flip_reference);
+	rotate_dims.push_back(dims[1]); rotate_dims.push_back(dims[0]);
+}
+
+////////////////////////////////////////////////////  class circle  ///////////////////////////////////////
+//TODO: Add implementation for class circle here
+circle::circle(game* r_pGame, point ref, int r):shape(r_pGame,ref)
+{
+	rad = r;
+	pGame = r_pGame;
+}
+
+void circle::draw(int x = 1) const
+{
+	window* pW = pGame->getWind();	//get interface window
+	pW->SetPen(borderColor, config.penWidth);
+	pW->SetBrush(fillColor);
+	pW->DrawCircle(RefPoint.x, RefPoint.y, rad, FILLED);
+}
+
+void circle::resize(double factor) {
+	this->rad *= factor;
+}
+
+//void circle::resize(double factor)
+//{
+//	const double r = rad;
+//	if (factor > 1)
+//		if (rad < r * 2)
+//			rad *= factor;
+//	if (factor < 1)
+//		if (rad > r * 0.5)
+//			rad *= factor;
+//}
+
+void circle::move(char c) {
+
+	if (c == 2) // arrrow down
+		RefPoint.y += config.gridSpacing;
+	else if (c == 4)
+		RefPoint.x -= config.gridSpacing;
+	else if (c == 6) // arrow down
+		RefPoint.x += config.gridSpacing;
+	else if (c == 8)
+		RefPoint.y -= config.gridSpacing;
+
+}
+
+void circle::rotate(point reference)
+{
+	if (reference.x != this->RefPoint.x && reference.y != this->RefPoint.y) {
+		this->RefPoint = rotate_coordinates(this->RefPoint, -90, reference);
+		this->draw(1);
+	}
+}
+
+
+void circle::flip(point reference)
+{
+	if (reference.x != this->RefPoint.x && reference.y != this->RefPoint.y) {
+		this->RefPoint = reflect_coordinates(this->RefPoint, reference);
+		this->draw(1);
+	}
+}
+ 
+////////////////////////////////////////////////////////////////////////////////////////
+
+void EqTriangle::calculate_points() {
+	if (x != 0) {
+		point1.x = RefPoint.x - side_length / 2;
+		point1.y = RefPoint.y;
+		point2.x = RefPoint.x + side_length / 2;
+		point2.y = RefPoint.y;
+		point3.x = RefPoint.x;
+		point3.y = RefPoint.y - sqrt(3) / 2 * side_length;
+	}
+	else {
+		point1.x = RefPoint.x - side_length / 2;
+		point1.y = RefPoint.y;
+		point2.x = RefPoint.x + side_length / 2;
+		point2.y = RefPoint.y;
+		point3.x = RefPoint.x;
+		point3.y = RefPoint.y + sqrt(3) / 2 * side_length;
+	}
+}
+
+EqTriangle::EqTriangle(game* r_pGame, point ref, int SL, int x) : shape(r_pGame, ref) {
+	side_length = SL;
+	pGame = r_pGame;
+	this->x = x;
+
+	this->calculate_points();
+}
+
+void EqTriangle::flip(point reference)
+{
+	if (reference.x != this->RefPoint.x && reference.y != this->RefPoint.y) {
+		point v1 = this->point1;
+		point v2 = this->point2;
+		point v3 = this->point3;
+
+		TriangleTransform TT(v1, v2, v3);
+		TT.reflect(reference);
+
+		vector<point> new_coords = TT.get_flip_coords();
+
+		this->point1 = new_coords[0];
+		this->point2 = new_coords[1];
+		this->point3 = new_coords[2];
+
+		this->draw(1);
+	}
+}
+
+void EqTriangle::rotate(point reference) {
+	point v1 = this->point1;
+	point v2 = this->point2;
+	point v3 = this->point3;
+
+	TriangleTransform TT(v1, v2, v3);
+	TT.rotate(reference);
+
+	vector<point> new_coords = TT.get_rotated_coords();
+
+	this->point1 = new_coords[0];
+	this->point2 = new_coords[1];
+	this->point3 = new_coords[2];
+
+	this->draw(1);
+}
+
+////////////////////////////////////////////////////  class triangle  ///////////////////////////////////////
+void EqTriangle::draw(int x) const {
+	window* pW = pGame->getWind(); // get interface window
+	pW->SetPen(borderColor, config.penWidth);
+	pW->SetBrush(fillColor);
+
+	pW->DrawTriangle(point1.x, point1.y, point2.x, point2.y, point3.x, point3.y, FILLED);
+}
+
+void EqTriangle::move(char c) {
+
+	if (c == 2) { // arrrow down
+		point1.y += config.gridSpacing;
+		point2.y += config.gridSpacing;
+		point3.y += config.gridSpacing;
+	}
+	else if (c == 4) {
+		point1.x -= config.gridSpacing;
+		point2.x -= config.gridSpacing;
+		point3.x -= config.gridSpacing;
+	}
+	else if (c == 6) { // arrow down
+		point1.x += config.gridSpacing;
+		point2.x += config.gridSpacing;
+		point3.x += config.gridSpacing;
+	}
+	else if (c == 8) {
+		point1.y -= config.gridSpacing;
+		point2.y -= config.gridSpacing;
+		point3.y -= config.gridSpacing;
+	}
+}
+
+
+void EqTriangle::resize(double factor) {
+	this->side_length *= factor;
+
+	this->calculate_points();
+}
+
+//void EqTriangle::resize(double factor) {
+//	const double Side = side_length;
+//	if (factor > 1)
+//		if (side_length < Side * 2)
+//			side_length *= factor;
+//	if (factor < 1)
+//		if (side_length > Side * 0.5)
+//			side_length *= factor;
+//}
+
+
+////////////////////////////////////////////////////  class RightTriangle  ///////////////////////////////////////
+
+void RightTriangle::calculate_points() {
+	if (x == 1) {
+		point1.x = RefPoint.x;
+		point1.y = RefPoint.y;
+		point2.x = RefPoint.x;
+		point2.y = RefPoint.y + base_length;
+		point3.x = RefPoint.x + height;
+		point3.y = RefPoint.y + base_length;
+	}
+	else if (x == 3)
+	{
+		point1.x = RefPoint.x;
+		point1.y = RefPoint.y;
+		point2.x = RefPoint.x - base_length;
+		point2.y = RefPoint.y;
+		point3.x = RefPoint.x - base_length;
+		point3.y = RefPoint.y - height;
+
+	}
+	else {
+		point1.x = RefPoint.x;
+		point1.y = RefPoint.y;
+		point2.x = RefPoint.x - height;
+		point2.y = RefPoint.y + base_length;
+		point3.x = RefPoint.x;
+		point3.y = RefPoint.y + base_length;
+	}
+}
+
+RightTriangle::RightTriangle(game* r_pGame, point ref, int BL, int H, int x) :shape(r_pGame, ref) {
+	base_length = BL;
+	height = H;
+	pGame = r_pGame;
+	this->x = x;
+
+	this->calculate_points();
+}
+
+void RightTriangle::draw(int x) const {
+	window* pW = pGame->getWind(); // get interface window
+	pW->SetPen(borderColor, config.penWidth);
+	pW->SetBrush(fillColor);
+
+	pW->DrawTriangle(point1.x, point1.y, point2.x, point2.y, point3.x, point3.y, FILLED);
+}
+
+
+void RightTriangle::resize(double factor) {
+	this->height *= factor;
+	this->base_length *= factor;
+
+	this->calculate_points();
+}
+
+//void RightTriangle::resize(double factor){
+//	const double x = base_length;
+//	const double y = height;
+//	if (factor > 1) {
+//		if (height < x * 2 && base_length < y * 2) {
+//			height *= factor;
+//			base_length *= factor;
+//		}
+//	}
+//	if (factor < 1) {
+//		if (height > x * 0.5 && base_length > y * 0.5) {
+//			height *= factor;
+//			base_length *= factor;
+//		}
+//	}
+//}
+void RightTriangle::rotate(point reference) { 
+	point v1 = this->point1;
+	point v2 = this->point2;
+	point v3 = this->point3;
+
+	TriangleTransform TT(v1, v2, v3);
+	TT.rotate(reference);
+
+	vector<point> new_coords = TT.get_rotated_coords();
+
+	this->point1 = new_coords[0];
+	this->point2 = new_coords[1];
+	this->point3 = new_coords[2];
+
+	this->draw(1);
+} 
+
+void RightTriangle::flip(point reference) {
+	point v1 = this->point1;
+	point v2 = this->point2;
+	point v3 = this->point3;
+
+	TriangleTransform TT(v1, v2, v3);
+	TT.reflect(reference);
+
+	vector<point> new_coords = TT.get_flip_coords();
+
+	this->point1 = new_coords[0];
+	this->point2 = new_coords[1];
+	this->point3 = new_coords[2];
+
+	this->draw(1);
+}
+
+void RightTriangle::move(char c) {
+
+	if (c == 2) { // arrrow down
+		point1.y += config.gridSpacing;
+		point2.y += config.gridSpacing;
+		point3.y += config.gridSpacing;
+	}
+	else if (c == 4) {
+		point1.x -= config.gridSpacing;
+		point2.x -= config.gridSpacing;
+		point3.x -= config.gridSpacing;
+	}
+	else if (c == 6) { // arrow down
+		point1.x += config.gridSpacing;
+		point2.x += config.gridSpacing;
+		point3.x += config.gridSpacing;
+	}
+	else if (c == 8) {
+		point1.y -= config.gridSpacing;
+		point2.y -= config.gridSpacing;
+		point3.y -= config.gridSpacing;
+	}
+}
+
+
+point rotate_coordinates(point coords, double angle, point origin) {
+	double rad_angle = angle * 3.14159 / 180;
+	double rot_matrix[2][2] = { {round(cos(rad_angle)), round(sin(rad_angle))}, {round(sin(-rad_angle)), round(cos(rad_angle))} };
+	point new_coords{}; new_coords.x = coords.x; new_coords.y = coords.y;
+
+	new_coords.x -= origin.x; new_coords.y -= origin.y;
+
+	double temp_x = new_coords.x; double temp_y = new_coords.y;
+
+	new_coords.x = rot_matrix[0][0] * temp_x + rot_matrix[0][1] * temp_y;
+	new_coords.y = rot_matrix[1][0] * temp_x + rot_matrix[1][1] * temp_y;
+
+
+	new_coords.x += origin.x;
+	new_coords.y += origin.y;
+
+	return new_coords;
+}
+
+point reflect_coordinates(point coords, point origin) {
+	double rot_matrix[2][2] = { {1, 0}, {0, -1} };
+	point new_coords{}; new_coords.x = coords.x; new_coords.y = coords.y;
+
+	new_coords.x -= origin.x; new_coords.y -= origin.y;
+
+	double temp_x = new_coords.x; double temp_y = new_coords.y;
+
+	new_coords.x = rot_matrix[0][0] * temp_x + rot_matrix[0][1] * temp_y;
+	new_coords.y = rot_matrix[1][0] * temp_x + rot_matrix[1][1] * temp_y;
+
+
+	new_coords.x += origin.x;
+	new_coords.y += origin.y;
+
+	return new_coords;
+}
+
+
+TriangleTransform::TriangleTransform(point p1, point p2, point p3) {
+	coords.push_back(p1); coords.push_back(p2); coords.push_back(p3);
+}
+
+vector<point> TriangleTransform::get_rotated_coords() {
+
+	point p1{}, p2{}, p3{};
+	p1.x = rotate_coords[0].x; p1.y = rotate_coords[0].y;
+	p2.x = rotate_coords[1].x; p2.y = rotate_coords[1].y;
+	p3.x = rotate_coords[2].x; p3.y = rotate_coords[2].y;
+
+	vector<point> rotated_points;
+	rotated_points.push_back(p1);
+	rotated_points.push_back(p2);
+	rotated_points.push_back(p3);
+
+	return rotated_points;
+}
+
+vector<point> TriangleTransform::get_flip_coords() {
+
+	point p1{}, p2{}, p3{};
+	p1.x = reflect_coords[0].x; p1.y = reflect_coords[0].y;
+	p2.x = reflect_coords[1].x; p2.y = reflect_coords[1].y;
+	p3.x = reflect_coords[2].x; p3.y = reflect_coords[2].y;
+
+	vector<point> reflected_points;
+	reflected_points.push_back(p1);
+	reflected_points.push_back(p2);
+	reflected_points.push_back(p3);
+
+	return reflected_points;
+}
+
+vector<point> TriangleTransform::get_coords() {
+	return coords;
+}
+
+void TriangleTransform::rotate(point ref, double angle) {
+	for (int i = 0; i < 3; i++) {
+		rotate_coords.push_back(rotate_coordinates(coords[i], angle, ref));
+	}
+}
+
+void TriangleTransform::reflect(point ref) {
+	for (int i = 0; i < 3; i++) {
+		reflect_coords.push_back(reflect_coordinates(coords[i], ref));
+	}
+}
