@@ -30,3 +30,6 @@ point shape::getPosition() const
 void shape::rotate(point reference) {
 
 }
+void shape::flip() {
+
+}
