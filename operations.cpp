@@ -220,9 +220,7 @@ void operResize::Actmain(double factor)
 	 pGrid->setActiveShape(shape);
 }
 
-operRotate::operRotate(game* r_pGame) :operation(r_pGame)
-{
-}
+operRotate::operRotate(game* r_pGame) :operation(r_pGame) {}
 
 void operRotate::Act()
 {	
@@ -231,6 +229,16 @@ void operRotate::Act()
 	point p = shape->getPosition();
 	shape->rotate(p);
 }
+
+operFlip::operFlip(game* r_pGame) :operation(r_pGame) {}
+
+void operFlip::Act() {
+	grid* pGrid = pGame->getGrid();
+	shape* shape = pGrid->getActiveShape();
+	shape->flip();
+}
+
+
 
 operDelete::operDelete(game* r_pGame) :operation(r_pGame)
 {

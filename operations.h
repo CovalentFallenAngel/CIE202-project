@@ -112,6 +112,13 @@ public:
 	virtual void Act();
 };
 
+class operFlip :public operation
+{
+public:
+	operFlip(game* r_pGame);
+	virtual void Act();
+};
+
 //////////////////////////////// class operDelete //////////////////
 //Responsible for deleting shape from the grid
 class operDelete :public operation

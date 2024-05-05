@@ -42,6 +42,7 @@ public:
 	virtual void rotate(point reference);
 	virtual void resize(double factor) = 0;
 	virtual void move(char c) = 0;
+	virtual void flip();
 
 };
 
