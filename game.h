@@ -11,7 +11,7 @@ class game
 {
 
 	/// Add more members if needed
-
+	//chicco 
 	toolbar* gameToolbar;
 	
 	window* pWind;	//Pointer to the CMU graphics window
