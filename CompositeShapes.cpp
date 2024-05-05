@@ -24,6 +24,7 @@ void Sign::move(char c)
 {
 	base->move(c);
 	top->move(c);
+	RefPoint = base->getPosition();
 }
 
 void Sign::resize(double factor) {
@@ -80,6 +81,7 @@ void Home::move(char c)
 {
 	base->move(c);
 	top->move(c);
+	this->RefPoint = base->getPosition();
 }
 
 void Home::rotate(point reference) {
@@ -176,6 +178,8 @@ void Person::move(char c)
 	Rarm->move(c);
 	Lleg->move(c);
 	Rleg->move(c);
+
+	RefPoint = body->getPosition();
 }
 
 ice_cream::ice_cream(game* r_pGame, point ref) : shape(r_pGame, ref) {
@@ -200,6 +204,8 @@ void ice_cream::move(char c)
 {
 	scoop->move(c);
 	cone->move(c);
+
+	RefPoint = scoop->getPosition();
 }
 
 void ice_cream::resize(double factor)
@@ -260,6 +266,8 @@ void Tree::move(char c)
 	T2->move(c);
 	T3->move(c);
 	body->move(c);
+
+	RefPoint = body->getPosition();
 }
 
 void Tree::resize(double factor) 
@@ -349,6 +357,8 @@ void Rocket::move(char c)
 	T3->move(c);
 	T2->move(c);
 	body->move(c);
+
+	RefPoint = body->getPosition();
 }
 
 void Rocket::rotate(point reference) {
@@ -406,6 +416,8 @@ void Car::move(char c)
 	R2->move(c);
 	C1->move(c);
 	C2->move(c);
+
+	RefPoint = R1->getPosition();
 }
 
 
