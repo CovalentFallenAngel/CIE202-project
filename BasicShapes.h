@@ -27,6 +27,7 @@ public:
 	virtual void flip(point reference);
 	virtual void set_dims(vector<double> dims);
 	virtual void calculate_points();
+	virtual void calculate_reference();
 
 };
 
@@ -80,6 +81,7 @@ public:
 	virtual void rotate(point reference);
 	virtual void flip(point reference);
 	virtual void calculate_points();
+	virtual void calculate_reference();
 
 private:
 	double side_length;
@@ -97,6 +99,7 @@ public:
 	virtual void rotate(point reference);
 	virtual void flip(point reference);
 	virtual void calculate_points();
+	virtual void calculate_reference();
 
 private:
 	double height, base_length;

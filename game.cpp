@@ -239,7 +239,7 @@ void game::run()
 
 		//2-Explain the user click
 		//If user clicks on the Toolbar, ask toolbar which item is clicked
-		if (y >= 0 && y < config.toolBarHeight)
+ 		if (y >= 0 && y < config.toolBarHeight)
 		{
 			clickedItem=gameToolbar->getItemClicked(x);
 

@@ -8,6 +8,11 @@ point reflect_coordinates(point coords, point origin);
 
 ////////////////////////////////////////////////////  class Rect  ///////////////////////////////////////
 
+void Rect::calculate_reference() {
+	RefPoint.x = upperLeft.x + wdth / 2;
+	RefPoint.y = upperLeft.y + hght / 2;
+}
+
 void Rect::calculate_points() {
 	upperLeft.x = RefPoint.x - wdth / 2;
 	upperLeft.y = RefPoint.y - hght / 2;
@@ -15,7 +20,7 @@ void Rect::calculate_points() {
 	lowerBottom.y = RefPoint.y + hght / 2;
 }
 
-Rect::Rect(game* r_pGame, point ref, int r_hght, int r_wdth):shape(r_pGame,ref)
+Rect::Rect(game* r_pGame, point ref, int r_hght, int r_wdth) :shape(r_pGame, ref)
 {
 	pGame = r_pGame;
 	hght = r_hght;
@@ -82,7 +87,7 @@ void Rect::flip(point reference)
 }
 
 
-void Rect::move(char c){
+void Rect::move(char c) {
 
 
 	if (c == 2) {// arrrow down
@@ -102,8 +107,7 @@ void Rect::move(char c){
 		lowerBottom.y -= config.gridSpacing;
 	}
 
-	RefPoint.x = (upperLeft.x + lowerBottom.x) / 2;
-	RefPoint.y = (upperLeft.y + lowerBottom.y) / 2;
+	calculate_reference();
 }
 
 
@@ -170,7 +174,7 @@ void RectangleTransform::flip(point flip_reference) {
 
 ////////////////////////////////////////////////////  class circle  ///////////////////////////////////////
 //TODO: Add implementation for class circle here
-circle::circle(game* r_pGame, point ref, int r):shape(r_pGame,ref)
+circle::circle(game* r_pGame, point ref, int r) :shape(r_pGame, ref)
 {
 	rad = r;
 	pGame = r_pGame;
@@ -218,7 +222,7 @@ void circle::flip(point reference)
 		this->draw(1);
 	}
 }
- 
+
 ////////////////////////////////////////////////////////////////////////////////////////
 
 void EqTriangle::calculate_points() {
@@ -238,6 +242,11 @@ void EqTriangle::calculate_points() {
 		point3.x = RefPoint.x;
 		point3.y = RefPoint.y + sqrt(3) / 2 * side_length;
 	}
+}
+
+void EqTriangle::calculate_reference() {
+	RefPoint.x = point1.x + side_length / 2;
+	RefPoint.y = point1.y;
 }
 
 EqTriangle::EqTriangle(game* r_pGame, point ref, int SL, int x) : shape(r_pGame, ref) {
@@ -316,6 +325,8 @@ void EqTriangle::move(char c) {
 		point2.y -= config.gridSpacing;
 		point3.y -= config.gridSpacing;
 	}
+
+	calculate_reference();
 }
 
 
@@ -357,6 +368,11 @@ void RightTriangle::calculate_points() {
 	}
 }
 
+void RightTriangle::calculate_reference() {
+	RefPoint.x = point1.x;
+	RefPoint.y = point1.y;
+}
+
 RightTriangle::RightTriangle(game* r_pGame, point ref, int BL, int H, int x) :shape(r_pGame, ref) {
 	base_length = BL;
 	height = H;
@@ -382,7 +398,7 @@ void RightTriangle::resize(double factor) {
 	this->calculate_points();
 }
 
-void RightTriangle::rotate(point reference) { 
+void RightTriangle::rotate(point reference) {
 	point v1 = this->point1;
 	point v2 = this->point2;
 	point v3 = this->point3;
@@ -397,7 +413,7 @@ void RightTriangle::rotate(point reference) {
 	this->point3 = new_coords[2];
 
 	this->draw(1);
-} 
+}
 
 void RightTriangle::flip(point reference) {
 	point v1 = this->point1;
@@ -438,11 +454,13 @@ void RightTriangle::move(char c) {
 		point2.y -= config.gridSpacing;
 		point3.y -= config.gridSpacing;
 	}
+
+	calculate_reference();
 }
 
 
 point rotate_coordinates(point coords, double angle, point origin) {
-	double rad_angle = angle * 3.14159 / 180;
+	double rad_angle = angle * 3.141592653 / 180;
 	double rot_matrix[2][2] = { {round(cos(rad_angle)), round(sin(rad_angle))}, {round(sin(-rad_angle)), round(cos(rad_angle))} };
 	point new_coords{}; new_coords.x = coords.x; new_coords.y = coords.y;
 

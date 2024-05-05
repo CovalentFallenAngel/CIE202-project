@@ -25,6 +25,9 @@ void Sign::move(char c)
 	base->move(c);
 	top->move(c);
 	RefPoint = base->getPosition();
+
+	baseRef = base->getPosition();
+	topRef = top->getPosition();
 }
 
 void Sign::resize(double factor) {
@@ -39,7 +42,7 @@ void Sign::resize(double factor) {
 	top->resize(factor);
 }
 
-void Sign::rotate(point reference ) {
+void Sign::rotate(point reference) {
 	base->rotate(RefPoint);
 	top->rotate(RefPoint);
 }
@@ -65,7 +68,7 @@ void Home::draw(int x) const {
 	top->draw(1);
 }
 
-void Home::resize(double factor) 
+void Home::resize(double factor)
 {
 	topRef = reference_shift(RefPoint, topRef, factor);
 	baseRef = reference_shift(RefPoint, baseRef, factor);
@@ -82,6 +85,9 @@ void Home::move(char c)
 	base->move(c);
 	top->move(c);
 	this->RefPoint = base->getPosition();
+
+	baseRef = base->getPosition();
+	topRef = top->getPosition();
 }
 
 void Home::rotate(point reference) {
@@ -180,6 +186,13 @@ void Person::move(char c)
 	Rleg->move(c);
 
 	RefPoint = body->getPosition();
+
+	headRef = head->getPosition();
+	bodyRef = body->getPosition();
+	leftArmRef = Larm->getPosition();
+	rightArmRef = Rarm->getPosition();
+	leftLegRef = Lleg->getPosition();
+	rightLegRef = Rleg->getPosition();
 }
 
 ice_cream::ice_cream(game* r_pGame, point ref) : shape(r_pGame, ref) {
@@ -206,6 +219,8 @@ void ice_cream::move(char c)
 	cone->move(c);
 
 	RefPoint = scoop->getPosition();
+	scoopRef = scoop->getPosition();
+	coneRef = cone->getPosition();
 }
 
 void ice_cream::resize(double factor)
@@ -268,9 +283,14 @@ void Tree::move(char c)
 	body->move(c);
 
 	RefPoint = body->getPosition();
+
+	bodyRef = body->getPosition();
+	T1Ref = T1->getPosition();
+	T2Ref = T2->getPosition();
+	T3Ref = T3->getPosition();
 }
 
-void Tree::resize(double factor) 
+void Tree::resize(double factor)
 {
 	T1Ref = reference_shift(RefPoint, T1Ref, factor);
 	T2Ref = reference_shift(RefPoint, T2Ref, factor);
@@ -281,7 +301,7 @@ void Tree::resize(double factor)
 	T2->setRefPoint(T2Ref);
 	T3->setRefPoint(T3Ref);
 	body->setRefPoint(bodyRef);
-	
+
 	T1->resize(factor);
 	T2->resize(factor);
 	T3->resize(factor);
@@ -359,6 +379,11 @@ void Rocket::move(char c)
 	body->move(c);
 
 	RefPoint = body->getPosition();
+
+	bodyRef = body->getPosition();
+	T1Ref = T1->getPosition();
+	T2Ref = T2->getPosition();
+	T3Ref = T3->getPosition();
 }
 
 void Rocket::rotate(point reference) {
@@ -418,6 +443,12 @@ void Car::move(char c)
 	C2->move(c);
 
 	RefPoint = R1->getPosition();
+
+	T1Ref = T1->getPosition();
+	R1Ref = R1->getPosition();
+	R2Ref = R2->getPosition();
+	C1Ref = C1->getPosition();
+	C2Ref = C2->getPosition();
 }
 
 
