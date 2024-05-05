@@ -43,11 +43,13 @@ toolbar::toolbar(game* pG)
 	pWind->DrawString(xString, 0, "   Lives");
 	pWind->DrawString(xString, 20, "Level =  ");
 	pWind->DrawString(xString, 40, "Score =  ");
+	pWind->DrawString(xString + 100, 0, "Steps =  ");
 
 	int xInteger = (xString + 65);
 	pWind->DrawInteger(xString, 0, pGame->getLives());
 	pWind->DrawInteger(xInteger, 20, pGame->getLevel());
 	pWind->DrawInteger(xInteger, 40, pGame->getScore());
+	pWind->DrawInteger(xInteger + 100, 0, pGame->get_steps());
 
 
 	//Draw a line under the toolbar
