@@ -128,7 +128,6 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 	case ITM_Rotate:
 		printMessage("You clicked on rotate!");
 		op = new operRotate(this);
-		op->Act();
 		break;
 	case ITM_Ref:
 		printMessage("You clicked on refresh");

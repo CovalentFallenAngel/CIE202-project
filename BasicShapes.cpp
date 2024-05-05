@@ -44,25 +44,6 @@ void Rect::resize(double factor) {
 	this->calculate_points();
 }
 
-//void Rect::resize(double factor){
-//	const double Twicehght = 2*hght;
-//	const double Twicewdth = 2*wdth;
-//	const double halfhght = 0.5 * hght;
-//	const double halfwdth = 0.5 * wdth;
-//	if (factor > 1) {
-//		if (hght < (Twicehght) && wdth < (Twicewdth)) {
-//			hght *= factor;
-//			wdth *= factor;
-//		}
-//	}
-//	if (factor < 1) {
-//		if (hght > (halfhght) && wdth > halfwdth) {
-//			hght *= factor;
-//			wdth *= factor;
-//		}
-//	}
-//}
-
 void Rect::rotate(point reference)
 {
 	vector<double> dimensions; dimensions.push_back(this->wdth); dimensions.push_back(this->hght);
@@ -206,16 +187,6 @@ void circle::resize(double factor) {
 	this->rad *= factor;
 }
 
-//void circle::resize(double factor)
-//{
-//	const double r = rad;
-//	if (factor > 1)
-//		if (rad < r * 2)
-//			rad *= factor;
-//	if (factor < 1)
-//		if (rad > r * 0.5)
-//			rad *= factor;
-//}
 
 void circle::move(char c) {
 
@@ -353,16 +324,6 @@ void EqTriangle::resize(double factor) {
 	this->calculate_points();
 }
 
-//void EqTriangle::resize(double factor) {
-//	const double Side = side_length;
-//	if (factor > 1)
-//		if (side_length < Side * 2)
-//			side_length *= factor;
-//	if (factor < 1)
-//		if (side_length > Side * 0.5)
-//			side_length *= factor;
-//}
-
 
 ////////////////////////////////////////////////////  class RightTriangle  ///////////////////////////////////////
 
@@ -420,22 +381,6 @@ void RightTriangle::resize(double factor) {
 	this->calculate_points();
 }
 
-//void RightTriangle::resize(double factor){
-//	const double x = base_length;
-//	const double y = height;
-//	if (factor > 1) {
-//		if (height < x * 2 && base_length < y * 2) {
-//			height *= factor;
-//			base_length *= factor;
-//		}
-//	}
-//	if (factor < 1) {
-//		if (height > x * 0.5 && base_length > y * 0.5) {
-//			height *= factor;
-//			base_length *= factor;
-//		}
-//	}
-//}
 void RightTriangle::rotate(point reference) { 
 	point v1 = this->point1;
 	point v2 = this->point2;
