@@ -24,10 +24,10 @@ void operAddSign::Act()
 	window* pw = pGame->getWind();
 	//Add the shape to the grid
 	grid* pGrid = pGame->getGrid();
-	//if (pGrid->getActiveShape() != nullptr)
-	//{
-	//	return; // Exit the function if there is already an active shape
-	//}
+	if (pGrid->getActiveShape() != nullptr)
+	{
+		return; // Exit the function if there is already an active shape
+	}
 	//align reference point to the nearest grid point
 	int xGrid = config.RefX - config.RefX % config.gridSpacing;
 	int yGrid = config.RefY - config.RefX % config.gridSpacing;
@@ -51,7 +51,11 @@ operAddHome::operAddHome(game* r_pGame):operation(r_pGame)
 void operAddHome::Act()
 {
 	window* pw = pGame->getWind();
-
+	grid* pGrid = pGame->getGrid();
+	if (pGrid->getActiveShape() != nullptr)
+	{
+		return; // Exit the function if there is already an active shape
+	}
 
 	//align reference point to the nearest grid point
 	int xGrid = config.RefX - config.RefX % config.gridSpacing;
@@ -60,11 +64,9 @@ void operAddHome::Act()
 	//take the aligned point as the sign shape ref point
 	point homeShapeRef = { xGrid,yGrid };
 
-	//create a sign shape
 	shape* psh = new Home(pGame, homeShapeRef);
 
 	//Add the shape to the grid
-	grid* pGrid = pGame->getGrid();
 	pGrid->setActiveShape(psh);
 
 }
@@ -76,21 +78,22 @@ void operAddPerson::Act()
 {
 	window* pw = pGame->getWind();
 
-	//TODO:
-	// Don't allow adding new shape if there is alreday an active shape
+	grid* pGrid = pGame->getGrid();
+	if (pGrid->getActiveShape() != nullptr)
+	{
+		return; // Exit the function if there is already an active shape
+	}
 
 	//align reference point to the nearest grid point
 	int xGrid = config.RefX - config.RefX % config.gridSpacing;
 	int yGrid = config.RefY - config.RefX % config.gridSpacing;
 
-	//take the aligned point as the sign shape ref point
+	//take the aligned point as the Person shape ref point
 	point PearsonShapeRef = { xGrid,yGrid };
 
-	//create a sign shape
 	shape* psh = new Person(pGame, PearsonShapeRef);
 
 	//Add the shape to the grid
-	grid* pGrid = pGame->getGrid();
 	pGrid->setActiveShape(psh);
 
 }
@@ -102,19 +105,22 @@ operAddice::operAddice(game* r_pGame):operation(r_pGame)
 void operAddice::Act()
 {
 	window* pw = pGame->getWind();
-
+	grid* pGrid = pGame->getGrid();
+	if (pGrid->getActiveShape() != nullptr)
+	{
+		return; // Exit the function if there is already an active shape
+	}
 	//align reference point to the nearest grid point
 	int xGrid = config.RefX - config.RefX % config.gridSpacing;
 	int yGrid = config.RefY - config.RefX % config.gridSpacing;
 
-	//take the aligned point as the sign shape ref point
+	//take the aligned point as the  Ice-cream shape ref point
 	point iceShapeRef = { xGrid,yGrid };
 
-	//create a sign shape
+	//create a Ice-cream shape
 	shape* psh = new ice_cream(pGame, iceShapeRef);
 
 	//Add the shape to the grid
-	grid* pGrid = pGame->getGrid();
 	pGrid->setActiveShape(psh);
 
 }
@@ -125,19 +131,22 @@ operAddTree::operAddTree(game* r_pGame):operation(r_pGame)
 void operAddTree::Act()
 {
 	window* pw = pGame->getWind();
-
+	grid* pGrid = pGame->getGrid();
+	if (pGrid->getActiveShape() != nullptr)
+	{
+		return; // Exit the function if there is already an active shape
+	}
 	//align reference point to the nearest grid point
 	int xGrid = config.RefX - config.RefX % config.gridSpacing;
 	int yGrid = config.RefY - config.RefX % config.gridSpacing;
 
-	//take the aligned point as the sign shape ref point
+	//take the aligned point as the Tree shape ref point
 	point TreeShapeRef = { xGrid,yGrid };
 
-	//create a sign shape
+	//create a Tree shape
 	shape* psh = new Tree(pGame, TreeShapeRef);
 
 	//Add the shape to the grid
-	grid* pGrid = pGame->getGrid();
 	pGrid->setActiveShape(psh);
 
 }
@@ -149,10 +158,10 @@ void operAddRocket::Act()
 {
 	window* pw = pGame->getWind();
 	grid* pGrid = pGame->getGrid();
-	//if (pGrid->getActiveShape() != nullptr)
-	//{
-	//	return; // Exit the function if there is already an active shape
-	//}
+	if (pGrid->getActiveShape() != nullptr)
+	{
+		return; // Exit the function if there is already an active shape
+	}
 	//align reference point to the nearest grid point
 	int xGrid = config.RefX - config.RefX % config.gridSpacing;
 	int yGrid = config.RefY - config.RefX % config.gridSpacing;
@@ -176,10 +185,10 @@ void operAddCar::Act()
 {
 	window* pw = pGame->getWind();
 	grid* pGrid = pGame->getGrid();
-	//if (pGrid->getActiveShape() != nullptr)
-	//{
-	//	return; // Exit the function if there is already an active shape
-	//}
+	if (pGrid->getActiveShape() != nullptr)
+	{
+		return; // Exit the function if there is already an active shape
+	}
 	//align reference point to the nearest grid point
 	int xGrid = config.RefX - config.RefX % config.gridSpacing;
 	int yGrid = config.RefY - config.RefX % config.gridSpacing;
@@ -204,7 +213,6 @@ void operResize::Act(){}
 
 void operResize::Actmain(double factor)
 {
-	//// phase 2
 	 grid* pGrid = pGame->getGrid();
 	 shape* shape = pGrid->getActiveShape();
 	 shape->resize(factor);
@@ -217,9 +225,7 @@ operRotate::operRotate(game* r_pGame) :operation(r_pGame)
 }
 
 void operRotate::Act()
-{
-	// phase 2
-	
+{	
 	grid* pGrid = pGame->getGrid();
 	shape* shape = pGrid->getActiveShape();
 	point p = shape->getPosition();
@@ -244,6 +250,8 @@ void operHint::Act()
 
 operSGL::operSGL(game* r_pGame) :operation(r_pGame)
 {
+	int level = stoi(pGame->getSrting());
+	pGame->setLevel(level);
 }
 void operSGL::Act()
 {

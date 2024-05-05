@@ -148,10 +148,8 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		printMessage("You clicked on Delete!");
 		break;
 	case ITM_SGL:
-		printMessage("You clicked on Select Game Level!");
-		operLoad* operL;
-		operL = new operLoad(this);
-		operL->Actmain("Saved_Data.Txt");
+		printMessage("Choose the game level and press Enter");
+		op = new operSGL(this);
 		break;
 	case ITM_SAL:
 		
@@ -259,43 +257,5 @@ void game::run()
 		operMove* p1;
 		p1 = new operMove(this);
 		p1->Act();
-		
-	//	keytype kin;
-	//	char key;
-	//	bool ismoving = true;
-	//	do{
-	//		kin = pWind->WaitKeyPress(key);
-	//		pWind->FlushKeyQueue();
-	//		pWind->FlushMouseQueue();
-	//		operMove* p1;
-	//		p1 = new operMove(this);
-	//		if (kin == ARROW)
-	//		{
-	//			switch (key)
-	//			{
-	//			case 2:
-	//				p1->Actmain(key);
-	//				ismoving = true;
-	//				break;
-	//			case 4:
-	//				p1->Actmain(key);
-	//				ismoving = true;
-	//			case 6:
-	//				p1->Actmain(key);
-	//				ismoving = true;
-	//			case 8:
-	//				p1->Actmain(key);
-	//				ismoving = true;
-	//			}
-	//		}
-	//		else if (kin == ESCAPE)
-	//			ismoving = false;
-	//		shapesGrid->draw();
-	//		
-	//	}while (ismoving);
-
-
-
-
 	} while (clickedItem!=ITM_EXIT);
 }
