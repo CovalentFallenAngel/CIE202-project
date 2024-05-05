@@ -316,6 +316,9 @@ void operMove::Act() {
 				ismoving = true;
 				break;
 			}
+
+			pGame->increment_steps(); // count the steps
+
 		}
 		else if (kin == ESCAPE)
 			ismoving = false;

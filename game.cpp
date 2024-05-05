@@ -9,6 +9,8 @@ game::game()
 	level = 1;
 	score = 0;
 	lives = 5;
+	steps = 0;
+
 	//Create the main window
 	createWind(config.windWidth, config.windHeight, config.wx, config.wy);
 
@@ -40,11 +42,16 @@ int game::getLives() const {
 int game::getScore() const {
 	return score;
 }
+
+int game::get_steps() const { return steps; }
+
 void game::setScore(int s) { score = s; }
 
 void game::setLives(int live) { lives = live; }
 
 void game::setLevel(int lev) { level = lev; }
+
+void game::increment_steps() { steps++; }
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -90,11 +97,11 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		printMessage("You clicked on the Sign shape!");
 		break;
 	case ITM_ICE:
-		printMessage("You clicked on the icecream shape!");
+		printMessage("You clicked on the Icecream shape!");
 		op = new operAddice(this);
 		break;
 	case ITM_CAR:
-		printMessage("You clicked on the car shape!");
+		printMessage("You clicked on the Car shape!");
 		op = new operAddCar(this);
 		break;
 	case ITM_Person:
@@ -114,41 +121,41 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		op = new operAddTree(this);
 		break;
 	case ITM_Inc:
-		printMessage("You clicked on Increase");
+		printMessage("You clicked on Upscale!");
 		operResize* Sizeup;
 		Sizeup = new operResize(this);
 		Sizeup->Actmain(1.1);
 		break;
 	case ITM_Dec:
-		printMessage("You clicked on decrease");
+		printMessage("You clicked on Downscale!");
 		operResize* Sizedown;
 		Sizedown = new operResize(this);
 		Sizedown->Actmain(0.9);
 		break;
 	case ITM_Rotate:
-		printMessage("You clicked on rotate!");
+		printMessage("You clicked on Rotate!");
 		op = new operRotate(this);
 		break;
 	case ITM_Ref:
-		printMessage("You clicked on refresh");
+		printMessage("You clicked on Refresh!");
 		break;
 	case ITM_Hint:
-		printMessage("You clicked on Hint");
+		printMessage("You clicked on Hint!");
 		break;
 	case ITM_del:
 		op = new operDelete(this);
 		op->Act();
-		printMessage("You clicked on Delete");
+		printMessage("You clicked on Delete!");
 		break;
 	case ITM_SGL:
-		printMessage("You clicked on select game level");
+		printMessage("You clicked on Select Game Level!");
 		operLoad* operL;
 		operL = new operLoad(this);
 		operL->Actmain("Saved_Data.Txt");
 		break;
 	case ITM_SAL:
 		
-		printMessage("You clicked on save");
+		printMessage("You clicked on Save!");
 		operSave* oper;
 		oper = new operSave(this);
 		oper->Actmain("Saved_Data.Txt");
