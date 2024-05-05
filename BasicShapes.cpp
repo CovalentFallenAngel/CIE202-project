@@ -84,7 +84,7 @@ void Rect::flip(point reference)
 
 void Rect::move(char c){
 
-	
+
 	if (c == 2) {// arrrow down
 		upperLeft.y += config.gridSpacing;
 		lowerBottom.y += config.gridSpacing;
@@ -102,7 +102,8 @@ void Rect::move(char c){
 		lowerBottom.y -= config.gridSpacing;
 	}
 
-
+	RefPoint.x = (upperLeft.x + lowerBottom.x) / 2;
+	RefPoint.y = (upperLeft.y + lowerBottom.y) / 2;
 }
 
 
