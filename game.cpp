@@ -1,5 +1,6 @@
 #include "game.h"
 #include "gameConfig.h"
+#include <thread>
 using namespace std;
 
 
@@ -260,6 +261,8 @@ void game::run()
 
 		operMove* p1;
 		p1 = new operMove(this);
-		p1->Act();
+		thread new_thread(&operMove::Act, p1);
+		new_thread.detach();
+		
 	} while (clickedItem!=ITM_EXIT);
 }
