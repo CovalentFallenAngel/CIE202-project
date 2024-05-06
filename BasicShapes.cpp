@@ -69,8 +69,8 @@ void Rect::rotate(point reference)
 
 void Rect::flip(point reference)
 {
-	if (reference.x != this->RefPoint.x && reference.y != this->RefPoint.y) {
-		vector<double> dimensions; dimensions[0] = this->wdth; dimensions[1] = this->hght;
+	if (reference.x != this->RefPoint.x || reference.y != this->RefPoint.y) {
+		vector<double> dimensions; dimensions.push_back(this->wdth); dimensions.push_back(this->hght);
 
 		RectangleTransform RT(this->RefPoint, dimensions); RT.flip(reference);
 
@@ -168,8 +168,8 @@ void RectangleTransform::rotate(point rot_reference, double angle) {
 }
 
 void RectangleTransform::flip(point flip_reference) {
-	rotate_ref = reflect_coordinates(ref, flip_reference);
-	rotate_dims.push_back(dims[1]); rotate_dims.push_back(dims[0]);
+	flip_ref = reflect_coordinates(ref, flip_reference);
+	flip_dims.push_back(dims[0]); flip_dims.push_back(dims[1]);
 }
 
 ////////////////////////////////////////////////////  class circle  ///////////////////////////////////////
@@ -208,7 +208,7 @@ void circle::move(char c) {
 
 void circle::rotate(point reference)
 {
-	if (reference.x != this->RefPoint.x && reference.y != this->RefPoint.y) {
+	if (reference.x != this->RefPoint.x || reference.y != this->RefPoint.y) {
 		this->RefPoint = rotate_coordinates(this->RefPoint, -90, reference);
 		this->draw(1);
 	}
@@ -217,7 +217,7 @@ void circle::rotate(point reference)
 
 void circle::flip(point reference)
 {
-	if (reference.x != this->RefPoint.x && reference.y != this->RefPoint.y) {
+	if (reference.x != this->RefPoint.x || reference.y != this->RefPoint.y) {
 		this->RefPoint = reflect_coordinates(this->RefPoint, reference);
 		this->draw(1);
 	}
@@ -259,22 +259,22 @@ EqTriangle::EqTriangle(game* r_pGame, point ref, int SL, int x) : shape(r_pGame,
 
 void EqTriangle::flip(point reference)
 {
-	if (reference.x != this->RefPoint.x && reference.y != this->RefPoint.y) {
-		point v1 = this->point1;
-		point v2 = this->point2;
-		point v3 = this->point3;
+	
+	point v1 = this->point1;
+	point v2 = this->point2;
+	point v3 = this->point3;
 
-		TriangleTransform TT(v1, v2, v3);
-		TT.reflect(reference);
+	TriangleTransform TT(v1, v2, v3);
+	TT.reflect(reference);
 
-		vector<point> new_coords = TT.get_flip_coords();
+	vector<point> new_coords = TT.get_flip_coords();
 
-		this->point1 = new_coords[0];
-		this->point2 = new_coords[1];
-		this->point3 = new_coords[2];
+	this->point1 = new_coords[0];
+	this->point2 = new_coords[1];
+	this->point3 = new_coords[2];
 
-		this->draw(1);
-	}
+	this->draw(1);
+	
 }
 
 void EqTriangle::rotate(point reference) {
@@ -479,7 +479,7 @@ point rotate_coordinates(point coords, double angle, point origin) {
 }
 
 point reflect_coordinates(point coords, point origin) {
-	double rot_matrix[2][2] = { {1, 0}, {0, -1} };
+	double rot_matrix[2][2] = { {-1, 0}, {0, 1} };
 	point new_coords{}; new_coords.x = coords.x; new_coords.y = coords.y;
 
 	new_coords.x -= origin.x; new_coords.y -= origin.y;
@@ -535,14 +535,19 @@ vector<point> TriangleTransform::get_coords() {
 	return coords;
 }
 
-void TriangleTransform::rotate(point ref, double angle) {
+point TriangleTransform::get_flip_ref() {
+	return flip_ref;
+}
+
+void TriangleTransform::rotate(point reference, double angle) {
 	for (int i = 0; i < 3; i++) {
-		rotate_coords.push_back(rotate_coordinates(coords[i], angle, ref));
+		rotate_coords.push_back(rotate_coordinates(coords[i], angle, reference));
 	}
 }
 
-void TriangleTransform::reflect(point ref) {
+void TriangleTransform::reflect(point reference) {
 	for (int i = 0; i < 3; i++) {
-		reflect_coords.push_back(reflect_coordinates(coords[i], ref));
+		reflect_coords.push_back(reflect_coordinates(coords[i], reference));
 	}
+	flip_ref = reflect_coordinates(ref, reference);
 }

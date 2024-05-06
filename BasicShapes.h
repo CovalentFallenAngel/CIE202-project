@@ -113,13 +113,14 @@ private:
 	vector<point> rotate_coords;
 	vector<point> reflect_coords;
 	point ref{};
+	point flip_ref{};
 
 public:
 	TriangleTransform(point p1, point p2, point p3);
-	point get_trans_ref();
 	vector<point> get_rotated_coords();
 	vector<point> get_flip_coords();
 	vector<point> get_coords();
+	point get_flip_ref();
 	void rotate(point ref, double angle = -90);
 	void reflect(point ref);
 };

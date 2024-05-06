@@ -98,6 +98,10 @@ void Home::rotate(point reference) {
 void Home::flip() {
 	base->flip(RefPoint);
 	top->flip(RefPoint);
+
+	RefPoint = base->getPosition();
+	baseRef = base->getPosition();
+	topRef = top->getPosition();
 }
 
 Person::Person(game* r_pGame, point ref) : shape(r_pGame, ref)
@@ -149,6 +153,13 @@ void Person::flip() {
 	Rarm->flip(RefPoint);
 	Lleg->flip(RefPoint);
 	Rleg->flip(RefPoint);
+
+	headRef = head->getPosition();
+	bodyRef = body->getPosition();
+	leftArmRef = Larm->getPosition();
+	rightArmRef = Rarm->getPosition();
+	leftLegRef = Lleg->getPosition();
+	rightLegRef = Rleg->getPosition();
 }
 
 void Person::resize(double factor)
@@ -244,6 +255,10 @@ void ice_cream::rotate(point reference) {
 void ice_cream::flip() {
 	scoop->flip(RefPoint);
 	cone->flip(RefPoint);
+
+	RefPoint = scoop->getPosition();
+	scoopRef = scoop->getPosition();
+	coneRef = cone->getPosition();
 }
 
 Tree::Tree(game* r_pGame, point ref) : shape(r_pGame, ref) {
@@ -320,6 +335,13 @@ void Tree::flip() {
 	T1->flip(RefPoint);
 	T2->flip(RefPoint);
 	T3->flip(RefPoint);
+
+	RefPoint = body->getPosition();
+
+	bodyRef = body->getPosition();
+	T1Ref = T1->getPosition();
+	T2Ref = T2->getPosition();
+	T3Ref = T3->getPosition();
 }
 
 Rocket::Rocket(game* r_pGame, point ref) : shape(r_pGame, ref) {
@@ -398,6 +420,13 @@ void Rocket::flip() {
 	T1->flip(RefPoint);
 	T2->flip(RefPoint);
 	T3->flip(RefPoint);
+
+	RefPoint = body->getPosition();
+
+	bodyRef = body->getPosition();
+	T1Ref = T1->getPosition();
+	T2Ref = T2->getPosition();
+	T3Ref = T3->getPosition();
 }
 
 Car::Car(game* r_pGame, point ref) :shape(r_pGame, ref)
@@ -407,7 +436,7 @@ Car::Car(game* r_pGame, point ref) :shape(r_pGame, ref)
 	C2Ref = { ref.x + config.Car.Radius - 70,ref.y + 25 };
 	R1Ref = { ref.x - config.Car.R1wdth - 20, ref.y + config.Car.R1hght - 30 };
 	R2Ref = { ref.x - config.Car.R2wdth - 9, ref.y + config.Car.R1hght / 2 };
-	RefPoint = R1Ref;
+	RefPoint = R2Ref;
 	T1 = new RightTriangle(r_pGame, T1Ref, config.Car.T1base_length, config.Car.T1hght, 3);
 	R1 = new Rect(r_pGame, R1Ref, config.Car.R1hght, config.Car.R1wdth);
 	R2 = new Rect(r_pGame, R2Ref, config.Car.R2hght, config.Car.R2wdth);
@@ -487,6 +516,14 @@ void Car::flip() {
 	R2->flip(RefPoint);
 	C1->flip(RefPoint);
 	C2->flip(RefPoint);
+
+	RefPoint = R1->getPosition();
+
+	T1Ref = T1->getPosition();
+	R1Ref = R1->getPosition();
+	R2Ref = R2->getPosition();
+	C1Ref = C1->getPosition();
+	C2Ref = C2->getPosition();
 }
 
 point reference_shift(point refc, point refb, double factor) {
