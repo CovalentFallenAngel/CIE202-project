@@ -78,6 +78,10 @@ void game::createToolBar()
 	gameToolbar = new toolbar(this);
 }
 
+ toolbar* game::getToolBar() const {
+	 return gameToolbar;
+}
+
 void game::createGrid()
 {	
 	//calc some grid parameters
@@ -144,7 +148,6 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		break;
 	case ITM_del:
 		op = new operDelete(this);
-		op->Act();
 		printMessage("You clicked on Delete!");
 		break;
 	case ITM_SGL:
@@ -154,9 +157,7 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 	case ITM_SAL:
 		
 		printMessage("You clicked on Save!");
-		operSave* oper;
-		oper = new operSave(this);
-		oper->Actmain("Saved_Data.Txt");
+		op = new operSave(this);
 		break;
 	
 	case ITM_EXIT:
