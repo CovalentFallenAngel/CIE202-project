@@ -153,7 +153,6 @@ class operSave :public operation
 public:
 	operSave(game* r_pGame);
 	virtual void Act();
-	virtual void Actmain(string filename);
 
 };
 
@@ -164,7 +163,6 @@ class operLoad :public operation
 public:
 	operLoad(game* r_pGame);
 	virtual void Act();
-	virtual void Actmain(string filename);
 };
 
 
