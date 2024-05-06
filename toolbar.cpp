@@ -23,6 +23,7 @@ toolbar::toolbar(game* pG)
 	toolbarItemImages[ITM_Inc] = "images\\toolbarItems\\plus.jpg";
 	toolbarItemImages[ITM_Dec] = "images\\toolbarItems\\minus.jpg";
 	toolbarItemImages[ITM_Rotate] = "images\\toolbarItems\\rotate.jpg";
+	toolbarItemImages[ITM_Flip] = "images\\toolbarItems\\Flip.jpg";
 	toolbarItemImages[ITM_Ref] = "images\\toolbarItems\\refresh.jpg";
 	toolbarItemImages[ITM_Hint] = "images\\toolbarItems\\hint.jpg";
 	toolbarItemImages[ITM_del] = "images\\toolbarItems\\Delete.jpg";
