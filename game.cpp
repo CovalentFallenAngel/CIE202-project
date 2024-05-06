@@ -1,5 +1,6 @@
 #include "game.h"
 #include "gameConfig.h"
+#include <thread>
 using namespace std;
 
 
@@ -140,6 +141,10 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		printMessage("You clicked on Rotate!");
 		op = new operRotate(this);
 		break;
+	case ITM_Flip:
+		printMessage("You clicked on Flip!");
+		op = new operFlip(this);
+		break;
 	case ITM_Ref:
 		printMessage("You clicked on Refresh!");
 		break;
@@ -257,6 +262,8 @@ void game::run()
 
 		operMove* p1;
 		p1 = new operMove(this);
-		p1->Act();
+		thread new_thread(&operMove::Act, p1);
+		new_thread.detach();
+		
 	} while (clickedItem!=ITM_EXIT);
 }

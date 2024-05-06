@@ -324,9 +324,9 @@ void Tree::flip() {
 
 Rocket::Rocket(game* r_pGame, point ref) : shape(r_pGame, ref) {
 	T1Ref = { ref.x + config.Rocket.side_length - 70,ref.y - 10 };
-	T2Ref = { ref.x + config.Rocket.Rbase_length - 70,ref.y + 35 };
-	T3Ref = { ref.x + config.Rocket.Lbase_length - 39,ref.y + 35 };
-	bodyRef = { ref.x - config.Rocket.basewdth - 9, ref.y + config.Tree.basehght / 2 };
+	T2Ref = { ref.x + config.Rocket.Rbase_length - 65,ref.y + 35 };
+	T3Ref = { ref.x + config.Rocket.Lbase_length - 40,ref.y + 35 };
+	bodyRef = { ref.x - config.Rocket.basewdth - 9, ref.y + config.Rocket.basehght -45 };
 	RefPoint = bodyRef;
 	T1 = new EqTriangle(r_pGame, T1Ref, config.Rocket.side_length, 1);
 	T2 = new RightTriangle(r_pGame, T2Ref, config.Rocket.Rbase_length, config.Rocket.Rhght, 2);
