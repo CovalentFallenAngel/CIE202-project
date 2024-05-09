@@ -15,7 +15,7 @@ operation::operation(game* r_pGame)
 
 /////////////////////////////////// class operAddSign  //////////////////
 
-operAddSign::operAddSign(game* r_pGame):operation(r_pGame)
+operAddSign::operAddSign(game* r_pGame) :operation(r_pGame)
 {
 }
 
@@ -32,19 +32,19 @@ void operAddSign::Act()
 	int xGrid = config.RefX - config.RefX % config.gridSpacing;
 	int yGrid = config.RefY - config.RefX % config.gridSpacing;
 
-	
+
 	//take the aligned point as the sign shape ref point
 	point signShapeRef = { xGrid,yGrid };
 
 	//create a sign shape
 	shape* psh = new Sign(pGame, signShapeRef);
 
-	
+
 	pGrid->setActiveShape(psh);
 
 }
 
-operAddHome::operAddHome(game* r_pGame):operation(r_pGame)
+operAddHome::operAddHome(game* r_pGame) :operation(r_pGame)
 {
 }
 
@@ -71,7 +71,7 @@ void operAddHome::Act()
 
 }
 
-operAddPerson::operAddPerson(game* r_pGame):operation(r_pGame)
+operAddPerson::operAddPerson(game* r_pGame) :operation(r_pGame)
 {
 }
 void operAddPerson::Act()
@@ -98,7 +98,7 @@ void operAddPerson::Act()
 
 }
 
-operAddice::operAddice(game* r_pGame):operation(r_pGame)
+operAddice::operAddice(game* r_pGame) :operation(r_pGame)
 {
 }
 
@@ -125,7 +125,7 @@ void operAddice::Act()
 
 }
 
-operAddTree::operAddTree(game* r_pGame):operation(r_pGame)
+operAddTree::operAddTree(game* r_pGame) :operation(r_pGame)
 {
 }
 void operAddTree::Act()
@@ -209,25 +209,29 @@ operResize::operResize(game* r_pGame) :operation(r_pGame)
 {
 }
 
-void operResize::Act(){}
+void operResize::Act() {}
 
 void operResize::Actmain(double factor)
 {
-	 grid* pGrid = pGame->getGrid();
-	 shape* shape = pGrid->getActiveShape();
-	 shape->resize(factor);
-	 pGrid->clearGridArea();
-	 pGrid->setActiveShape(shape);
+	grid* pGrid = pGame->getGrid();
+	shape* shape = pGrid->getActiveShape();
+	if (shape != nullptr) {
+		shape->resize(factor);
+		pGrid->clearGridArea();
+		pGrid->setActiveShape(shape);
+	}
 }
 
 operRotate::operRotate(game* r_pGame) :operation(r_pGame) {}
 
 void operRotate::Act()
-{	
+{
 	grid* pGrid = pGame->getGrid();
 	shape* shape = pGrid->getActiveShape();
-	point p = shape->getPosition();
-	shape->rotate(p);
+	if (shape != nullptr) {
+		point p = shape->getPosition();
+		shape->rotate(p);
+	}
 }
 
 operFlip::operFlip(game* r_pGame) :operation(r_pGame) {}
@@ -235,7 +239,9 @@ operFlip::operFlip(game* r_pGame) :operation(r_pGame) {}
 void operFlip::Act() {
 	grid* pGrid = pGame->getGrid();
 	shape* shape = pGrid->getActiveShape();
-	shape->flip();
+	if (shape != nullptr) {
+		shape->flip();
+	}
 }
 
 
@@ -263,7 +269,7 @@ operSGL::operSGL(game* r_pGame) :operation(r_pGame)
 }
 void operSGL::Act()
 {
-	
+
 }
 
 operSave::operSave(game* r_pGame) :operation(r_pGame)
@@ -275,7 +281,7 @@ void operSave::Act()
 
 void operSave::Actmain(string filename)
 {
-	std::ofstream outfile(filename); 
+	std::ofstream outfile(filename);
 	outfile << "Player score: " << pGame->getScore() << "\n";
 	outfile << "Levels completed: " << pGame->getLevel() << "\n";
 	outfile << "Lives: " << pGame->getLives() << "\n";
@@ -311,27 +317,11 @@ void operMove::Act() {
 		kin = pWind->WaitKeyPress(key);
 		pWind->FlushKeyQueue();
 		pWind->FlushMouseQueue();
-		if (kin == ARROW)
+		if (kin == ARROW && pGrid->getActiveShape() != nullptr)
 		{
-			switch (key)
-			{
-			case 2:
-				pGrid->getActiveShape()->move(key);
-				ismoving = true;
-				break;
-			case 4:
-				pGrid->getActiveShape()->move(key);
-				ismoving = true;
-				break;
-			case 6:
-				pGrid->getActiveShape()->move(key);
-				ismoving = true;
-				break;
-			case 8:
-				pGrid->getActiveShape()->move(key);
-				ismoving = true;
-				break;
-			}
+			shape* as = pGrid->getActiveShape();
+
+			as->move(key);
 
 			pGame->increment_steps(); // count the steps
 
