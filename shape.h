@@ -32,15 +32,12 @@ protected:
     game* pGame;        //pointer to game object
 	color fillColor;	//shape fill color
 	color borderColor;	//shape border color
-	int rotation_angle; //shape current rotation angle
 public:
     shape(game* r_pGame, point ref);
     virtual void draw(int x) const = 0;//for a shape to draw itself on the screen
 	void setRefPoint(point p);
 	void setcolor(color c);
 	void setbordercolor(color c);
-	void setRotationAngle(int rotation_amount);
-	int getRotationAngle();
 	point getPosition() const;
 	virtual void rotate(point reference);
 	virtual void resize(double factor) = 0;
