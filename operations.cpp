@@ -215,9 +215,11 @@ void operResize::Actmain(double factor)
 {
 	 grid* pGrid = pGame->getGrid();
 	 shape* shape = pGrid->getActiveShape();
-	 shape->resize(factor);
-	 pGrid->clearGridArea();
-	 pGrid->setActiveShape(shape);
+	 if (shape != nullptr) {
+		 shape->resize(factor);
+		 pGrid->clearGridArea();
+		 pGrid->setActiveShape(shape);
+	 }
 }
 
 operRotate::operRotate(game* r_pGame) :operation(r_pGame) {}
@@ -226,8 +228,10 @@ void operRotate::Act()
 {	
 	grid* pGrid = pGame->getGrid();
 	shape* shape = pGrid->getActiveShape();
-	point p = shape->getPosition();
-	shape->rotate(p);
+	if (shape != nullptr) {
+		point p = shape->getPosition();
+		shape->rotate(p);
+	}
 }
 
 operFlip::operFlip(game* r_pGame) :operation(r_pGame) {}
@@ -235,7 +239,9 @@ operFlip::operFlip(game* r_pGame) :operation(r_pGame) {}
 void operFlip::Act() {
 	grid* pGrid = pGame->getGrid();
 	shape* shape = pGrid->getActiveShape();
-	shape->flip();
+	if (shape != nullptr) {
+		shape->flip();
+	}
 }
 
 
@@ -311,27 +317,11 @@ void operMove::Act() {
 		kin = pWind->WaitKeyPress(key);
 		pWind->FlushKeyQueue();
 		pWind->FlushMouseQueue();
-		if (kin == ARROW)
+		if (kin == ARROW && pGrid->getActiveShape() != nullptr)
 		{
-			switch (key)
-			{
-			case 2:
-				pGrid->getActiveShape()->move(key);
-				ismoving = true;
-				break;
-			case 4:
-				pGrid->getActiveShape()->move(key);
-				ismoving = true;
-				break;
-			case 6:
-				pGrid->getActiveShape()->move(key);
-				ismoving = true;
-				break;
-			case 8:
-				pGrid->getActiveShape()->move(key);
-				ismoving = true;
-				break;
-			}
+			shape* as = pGrid->getActiveShape();
+
+			as->move(key);
 
 			pGame->increment_steps(); // count the steps
 
