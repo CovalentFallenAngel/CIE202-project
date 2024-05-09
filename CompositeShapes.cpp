@@ -376,21 +376,18 @@ void Rocket::draw(int x) const
 
 void Rocket::resize(double factor)
 {
-
-	T1Ref = reference_shift(RefPoint, T1Ref, factor);
-	T2Ref = reference_shift(RefPoint, T2Ref, factor);
-	T3Ref = reference_shift(RefPoint, T3Ref, factor);
-	bodyRef = reference_shift(RefPoint, bodyRef, factor);
-
-	T1->setRefPoint(T1Ref);
-	T2->setRefPoint(T2Ref);
-	T3->setRefPoint(T3Ref);
-	body->setRefPoint(bodyRef);
-
+	body->resize(factor);
 	T1->resize(factor);
 	T2->resize(factor);
 	T3->resize(factor);
-	body->resize(factor);
+
+	T1->setRefPoint(reference_shift(RefPoint, T1Ref, factor));
+	T2->setRefPoint(reference_shift(RefPoint, T2Ref, factor));
+	T3->setRefPoint(reference_shift(RefPoint, T3Ref, factor));
+
+	T1Ref = T1->getPosition();
+	T2Ref = T2->getPosition();
+	T3Ref = T3->getPosition();
 }
 
 void Rocket::move(char c)
@@ -532,8 +529,8 @@ point reference_shift(point refc, point refb, double factor) {
 	diff.y = refc.y - refb.y;
 
 	point shift{};
-	shift.x = round((1 - factor) * diff.x);
-	shift.y = round((1 - factor) * diff.y);
+	shift.x = -(1 - factor) * diff.x;
+	shift.y = -(1 - factor) * diff.y;
 
 	point new_ref{};
 	new_ref.x = refb.x + shift.x;
