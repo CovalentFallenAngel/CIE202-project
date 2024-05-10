@@ -11,8 +11,6 @@ class game
 {
 
 	/// Add more members if needed
-	//chicco 
-	// santa
 	toolbar* gameToolbar;
 	
 	window* pWind;	//Pointer to the CMU graphics window
