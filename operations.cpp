@@ -262,12 +262,15 @@ void operHint::Act()
 
 operSGL::operSGL(game* r_pGame) :operation(r_pGame)
 {
-	int level = stoi(pGame->getSrting());
-	pGame->setLevel(level);
 }
 void operSGL::Act()
 {
-
+	window* pw = pGame->getWind();
+	int level = stoi(pGame->getString());
+	pGame->setLevel(level);
+	toolbar* tb = pGame->getToolBar();
+	delete tb;
+	pGame->createToolBar();
 }
 
 operSave::operSave(game* r_pGame) :operation(r_pGame)

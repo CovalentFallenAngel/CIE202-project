@@ -207,7 +207,7 @@ window* game::getWind() const		//returns a pointer to the graphics window
 
 
 
-string game::getSrting() const
+string game::getString() const
 {
 	string Label;
 	char Key;

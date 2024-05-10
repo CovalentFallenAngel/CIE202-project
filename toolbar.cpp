@@ -41,7 +41,7 @@ toolbar::toolbar(game* pG)
 	int xString = config.toolbarItemWidth * (count + 1);
 	pWind->SetBrush(LAVENDER);
 	pWind->SetPen(LAVENDER);
-	pWind->DrawCircle(xString+50, 25 , 35 , FILLED);
+	pWind->DrawCircle(xString+50, 25 , 50 , FILLED);
 
 	pWind->SetPen(BLACK, 3);
 	pWind->SetFont(20, BOLD, MODERN, "Arial");
@@ -63,24 +63,6 @@ toolbar::toolbar(game* pG)
 	//Draw a line under the toolbar
 	pWind->SetPen(DARKBLUE, 3);
 	pWind->DrawLine(0, height,width , height);
-}
-
-void toolbar::drawdata() {
-	
-	int xString = config.toolbarItemWidth * (count + 1);
-	window* pWind = pGame->getWind();
-	pWind->SetPen(BLACK, 3);
-	pWind->SetFont(20, BOLD, MODERN, "Arial");
-	pWind->DrawString(xString, 0, "   Lives");
-	pWind->DrawString(xString, 20, "Level =  ");
-	pWind->DrawString(xString, 40, "Score =  ");
-	pWind->DrawString(xString + 100, 20, "Timer = ");
-
-	int xInteger = (xString + 65);
-	pWind->DrawInteger(xString, 0, pGame->getLives());
-	pWind->DrawInteger(xInteger, 20, pGame->getLevel());
-	pWind->DrawInteger(xInteger, 40, pGame->getScore());
-	pWind->DrawInteger(xInteger + 100, 0, pGame->get_steps());
 }
 
 

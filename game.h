@@ -23,7 +23,7 @@ public:
 	game();
 	~game();
 
-	string getSrting() const;	 //Returns a string entered by the user
+	string getString() const;	 //Returns a string entered by the user
 	void createWind(int, int, int, int); //creates the game window
 	void clearStatusBar() const;	//Clears the status bar
 	void printMessage(string msg) const;	//Print a message on Status bar
