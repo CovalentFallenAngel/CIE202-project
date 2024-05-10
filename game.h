@@ -12,6 +12,7 @@ class game
 
 	/// Add more members if needed
 	//chicco 
+	// santa
 	toolbar* gameToolbar;
 	
 	window* pWind;	//Pointer to the CMU graphics window
@@ -38,6 +39,7 @@ public:
 	void increment_steps();
 	window* getWind() const;		//returns a pointer to the graphics window
 	grid* getGrid() const;		//returns a pointer to the shapes grid
+	toolbar* getToolBar() const;
 
 	//creates an operation according to the toolbar item clicked
 	operation* createRequiredOperation(toolbarItem clickedItem);
