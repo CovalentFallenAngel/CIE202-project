@@ -32,7 +32,7 @@ public:
 	Sign(game* r_pGame, point ref);
 	virtual void draw(int x = 5) const;
 	virtual void move(char c) override;
-	virtual void resize(double factor) override;
+	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
 };
@@ -48,7 +48,7 @@ public:
 	Home(game* r_pGame, point ref);
 	virtual void draw(int x = 5)const ;
 	virtual void move(char c) override;
-	virtual void resize(double factor) override;
+	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
 };
@@ -71,7 +71,7 @@ public:
 	Person(game* r_pGame, point ref);
 	virtual void draw(int x = 5) const;
 	virtual void move(char c) override;
-	virtual void resize(double factor) override;
+	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
 };
@@ -86,9 +86,10 @@ public:
 	ice_cream(game* r_pgame, point ref);
 	virtual void draw(int x = 0) const;
 	virtual void move(char c) override;
-	virtual void resize(double factor) override;
+	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
+	virtual void matching_detection(ice_cream* active, ice_cream* predicate);
 };
 
 class Tree :public shape {
@@ -106,7 +107,7 @@ public:
 	Tree(game* r_pgame, point ref);
 	virtual void draw(int x = 5) const;
 	virtual void move(char c) override;
-	virtual void resize(double factor) override;
+	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
 };
@@ -122,7 +123,7 @@ public:
 	Rocket(game* r_pgame, point ref);
 	virtual void draw(int x =5) const;
 	virtual void move(char c) override;
-	virtual void resize(double factor) override;
+	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
 };
@@ -143,7 +144,7 @@ public:
 	Car(game* r_pGame, point ref);
 	virtual void draw(int x = 5) const;
 	virtual void move(char c) override;
-	virtual void resize(double factor) override;
+	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
 }; 

@@ -42,7 +42,7 @@ void Rect::draw(int x = 1) const
 	pW->DrawRectangle(upperLeft.x, upperLeft.y, lowerBottom.x, lowerBottom.y, FILLED);
 }
 
-void Rect::resize(double factor) {
+void Rect::resize(double factor, point composite_reference) {
 	this->hght *= factor;
 	this->wdth *= factor;
 
@@ -188,7 +188,7 @@ void circle::draw(int x = 1) const
 	pW->DrawCircle(RefPoint.x, RefPoint.y, rad, FILLED);
 }
 
-void circle::resize(double factor) {
+void circle::resize(double factor, point composite_reference) {
 	this->rad *= factor;
 }
 
@@ -225,7 +225,43 @@ void circle::flip(point reference)
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-void EqTriangle::calculate_points() {
+void EqTriangle::calculate_points(point composite_reference) {
+	if (x != 0) {
+		point1.x = RefPoint.x - side_length / 2;
+		point1.y = RefPoint.y;
+		point2.x = RefPoint.x + side_length / 2;
+		point2.y = RefPoint.y;
+		point3.x = RefPoint.x;
+		point3.y = RefPoint.y - sqrt(3) / 2 * side_length;
+	}
+	else {
+		point1.x = RefPoint.x - side_length / 2;
+		point1.y = RefPoint.y;
+		point2.x = RefPoint.x + side_length / 2;
+		point2.y = RefPoint.y;
+		point3.x = RefPoint.x;
+		point3.y = RefPoint.y + sqrt(3) / 2 * side_length;
+	}
+
+	point1 = rotate_coordinates(point1, rotation_angle, composite_reference);
+	point2 = rotate_coordinates(point2, rotation_angle, composite_reference);
+	point3 = rotate_coordinates(point3, rotation_angle, composite_reference);
+
+}
+
+void EqTriangle::calculate_reference() {
+	RefPoint.x = point1.x + side_length / 2;
+	RefPoint.y = point1.y;
+
+	RefPoint = rotate_coordinates(RefPoint, rotation_angle, composite_reference);
+}
+
+EqTriangle::EqTriangle(game* r_pGame, point ref, int SL, int x) : shape(r_pGame, ref) {
+	side_length = SL;
+	pGame = r_pGame;
+	this->x = x;
+	point composite_reference = ref;
+
 	if (x != 0) {
 		point1.x = RefPoint.x - side_length / 2;
 		point1.y = RefPoint.y;
@@ -244,19 +280,6 @@ void EqTriangle::calculate_points() {
 	}
 }
 
-void EqTriangle::calculate_reference() {
-	RefPoint.x = point1.x + side_length / 2;
-	RefPoint.y = point1.y;
-}
-
-EqTriangle::EqTriangle(game* r_pGame, point ref, int SL, int x) : shape(r_pGame, ref) {
-	side_length = SL;
-	pGame = r_pGame;
-	this->x = x;
-
-	this->calculate_points();
-}
-
 void EqTriangle::flip(point reference)
 {
 	
@@ -266,6 +289,10 @@ void EqTriangle::flip(point reference)
 
 	TriangleTransform TT(v1, v2, v3);
 	TT.reflect(reference);
+
+	if (rotation_angle == 90 || rotation_angle == 270) {
+		setRotationAngle(180);
+	}
 
 	vector<point> new_coords = TT.get_flip_coords();
 
@@ -284,6 +311,7 @@ void EqTriangle::rotate(point reference) {
 
 	TriangleTransform TT(v1, v2, v3);
 	TT.rotate(reference);
+	setRotationAngle(-90);
 
 	vector<point> new_coords = TT.get_rotated_coords();
 
@@ -329,17 +357,74 @@ void EqTriangle::move(char c) {
 	calculate_reference();
 }
 
+point resize_points(point p, point origin, double factor) {
+	point new_coords{}; new_coords.x = p.x; new_coords.y = p.y;
 
-void EqTriangle::resize(double factor) {
+	new_coords.x -= origin.x; new_coords.y -= origin.y;
+
+	new_coords.x = round(new_coords.x * factor);
+	new_coords.y = round(new_coords.y * factor);
+
+	new_coords.x += origin.x;
+	new_coords.y += origin.y;
+
+	return new_coords;
+}
+
+void EqTriangle::resize(double factor, point composite_reference) {
 	this->side_length *= factor;
 
-	this->calculate_points();
+	setRefPoint(resize_points(RefPoint, composite_reference, factor));
 }
 
 
 ////////////////////////////////////////////////////  class RightTriangle  ///////////////////////////////////////
 
-void RightTriangle::calculate_points() {
+void RightTriangle::calculate_points(point composite_reference) {
+	if (x == 1) {
+		point1.x = RefPoint.x;
+		point1.y = RefPoint.y;
+		point2.x = RefPoint.x;
+		point2.y = RefPoint.y + base_length;
+		point3.x = RefPoint.x + height;
+		point3.y = RefPoint.y + base_length;
+	}
+	else if (x == 3)
+	{
+		point1.x = RefPoint.x;
+		point1.y = RefPoint.y;
+		point2.x = RefPoint.x - base_length;
+		point2.y = RefPoint.y;
+		point3.x = RefPoint.x - base_length;
+		point3.y = RefPoint.y - height;
+
+	}
+	else {
+		point1.x = RefPoint.x;
+		point1.y = RefPoint.y;
+		point2.x = RefPoint.x - height;
+		point2.y = RefPoint.y + base_length;
+		point3.x = RefPoint.x;
+		point3.y = RefPoint.y + base_length;
+	}
+
+	point1 = rotate_coordinates(point1, rotation_angle, composite_reference);
+	point2 = rotate_coordinates(point2, rotation_angle, composite_reference);
+	point3 = rotate_coordinates(point3, rotation_angle, composite_reference);
+	
+}
+
+void RightTriangle::calculate_reference() {
+	RefPoint.x = point1.x;
+	RefPoint.y = point1.y;
+}
+
+RightTriangle::RightTriangle(game* r_pGame, point ref, int BL, int H, int x) :shape(r_pGame, ref) {
+	base_length = BL;
+	height = H;
+	pGame = r_pGame;
+	this->x = x;
+
 	if (x == 1) {
 		point1.x = RefPoint.x;
 		point1.y = RefPoint.y;
@@ -368,20 +453,6 @@ void RightTriangle::calculate_points() {
 	}
 }
 
-void RightTriangle::calculate_reference() {
-	RefPoint.x = point1.x;
-	RefPoint.y = point1.y;
-}
-
-RightTriangle::RightTriangle(game* r_pGame, point ref, int BL, int H, int x) :shape(r_pGame, ref) {
-	base_length = BL;
-	height = H;
-	pGame = r_pGame;
-	this->x = x;
-
-	this->calculate_points();
-}
-
 void RightTriangle::draw(int x) const {
 	window* pW = pGame->getWind(); // get interface window
 	pW->SetPen(borderColor, config.penWidth);
@@ -391,11 +462,11 @@ void RightTriangle::draw(int x) const {
 }
 
 
-void RightTriangle::resize(double factor) {
+void RightTriangle::resize(double factor, point composite_reference) {
 	this->height *= factor;
 	this->base_length *= factor;
 
-	this->calculate_points();
+	this->calculate_points(composite_reference);
 }
 
 void RightTriangle::rotate(point reference) {
@@ -405,6 +476,7 @@ void RightTriangle::rotate(point reference) {
 
 	TriangleTransform TT(v1, v2, v3);
 	TT.rotate(reference);
+	setRotationAngle(-90);
 
 	vector<point> new_coords = TT.get_rotated_coords();
 
@@ -424,6 +496,10 @@ void RightTriangle::flip(point reference) {
 	TT.reflect(reference);
 
 	vector<point> new_coords = TT.get_flip_coords();
+
+	if (rotation_angle == 90 || rotation_angle == 270) {
+		setRotationAngle(180);
+	}
 
 	this->point1 = new_coords[0];
 	this->point2 = new_coords[1];

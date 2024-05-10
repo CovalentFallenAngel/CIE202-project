@@ -30,7 +30,7 @@ void Sign::move(char c)
 	topRef = top->getPosition();
 }
 
-void Sign::resize(double factor) {
+void Sign::resize(double factor, point composite_reference) {
 
 	topRef = reference_shift(RefPoint, topRef, factor);
 	baseRef = reference_shift(RefPoint, baseRef, factor);
@@ -38,8 +38,8 @@ void Sign::resize(double factor) {
 	top->setRefPoint(topRef);
 	base->setRefPoint(baseRef);
 
-	base->resize(factor);
-	top->resize(factor);
+	base->resize(factor, RefPoint);
+	top->resize(factor, RefPoint);
 }
 
 void Sign::rotate(point reference) {
@@ -68,16 +68,15 @@ void Home::draw(int x) const {
 	top->draw(1);
 }
 
-void Home::resize(double factor)
+void Home::resize(double factor, point composite_reference)
 {
-	topRef = reference_shift(RefPoint, topRef, factor);
-	baseRef = reference_shift(RefPoint, baseRef, factor);
+	top->resize(factor, RefPoint);
+	base->resize(factor, RefPoint);
 
-	top->setRefPoint(topRef);
-	base->setRefPoint(baseRef);
+	top->calculate_points(RefPoint);
 
-	base->resize(factor);
-	top->resize(factor);
+	topRef = top->getPosition();
+	baseRef = base->getPosition();
 }
 
 void Home::move(char c)
@@ -162,28 +161,27 @@ void Person::flip() {
 	rightLegRef = Rleg->getPosition();
 }
 
-void Person::resize(double factor)
+void Person::resize(double factor, point composite_reference)
 {
-	headRef = reference_shift(RefPoint, headRef, factor);
-	bodyRef = reference_shift(RefPoint, bodyRef, factor);
-	leftArmRef = reference_shift(RefPoint, leftArmRef, factor);
-	rightArmRef = reference_shift(RefPoint, rightArmRef, factor);
-	leftLegRef = reference_shift(RefPoint, leftLegRef, factor);
-	rightLegRef = reference_shift(RefPoint, rightLegRef, factor);
+	head->setRefPoint(reference_shift(RefPoint, head->getPosition(), factor));
+	body->calculate_points();
+	Larm->setRefPoint(reference_shift(RefPoint, Larm->getPosition(), factor));
+	Rarm->setRefPoint(reference_shift(RefPoint, Rarm->getPosition(), factor));
+	Lleg->setRefPoint(reference_shift(RefPoint, Lleg->getPosition(), factor));
+	Rleg->setRefPoint(reference_shift(RefPoint, Rleg->getPosition(), factor));
 
-	head->setRefPoint(headRef);
-	body->setRefPoint(bodyRef);
-	Larm->setRefPoint(leftArmRef);
-	Rarm->setRefPoint(rightArmRef);
-	Lleg->setRefPoint(leftLegRef);
-	Rleg->setRefPoint(rightLegRef);
+	head->resize(factor, RefPoint);
+	body->resize(factor, RefPoint);
+	Larm->resize(factor, RefPoint);
+	Rarm->resize(factor, RefPoint);
+	Lleg->resize(factor, RefPoint);
+	Rleg->resize(factor, RefPoint);
 
-	head->resize(factor);
-	body->resize(factor);
-	Larm->resize(factor);
-	Rarm->resize(factor);
-	Lleg->resize(factor);
-	Rleg->resize(factor);
+	headRef = head->getPosition();
+	leftArmRef = Larm->getPosition();
+	rightArmRef = Rarm->getPosition();
+	leftLegRef = Lleg->getPosition();
+	rightLegRef = Rleg->getPosition();
 }
 
 
@@ -234,17 +232,17 @@ void ice_cream::move(char c)
 	coneRef = cone->getPosition();
 }
 
-void ice_cream::resize(double factor)
+void ice_cream::resize(double factor, point composite_reference)
 {
 
-	scoopRef = reference_shift(RefPoint, scoopRef, factor);
-	coneRef = reference_shift(RefPoint, coneRef, factor);
+	cone->resize(factor, RefPoint);
+	scoop->resize(factor, RefPoint);
 
-	cone->setRefPoint(coneRef);
-	scoop->setRefPoint(scoopRef);
+	cone->calculate_points(RefPoint);
 
-	cone->resize(factor);
-	scoop->resize(factor);
+	coneRef = cone->getPosition();
+	scoopRef = scoop->getPosition();
+
 }
 
 void ice_cream::rotate(point reference) {
@@ -259,6 +257,10 @@ void ice_cream::flip() {
 	RefPoint = scoop->getPosition();
 	scoopRef = scoop->getPosition();
 	coneRef = cone->getPosition();
+}
+
+void ice_cream::matching_detection(ice_cream* active, ice_cream* predicate) {
+	if (active->cone->getPosition() == predicate->cone->getPosition())
 }
 
 Tree::Tree(game* r_pGame, point ref) : shape(r_pGame, ref) {
@@ -305,22 +307,21 @@ void Tree::move(char c)
 	T3Ref = T3->getPosition();
 }
 
-void Tree::resize(double factor)
+void Tree::resize(double factor, point composite_reference)
 {
-	T1Ref = reference_shift(RefPoint, T1Ref, factor);
-	T2Ref = reference_shift(RefPoint, T2Ref, factor);
-	T3Ref = reference_shift(RefPoint, T3Ref, factor);
-	bodyRef = reference_shift(RefPoint, bodyRef, factor);
+	T1->resize(factor, RefPoint);
+	T2->resize(factor, RefPoint);
+	T3->resize(factor, RefPoint);
+	body->resize(factor, RefPoint);
 
-	T1->setRefPoint(T1Ref);
-	T2->setRefPoint(T2Ref);
-	T3->setRefPoint(T3Ref);
-	body->setRefPoint(bodyRef);
+	T1->calculate_points(RefPoint);
+	T2->calculate_points(RefPoint);
+	T3->calculate_points(RefPoint);
 
-	T1->resize(factor);
-	T2->resize(factor);
-	T3->resize(factor);
-	body->resize(factor);
+	T1Ref = T1->getPosition();
+	T2Ref = T2->getPosition();
+	T3Ref = T3->getPosition();
+	bodyRef = body->getPosition();
 }
 
 void Tree::rotate(point reference) {
@@ -348,7 +349,7 @@ Rocket::Rocket(game* r_pGame, point ref) : shape(r_pGame, ref) {
 	T1Ref = { ref.x + config.Rocket.side_length - 70,ref.y - 10 };
 	T2Ref = { ref.x + config.Rocket.Rbase_length - 65,ref.y + 35 };
 	T3Ref = { ref.x + config.Rocket.Lbase_length - 40,ref.y + 35 };
-	bodyRef = { ref.x - config.Rocket.basewdth - 9, ref.y + config.Rocket.basehght -45 };
+	bodyRef = { ref.x - config.Rocket.basewdth - 9, ref.y + config.Rocket.basehght - 45 };
 	RefPoint = bodyRef;
 	T1 = new EqTriangle(r_pGame, T1Ref, config.Rocket.side_length, 1);
 	T2 = new RightTriangle(r_pGame, T2Ref, config.Rocket.Rbase_length, config.Rocket.Rhght, 2);
@@ -374,23 +375,22 @@ void Rocket::draw(int x) const
 	config.penColor = RED;
 }
 
-void Rocket::resize(double factor)
+void Rocket::resize(double factor, point composite_reference)
 {
 
-	T1Ref = reference_shift(RefPoint, T1Ref, factor);
-	T2Ref = reference_shift(RefPoint, T2Ref, factor);
-	T3Ref = reference_shift(RefPoint, T3Ref, factor);
-	bodyRef = reference_shift(RefPoint, bodyRef, factor);
+	T1->resize(factor, RefPoint);
+	T2->resize(factor, RefPoint);
+	T3->resize(factor, RefPoint);
+	body->resize(factor, RefPoint);
 
-	T1->setRefPoint(T1Ref);
-	T2->setRefPoint(T2Ref);
-	T3->setRefPoint(T3Ref);
-	body->setRefPoint(bodyRef);
+	T1->calculate_points(RefPoint);
+	T2->calculate_points(RefPoint);
+	T3->calculate_points(RefPoint);
 
-	T1->resize(factor);
-	T2->resize(factor);
-	T3->resize(factor);
-	body->resize(factor);
+	T1Ref = T1->getPosition();
+	T2Ref = T2->getPosition();
+	T3Ref = T3->getPosition();
+	bodyRef = body->getPosition();
 }
 
 void Rocket::move(char c)
@@ -481,25 +481,25 @@ void Car::move(char c)
 }
 
 
-void Car::resize(double factor)
+void Car::resize(double factor, point composite_reference)
 {
-	T1Ref = reference_shift(RefPoint, T1Ref, factor);
-	R1Ref = reference_shift(RefPoint, R1Ref, factor);
-	R2Ref = reference_shift(RefPoint, R2Ref, factor);
-	C1Ref = reference_shift(RefPoint, C1Ref, factor);
-	C2Ref = reference_shift(RefPoint, C2Ref, factor);
+	T1->setRefPoint(reference_shift(RefPoint, T1->getPosition(), factor));
+	R1->setRefPoint(reference_shift(RefPoint, R1->getPosition(), factor));
+	R2->setRefPoint(reference_shift(RefPoint, R2->getPosition(), factor));
+	C1->setRefPoint(reference_shift(RefPoint, C1->getPosition(), factor));
+	C2->setRefPoint(reference_shift(RefPoint, C2->getPosition(), factor));
 
-	T1->setRefPoint(T1Ref);
-	R1->setRefPoint(R1Ref);
-	R2->setRefPoint(R2Ref);
-	C1->setRefPoint(C1Ref);
-	C2->setRefPoint(C2Ref);
+	T1->resize(factor, RefPoint);
+	R1->resize(factor, RefPoint);
+	R2->resize(factor, RefPoint);
+	C1->resize(factor, RefPoint);
+	C2->resize(factor, RefPoint);
 
-	T1->resize(factor);
-	R1->resize(factor);
-	R2->resize(factor);
-	C1->resize(factor);
-	C2->resize(factor);
+	T1Ref = T1->getPosition();
+	R1Ref = R1->getPosition();
+	R2Ref = R2->getPosition();
+	C1Ref = C1->getPosition();
+	C2Ref = C2->getPosition();
 }
 
 void Car::rotate(point reference) {

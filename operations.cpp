@@ -216,7 +216,7 @@ void operResize::Actmain(double factor)
 	grid* pGrid = pGame->getGrid();
 	shape* shape = pGrid->getActiveShape();
 	if (shape != nullptr) {
-		shape->resize(factor);
+		shape->resize(factor, shape->getPosition());
 		pGrid->clearGridArea();
 		pGrid->setActiveShape(shape);
 	}

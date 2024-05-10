@@ -22,7 +22,7 @@ public:
 	Rect(game* r_pGame, point ref, int r_hght, int r_wdth);
 	virtual void draw(int x) const;
 	virtual void move(char c) override;
-	virtual void resize(double factor) override;
+	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip(point reference);
 	virtual void set_dims(vector<double> dims);
@@ -64,7 +64,7 @@ public:
 	circle(game* r_pGame, point ref, int r);	//add more parameters for the constructor if needed
 	virtual void draw(int x) const;
 	virtual void move(char c) override;
-	virtual void resize(double factor) override;
+	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip(point reference);
 
@@ -77,16 +77,17 @@ public:
 	EqTriangle(game* r_pGame, point ref, int SL, int x = 1);
 	virtual void move(char c) override;
 	virtual void draw(int x) const;
-	virtual void resize(double factor) override;
+	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip(point reference);
-	virtual void calculate_points();
+	virtual void calculate_points(point composite_reference);
 	virtual void calculate_reference();
 
 private:
 	double side_length;
 	int x;
 	point point1, point2, point3;
+	point composite_reference{};
 };
 
 
@@ -95,10 +96,10 @@ public:
 	RightTriangle(game* r_pGame, point ref, int BL, int H, int x);
 	virtual void move(char c) override;
 	virtual void draw(int x) const;
-	virtual void resize(double factor) override;
+	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip(point reference);
-	virtual void calculate_points();
+	virtual void calculate_points(point composite_reference);
 	virtual void calculate_reference();
 
 private:
