@@ -1,5 +1,6 @@
 #include "toolbar.h"
 #include "game.h"
+#include <thread>
 //#include "grid.h"
 
 
@@ -48,12 +49,15 @@ toolbar::toolbar(game* pG)
 	pWind->DrawString(xString, 20, "Level =  ");
 	pWind->DrawString(xString, 40, "Score =  ");
 	pWind->DrawString(xString + 100, 0, "Steps =  ");
+	pWind->DrawString(xString + 100, 20, "Timer = ");
 
 	int xInteger = (xString + 65);
 	pWind->DrawInteger(xString, 0, pGame->getLives());
 	pWind->DrawInteger(xInteger, 20, pGame->getLevel());
 	pWind->DrawInteger(xInteger, 40, pGame->getScore());
 	pWind->DrawInteger(xInteger + 100, 0, pGame->get_steps());
+	thread timer_thread(&game::startTimer, pGame, xInteger);
+	timer_thread.detach();
 
 
 	//Draw a line under the toolbar
@@ -70,6 +74,7 @@ void toolbar::drawdata() {
 	pWind->DrawString(xString, 0, "   Lives");
 	pWind->DrawString(xString, 20, "Level =  ");
 	pWind->DrawString(xString, 40, "Score =  ");
+	pWind->DrawString(xString + 100, 20, "Timer = ");
 
 	int xInteger = (xString + 65);
 	pWind->DrawInteger(xString, 0, pGame->getLives());
