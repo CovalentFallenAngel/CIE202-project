@@ -213,13 +213,11 @@ void operResize::Act() {}
 
 void operResize::Actmain(double factor)
 {
-	grid* pGrid = pGame->getGrid();
-	shape* shape = pGrid->getActiveShape();
-	if (shape != nullptr) {
-		shape->resize(factor, shape->getPosition());
-		pGrid->clearGridArea();
-		pGrid->setActiveShape(shape);
-	}
+	 grid* pGrid = pGame->getGrid();
+	 shape* shape = pGrid->getActiveShape();
+	 shape->resize(factor, shape->getPosition());
+	 pGrid->clearGridArea(); 
+	 pGrid->setActiveShape(shape);
 }
 
 operRotate::operRotate(game* r_pGame) :operation(r_pGame) {}
@@ -279,16 +277,16 @@ void operSave::Act()
 {
 }
 
-void operSave::Actmain(string filename)
-{
-	std::ofstream outfile(filename);
-	outfile << "Player score: " << pGame->getScore() << "\n";
-	outfile << "Levels completed: " << pGame->getLevel() << "\n";
-	outfile << "Lives: " << pGame->getLives() << "\n";
-	outfile << "\n";
-
-	outfile.close();
-}
+//void operSave::Actmain(string filename)
+//{
+//	std::ofstream outfile(filename);
+//	outfile << "Player score: " << pGame->getScore() << "\n";
+//	outfile << "Levels completed: " << pGame->getLevel() << "\n";
+//	outfile << "Lives: " << pGame->getLives() << "\n";
+//	outfile << "\n";
+//
+//	outfile.close();
+//}
 
 operLoad::operLoad(game* r_pGame) :operation(r_pGame)
 {
@@ -297,9 +295,9 @@ operLoad::operLoad(game* r_pGame) :operation(r_pGame)
 void operLoad::Act()
 {
 }
-void operLoad::Actmain(string filename) {
-
-}
+//void operLoad::Actmain(string filename) {
+//
+//}
 
 operMove::operMove(game* r_pGame) : operation(r_pGame)
 {

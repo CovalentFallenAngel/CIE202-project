@@ -259,11 +259,7 @@ void ice_cream::flip() {
 	coneRef = cone->getPosition();
 }
 
-void ice_cream::matching_detection(ice_cream* active, ice_cream* predicate) {
-	if (active->cone->getPosition() == predicate->cone->getPosition())
-}
-
-Tree::Tree(game* r_pGame, point ref) : shape(r_pGame, ref) {
+Tree::Tree(game* r_pGame, point ref) : shape(r_pGame, ref) { 
 	T1Ref = { ref.x + config.Tree.side_length - 50,ref.y };
 	T2Ref = { ref.x + config.Tree.side_length - 50,ref.y - 10 };
 	T3Ref = { ref.x + config.Tree.side_length - 50,ref.y - 20 };

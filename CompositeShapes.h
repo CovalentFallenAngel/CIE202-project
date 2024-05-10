@@ -89,7 +89,6 @@ public:
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
-	virtual void matching_detection(ice_cream* active, ice_cream* predicate);
 };
 
 class Tree :public shape {
