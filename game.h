@@ -17,7 +17,7 @@ class game
 	
 	window* pWind;	//Pointer to the CMU graphics window
 	grid* shapesGrid;
-	int level, score, lives, steps;
+	int level, score, lives, steps, sec;
 
 public:
 	game();
@@ -37,6 +37,7 @@ public:
 	void setLevel(int lev);
 	void setLives(int live);
 	void increment_steps();
+	void startTimer(int xInteger);
 	window* getWind() const;		//returns a pointer to the graphics window
 	grid* getGrid() const;		//returns a pointer to the shapes grid
 	toolbar* getToolBar() const;

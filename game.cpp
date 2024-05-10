@@ -11,6 +11,7 @@ game::game()
 	score = 0;
 	lives = 5;
 	steps = 0;
+	sec = 10;
 
 	//Create the main window
 	createWind(config.windWidth, config.windHeight, config.wx, config.wy);
@@ -54,6 +55,19 @@ void game::setLevel(int lev) { level = lev; }
 
 void game::increment_steps() { steps++; }
 
+
+void game::startTimer(int xInteger)
+{
+	sec = 10;
+
+	while (sec > 0) {
+		clock_t stop = clock() + CLOCKS_PER_SEC;
+		while (clock() < stop) {}
+		sec--;
+		pWind->SetPen(BLACK);
+		pWind->DrawInteger(xInteger + 100, 20, sec);
+	}
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////
 void game::createWind(int w, int h, int x, int y) 
