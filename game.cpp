@@ -11,17 +11,23 @@ game::game()
 	score = 0;
 	lives = 5;
 	steps = 0;
-	sec = 10;
+	sec = 11;
+	act = 16;
 
 	//Create the main window
 	createWind(config.windWidth, config.windHeight, config.wx, config.wy);
 
-	//Create and draw the toolbar
-	createToolBar();
 
 	//Create and draw the grid
+	//draw the grid and all shapes it contains.
 	createGrid();
-	shapesGrid->draw();	//draw the grid and all shapes it contains.
+	shapesGrid->draw();
+	
+	//Create and clear the status bar
+	clearStatusBar();
+
+	//Create and draw the toolbar
+	createToolBar();
 
 	//Create and clear the status bar
 	clearStatusBar();
@@ -55,17 +61,39 @@ void game::setLevel(int lev) { level = lev; }
 
 void game::increment_steps() { steps++; }
 
+void game::setsec(int s) { sec = s; }
 
-void game::startTimer(int xInteger)
+void game::setact(int a) { act = a; }
+
+bool startacting = false;
+
+void game::thinkTimer(int xInteger, game* pGame)
 {
-	sec = 10;
-
 	while (sec > 0) {
 		clock_t stop = clock() + CLOCKS_PER_SEC;
 		while (clock() < stop) {}
 		sec--;
+		pWind->SetPen(config.bkGrndColor);
+		pWind->SetBrush(config.bkGrndColor);
+		pWind->DrawRectangle(xInteger + 100, 20, 1320, 40);
 		pWind->SetPen(BLACK);
 		pWind->DrawInteger(xInteger + 100, 20, sec);
+	}
+	startacting = true;
+	thread act_thread(&game::actTimer, pGame, xInteger);
+	act_thread.detach();
+}
+
+void game::actTimer(int xInteger){
+	while (act > 0) {
+		clock_t stop = clock() + CLOCKS_PER_SEC;
+		while (clock() < stop) {}
+		pWind->SetPen(config.bkGrndColor);
+		pWind->SetBrush(config.bkGrndColor);
+		pWind->DrawRectangle(xInteger + 100, 20, 1320, 40);
+		act--;
+		pWind->SetPen(BLACK);
+		pWind->DrawInteger(xInteger + 100, 20, act);
 	}
 }
 
@@ -245,7 +273,6 @@ void game::run()
 	//This function reads the position where the user clicks to determine the desired operation
 	int x, y;
 	bool isExit = false;
-
 	
 
 	//Change the title
@@ -255,24 +282,26 @@ void game::run()
 	{
 		//printMessage("Ready...");
 		//1- Get user click
-		pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
+		if (startacting) {
+			pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
 
-		//2-Explain the user click
-		//If user clicks on the Toolbar, ask toolbar which item is clicked
- 		if (y >= 0 && y < config.toolBarHeight)
-		{
-			clickedItem=gameToolbar->getItemClicked(x);
+			//2-Explain the user click
+			//If user clicks on the Toolbar, ask toolbar which item is clicked
+			if (y >= 0 && y < config.toolBarHeight)
+			{
+				clickedItem = gameToolbar->getItemClicked(x);
 
-			//3-create the approp operation accordin to item clicked by the user
-			operation* op = createRequiredOperation(clickedItem);
-			if (op)
-				op->Act();
+				//3-create the approp operation accordin to item clicked by the user
+				operation* op = createRequiredOperation(clickedItem);
+				if (op)
+					op->Act();
 
-			//4-Redraw the grid after each action
-			shapesGrid->draw();
+				//4-Redraw the grid after each action
+				shapesGrid->draw();
 
-		}	
-
+			}
+		}
+		
 
 		operMove* p1;
 		p1 = new operMove(this);
