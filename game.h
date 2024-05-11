@@ -11,13 +11,16 @@ class game
 {
 
 	/// Add more members if needed
+	//chicco 
+	// santa
 	toolbar* gameToolbar;
 	
 	window* pWind;	//Pointer to the CMU graphics window
 	grid* shapesGrid;
-	int level, score, lives, steps, sec, act;
+	int level, lives, steps;
 
 public:
+	int score, sec, act;
 	game();
 	~game();
 
@@ -34,11 +37,11 @@ public:
 	void setScore(int s);
 	void setLevel(int lev);
 	void setLives(int live);
+	void game::setsec(int s);
+	void game::setact(int a);
+	void game::actTimer(int xInteger);
+	void game::thinkTimer(int xInteger, game* pGame);
 	void increment_steps();
-	void thinkTimer(int xInteger, game*pGame);
-	void actTimer(int xInteger);
-	void setsec(int s);
-	void setact(int a);
 	window* getWind() const;		//returns a pointer to the graphics window
 	grid* getGrid() const;		//returns a pointer to the shapes grid
 	toolbar* getToolBar() const;
