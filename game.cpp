@@ -65,7 +65,7 @@ void game::setsec(int s) { sec = s; }
 
 void game::setact(int a) { act = a; }
 
-bool startacting = false;
+//bool startacting = false;
 
 void game::thinkTimer(int xInteger, game* pGame)
 {
@@ -79,7 +79,7 @@ void game::thinkTimer(int xInteger, game* pGame)
 		pWind->SetPen(BLACK);
 		pWind->DrawInteger(xInteger + 100, 20, sec);
 	}
-	startacting = true;
+	//startacting = true;
 	thread act_thread(&game::actTimer, pGame, xInteger);
 	act_thread.detach();
 }
@@ -282,7 +282,7 @@ void game::run()
 	{
 		//printMessage("Ready...");
 		//1- Get user click
-		if (startacting) {
+		//if (startacting) {
 			pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
 
 			//2-Explain the user click
@@ -299,7 +299,7 @@ void game::run()
 				//4-Redraw the grid after each action
 				shapesGrid->draw();
 
-			}
+			//}
 		}
 		
 

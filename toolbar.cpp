@@ -56,7 +56,7 @@ toolbar::toolbar(game* pG)
 	pWind->DrawInteger(xInteger, 20, pGame->getLevel());
 	pWind->DrawInteger(xInteger, 40, pGame->getScore());
 	pWind->DrawInteger(xInteger + 100, 0, pGame->get_steps());
-	pGame->thinkTimer(xInteger, pGame);
+	//pGame->thinkTimer(xInteger, pGame);
 
 
 	//Draw a line under the toolbar
