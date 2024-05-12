@@ -13,8 +13,8 @@ shape::shape(game* r_pGame, point ref, bool isComposite)
 	rotation_angle = 0;
 
 	if (isComposite) {
-		thread matching_detection_thread(&game::matching_detection, pGame);
-		matching_detection_thread.detach();
+		//thread matching_detection_thread(&game::matching_detection, pGame);
+		//matching_detection_thread.detach();
 	}
 }
 
