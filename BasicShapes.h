@@ -28,6 +28,8 @@ public:
 	virtual void set_dims(vector<double> dims);
 	virtual void calculate_points();
 	virtual void calculate_reference();
+	virtual vector<point> getCorners();
+	void matching_detection(game* pGame) override;
 
 };
 
@@ -67,6 +69,8 @@ public:
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip(point reference);
+	virtual double getRadius();
+	void matching_detection(game* pGame) override;
 
 };
 
@@ -82,6 +86,8 @@ public:
 	virtual void flip(point reference);
 	virtual void calculate_points(point composite_reference);
 	virtual void calculate_reference();
+	void matching_detection(game* pGame) override;
+	virtual vector<point> getPoints();
 
 private:
 	double side_length;
@@ -101,11 +107,14 @@ public:
 	virtual void flip(point reference);
 	virtual void calculate_points(point composite_reference);
 	virtual void calculate_reference();
+	virtual vector<point> getPoints();
+	void matching_detection(game* pGame) override;
 
 private:
 	double height, base_length;
 	int x;
 	point point1, point2, point3;
+	point composite_reference{};
 };
 
 class TriangleTransform {

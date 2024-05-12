@@ -1,14 +1,21 @@
 #include "shape.h"
 #include "game.h"
 #include "gameConfig.h"
+#include <thread>
 
-shape::shape(game* r_pGame, point ref)
+shape::shape(game* r_pGame, point ref, bool isComposite)
 {
 	RefPoint = ref;
 	pGame = r_pGame;
+	this->isComposite = isComposite;
 	fillColor = config.fillColor;
 	borderColor = config.penColor;
 	rotation_angle = 0;
+
+	if (isComposite) {
+		thread matching_detection_thread(&game::matching_detection, pGame);
+		matching_detection_thread.detach();
+	}
 }
 
 void shape::setRotationAngle(int increment) {
@@ -48,4 +55,7 @@ void shape::rotate(point reference) {
 }
 void shape::flip() {
 
+}
+
+void shape::matching_detection(game* pGame) {
 }

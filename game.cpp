@@ -59,7 +59,15 @@ void game::setLives(int live) { lives = live; }
 
 void game::setLevel(int lev) { level = lev; }
 
-void game::increment_steps() { steps++; }
+void game::increment_steps() { 
+	int xInteger = config.toolbarItemWidth * 17 + 65;
+	steps++;
+	pWind->SetPen(config.bkGrndColor);
+	pWind->SetBrush(config.bkGrndColor);
+	pWind->DrawRectangle(xInteger + 100, 0, 1320, 40);
+	pWind->SetPen(BLACK);
+	pWind->DrawInteger(xInteger + 100, 0, steps);
+}
 
 void game::setsec(int s) { sec = s; }
 

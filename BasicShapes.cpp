@@ -110,6 +110,24 @@ void Rect::move(char c) {
 	calculate_reference();
 }
 
+vector<point> Rect::getCorners() {
+	vector<point> corners;
+	corners.push_back(upperLeft); 
+	corners.push_back(lowerBottom);
+	return corners;
+}
+
+void Rect::matching_detection(game* pGame) {
+	//shape* predicate = pGame->getGrid()->getRandomShape(); //replace active shape with random shape
+	/*if (getCorners() == predicate->getCorners()) {
+		score += 2;
+		return true;
+	}
+	else {
+		score -= 1;
+		return false;
+	}*/
+}
 
 RectangleTransform::RectangleTransform(point reference, vector<double> dimensions) {
 	ref = reference;
@@ -223,44 +241,58 @@ void circle::flip(point reference)
 	}
 }
 
-////////////////////////////////////////////////////////////////////////////////////////
+double circle::getRadius() {
+	return rad;
+}
 
-void EqTriangle::calculate_points(point composite_reference) {
-	if (x != 0) {
-		point1.x = RefPoint.x - side_length / 2;
-		point1.y = RefPoint.y;
-		point2.x = RefPoint.x + side_length / 2;
-		point2.y = RefPoint.y;
-		point3.x = RefPoint.x;
-		point3.y = RefPoint.y - sqrt(3) / 2 * side_length;
+void circle::matching_detection(game* pGame) {
+	//shape* predicate = pGame->getGrid()->getRandomShape(); //replace active shape with random shape
+	/*if (rad == predicate->getRadius() && RefPoint == predicate->getPosition()) {
+		score += 2;
+		return true;
 	}
 	else {
-		point1.x = RefPoint.x - side_length / 2;
-		point1.y = RefPoint.y;
-		point2.x = RefPoint.x + side_length / 2;
-		point2.y = RefPoint.y;
-		point3.x = RefPoint.x;
-		point3.y = RefPoint.y + sqrt(3) / 2 * side_length;
-	}
+		score -= 1;
+		return false;
+	}*/
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+void EqTriangle::calculate_points(point composite_reference) { 
+	RefPoint = rotate_coordinates(RefPoint, -rotation_angle, composite_reference);
+
+	point1.x = RefPoint.x + side_length / 2;
+	point1.y = RefPoint.y;
+	point2.x = RefPoint.x - side_length / 2;
+	point2.y = RefPoint.y;
+	point3.x = RefPoint.x;
+	point3.y = RefPoint.y - sqrt(3) / 2 * side_length;
 
 	point1 = rotate_coordinates(point1, rotation_angle, composite_reference);
 	point2 = rotate_coordinates(point2, rotation_angle, composite_reference);
 	point3 = rotate_coordinates(point3, rotation_angle, composite_reference);
 
+	RefPoint = rotate_coordinates(RefPoint, rotation_angle, composite_reference);
+
+
 }
 
 void EqTriangle::calculate_reference() {
+	point1 = rotate_coordinates(point1, -rotation_angle, composite_reference);
+
 	RefPoint.x = point1.x + side_length / 2;
 	RefPoint.y = point1.y;
 
 	RefPoint = rotate_coordinates(RefPoint, rotation_angle, composite_reference);
+	point1 = rotate_coordinates(point1, rotation_angle, composite_reference);
 }
 
 EqTriangle::EqTriangle(game* r_pGame, point ref, int SL, int x) : shape(r_pGame, ref) {
 	side_length = SL;
 	pGame = r_pGame;
 	this->x = x;
-	point composite_reference = ref;
+	composite_reference = ref;
 
 	if (x != 0) {
 		point1.x = RefPoint.x - side_length / 2;
@@ -271,37 +303,40 @@ EqTriangle::EqTriangle(game* r_pGame, point ref, int SL, int x) : shape(r_pGame,
 		point3.y = RefPoint.y - sqrt(3) / 2 * side_length;
 	}
 	else {
-		point1.x = RefPoint.x - side_length / 2;
+		point1.x = RefPoint.x + side_length / 2;
 		point1.y = RefPoint.y;
-		point2.x = RefPoint.x + side_length / 2;
+		point2.x = RefPoint.x - side_length / 2;
 		point2.y = RefPoint.y;
 		point3.x = RefPoint.x;
 		point3.y = RefPoint.y + sqrt(3) / 2 * side_length;
+		rotation_angle = 180;
 	}
 }
 
 void EqTriangle::flip(point reference)
 {
-	
-	point v1 = this->point1;
-	point v2 = this->point2;
-	point v3 = this->point3;
-
-	TriangleTransform TT(v1, v2, v3);
-	TT.reflect(reference);
-
 	if (rotation_angle == 90 || rotation_angle == 270) {
-		setRotationAngle(180);
+		point v1 = this->point1;
+		point v2 = this->point2;
+		point v3 = this->point3;
+
+		TriangleTransform TT(v1, v2, v3);
+		TT.reflect(reference);
+
+		if (rotation_angle == 90 || rotation_angle == 270) {
+			setRotationAngle(180);
+		}
+
+		vector<point> new_coords = TT.get_flip_coords();
+
+		this->point1 = new_coords[0];
+		this->point2 = new_coords[1];
+		this->point3 = new_coords[2];
+
+		calculate_reference();
+
+		this->draw(1);
 	}
-
-	vector<point> new_coords = TT.get_flip_coords();
-
-	this->point1 = new_coords[0];
-	this->point2 = new_coords[1];
-	this->point3 = new_coords[2];
-
-	this->draw(1);
-	
 }
 
 void EqTriangle::rotate(point reference) {
@@ -318,6 +353,8 @@ void EqTriangle::rotate(point reference) {
 	this->point1 = new_coords[0];
 	this->point2 = new_coords[1];
 	this->point3 = new_coords[2];
+
+	calculate_reference();
 
 	this->draw(1);
 }
@@ -377,10 +414,28 @@ void EqTriangle::resize(double factor, point composite_reference) {
 	setRefPoint(resize_points(RefPoint, composite_reference, factor));
 }
 
+vector<point> EqTriangle::getPoints() {
+	vector<point> points;
+	points.push_back(point1);
+	points.push_back(point2);
+	points.push_back(point3);
+	return points;
+}
+
+void EqTriangle::matching_detection(game* pGame) {
+	//shape* predicate = pGame->getGrid()->getRandomShape(); //replace active shape with random shape
+	/*if (getPoints() == predicate->getPoints()) {
+		score += 2;
+	}
+	else {
+		score -= 1;
+	}*/
+}
 
 ////////////////////////////////////////////////////  class RightTriangle  ///////////////////////////////////////
 
 void RightTriangle::calculate_points(point composite_reference) {
+	RefPoint = rotate_coordinates(RefPoint, -rotation_angle, composite_reference);
 	if (x == 1) {
 		point1.x = RefPoint.x;
 		point1.y = RefPoint.y;
@@ -411,12 +466,17 @@ void RightTriangle::calculate_points(point composite_reference) {
 	point1 = rotate_coordinates(point1, rotation_angle, composite_reference);
 	point2 = rotate_coordinates(point2, rotation_angle, composite_reference);
 	point3 = rotate_coordinates(point3, rotation_angle, composite_reference);
+	RefPoint = rotate_coordinates(RefPoint, rotation_angle, composite_reference);
 	
 }
 
 void RightTriangle::calculate_reference() {
+	point1 = rotate_coordinates(point1, -rotation_angle, composite_reference);
 	RefPoint.x = point1.x;
 	RefPoint.y = point1.y;
+
+	RefPoint = rotate_coordinates(RefPoint, rotation_angle, composite_reference);
+	point1 = rotate_coordinates(point1, rotation_angle, composite_reference);
 }
 
 RightTriangle::RightTriangle(game* r_pGame, point ref, int BL, int H, int x) :shape(r_pGame, ref) {
@@ -424,6 +484,7 @@ RightTriangle::RightTriangle(game* r_pGame, point ref, int BL, int H, int x) :sh
 	height = H;
 	pGame = r_pGame;
 	this->x = x;
+	composite_reference = ref;
 
 	if (x == 1) {
 		point1.x = RefPoint.x;
@@ -484,6 +545,8 @@ void RightTriangle::rotate(point reference) {
 	this->point2 = new_coords[1];
 	this->point3 = new_coords[2];
 
+	calculate_reference();
+
 	this->draw(1);
 }
 
@@ -504,6 +567,8 @@ void RightTriangle::flip(point reference) {
 	this->point1 = new_coords[0];
 	this->point2 = new_coords[1];
 	this->point3 = new_coords[2];
+
+	calculate_reference();
 
 	this->draw(1);
 }
@@ -534,6 +599,25 @@ void RightTriangle::move(char c) {
 	calculate_reference();
 }
 
+vector<point> RightTriangle::getPoints() {
+	vector<point> points;
+	points.push_back(point1);
+	points.push_back(point2);
+	points.push_back(point3);
+	return points;
+}
+
+void RightTriangle::matching_detection(game* pGame) {
+	//shape* predicate = pGame->getGrid()->getRandomShape(); //replace active shape with random shape
+	/*if (getPoints() == predicate->getPoints()) {
+		score += 2;
+		return true;
+	}
+	else {
+		score -= 1;
+		return false;
+	}*/
+}
 
 point rotate_coordinates(point coords, double angle, point origin) {
 	double rad_angle = angle * 3.141592653 / 180;

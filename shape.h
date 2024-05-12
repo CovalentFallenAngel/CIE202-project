@@ -8,6 +8,11 @@ class game;     //forward declaration
 struct point
 {
 	int x, y;
+
+public:
+	friend bool operator==(const point& lhs, const point& rhs) {
+		return (abs(lhs.x - rhs.x) <= 5 && abs(lhs.y - rhs.y) <= 5);
+	}
 };
 
 
@@ -33,8 +38,9 @@ protected:
 	color fillColor;	//shape fill color
 	color borderColor;	//shape border color
 	int rotation_angle;
+	bool isComposite;
 public:
-    shape(game* r_pGame, point ref);
+    shape(game* r_pGame, point ref, bool isComposite = false);
     virtual void draw(int x) const = 0;//for a shape to draw itself on the screen
 	void setRefPoint(point p);
 	void setcolor(color c);
@@ -44,6 +50,7 @@ public:
 	point getPosition() const;
 	virtual void rotate(point reference);
 	virtual void resize(double factor, point composite_reference) = 0;
+	virtual void matching_detection(game* pGame) = 0;
 	virtual void move(char c) = 0;
 	virtual void flip();
 

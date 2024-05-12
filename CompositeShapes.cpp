@@ -1,10 +1,11 @@
 #include "CompositeShapes.h"
 #include "gameConfig.h"
+#include "game.h"
 
 point reference_shift(point refc, point refb, double factor);
 
 ////////////////////////////////////////////////////  class Sign  ///////////////////////////////////////
-Sign::Sign(game* r_pGame, point ref) :shape(r_pGame, ref)
+Sign::Sign(game* r_pGame, point ref) :shape(r_pGame, ref, true)
 {
 	//calc the ref point of the Sign base and top rectangles relative to the Sign shape
 	topRef = ref;	//top rect ref is the same as the sign
@@ -45,14 +46,21 @@ void Sign::resize(double factor, point composite_reference) {
 void Sign::rotate(point reference) {
 	base->rotate(RefPoint);
 	top->rotate(RefPoint);
+	pGame->increment_steps();
 }
 
 void Sign::flip() {
 	base->flip(RefPoint);
 	top->flip(RefPoint);
+	pGame->increment_steps();
 }
 
-Home::Home(game* r_pGame, point ref) :shape(r_pGame, ref) {
+void Sign::matching_detection(game* pGame) {
+	base->matching_detection(pGame);
+	top->matching_detection(pGame);
+}
+
+Home::Home(game* r_pGame, point ref) :shape(r_pGame, ref, true) {
 	topRef = ref;
 	baseRef = { ref.x,ref.y + config.Homeshape.side_length / 30 + config.Homeshape.basehght / 2 };
 	this->RefPoint = baseRef;
@@ -70,40 +78,54 @@ void Home::draw(int x) const {
 
 void Home::resize(double factor, point composite_reference)
 {
+
 	top->resize(factor, RefPoint);
 	base->resize(factor, RefPoint);
-
 	top->calculate_points(RefPoint);
 
 	topRef = top->getPosition();
-	baseRef = base->getPosition();
+	pGame->increment_steps();
+
 }
 
 void Home::move(char c)
 {
 	base->move(c);
 	top->move(c);
+
 	this->RefPoint = base->getPosition();
 
 	baseRef = base->getPosition();
 	topRef = top->getPosition();
+
 }
 
 void Home::rotate(point reference) {
 	base->rotate(RefPoint);
 	top->rotate(RefPoint);
+
+	baseRef = base->getPosition();
+	topRef = top->getPosition();
+	pGame->increment_steps();
+
 }
 
 void Home::flip() {
 	base->flip(RefPoint);
 	top->flip(RefPoint);
 
-	RefPoint = base->getPosition();
 	baseRef = base->getPosition();
 	topRef = top->getPosition();
+	pGame->increment_steps();
+
 }
 
-Person::Person(game* r_pGame, point ref) : shape(r_pGame, ref)
+void Home::matching_detection(game* pGame) {
+	base->matching_detection(pGame);
+	top->matching_detection(pGame);
+}
+
+Person::Person(game* r_pGame, point ref) : shape(r_pGame, ref, true)
 {
 	// calculate the reference points of the pearson body parts relative to the Pearson shape
 	headRef = { ref.x ,ref.y - 15 };                                 // head ref is the same as the pearson
@@ -143,6 +165,8 @@ void Person::rotate(point reference) {
 	Rarm->rotate(RefPoint);
 	Lleg->rotate(RefPoint);
 	Rleg->rotate(RefPoint);
+	pGame->increment_steps();
+
 }
 
 void Person::flip() {
@@ -159,6 +183,8 @@ void Person::flip() {
 	rightArmRef = Rarm->getPosition();
 	leftLegRef = Lleg->getPosition();
 	rightLegRef = Rleg->getPosition();
+	pGame->increment_steps();
+
 }
 
 void Person::resize(double factor, point composite_reference)
@@ -182,6 +208,8 @@ void Person::resize(double factor, point composite_reference)
 	rightArmRef = Rarm->getPosition();
 	leftLegRef = Lleg->getPosition();
 	rightLegRef = Rleg->getPosition();
+	pGame->increment_steps();
+
 }
 
 
@@ -202,9 +230,19 @@ void Person::move(char c)
 	rightArmRef = Rarm->getPosition();
 	leftLegRef = Lleg->getPosition();
 	rightLegRef = Rleg->getPosition();
+
 }
 
-ice_cream::ice_cream(game* r_pGame, point ref) : shape(r_pGame, ref) {
+void Person::matching_detection(game* pGame) {
+	head->matching_detection(pGame);
+	body->matching_detection(pGame);
+	Larm->matching_detection(pGame);
+	Rarm->matching_detection(pGame);
+	Lleg->matching_detection(pGame);
+	Rleg->matching_detection(pGame);
+}
+
+ice_cream::ice_cream(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
 	scoopRef = { ref.x,ref.y };
 	coneRef = { ref.x + config.ice_cream.side_lenght - 50 ,ref.y + 8 };
 	RefPoint = scoopRef;
@@ -224,30 +262,39 @@ void ice_cream::draw(int x) const
 
 void ice_cream::move(char c)
 {
-	scoop->move(c);
 	cone->move(c);
+	scoop->move(c);
 
-	RefPoint = scoop->getPosition();
-	scoopRef = scoop->getPosition();
+	this->RefPoint = scoop->getPosition();
+
 	coneRef = cone->getPosition();
+	scoopRef = scoop->getPosition();
+
 }
 
 void ice_cream::resize(double factor, point composite_reference)
 {
-
-	cone->resize(factor, RefPoint);
 	scoop->resize(factor, RefPoint);
+	cone->resize(factor, RefPoint);
+	cone->setRefPoint(reference_shift(RefPoint, cone->getPosition(), factor));
 
 	cone->calculate_points(RefPoint);
 
 	coneRef = cone->getPosition();
 	scoopRef = scoop->getPosition();
+	pGame->increment_steps();
+
 
 }
 
 void ice_cream::rotate(point reference) {
 	scoop->rotate(RefPoint);
 	cone->rotate(RefPoint);
+
+	scoopRef = scoop->getPosition();
+	coneRef = cone->getPosition();
+	pGame->increment_steps();
+
 }
 
 void ice_cream::flip() {
@@ -257,9 +304,16 @@ void ice_cream::flip() {
 	RefPoint = scoop->getPosition();
 	scoopRef = scoop->getPosition();
 	coneRef = cone->getPosition();
+	pGame->increment_steps();
+
 }
 
-Tree::Tree(game* r_pGame, point ref) : shape(r_pGame, ref) { 
+void ice_cream::matching_detection(game* pGame) {
+	cone->matching_detection(pGame);
+	scoop->matching_detection(pGame);
+}
+
+Tree::Tree(game* r_pGame, point ref) : shape(r_pGame, ref, true) { 
 	T1Ref = { ref.x + config.Tree.side_length - 50,ref.y };
 	T2Ref = { ref.x + config.Tree.side_length - 50,ref.y - 10 };
 	T3Ref = { ref.x + config.Tree.side_length - 50,ref.y - 20 };
@@ -301,6 +355,7 @@ void Tree::move(char c)
 	T1Ref = T1->getPosition();
 	T2Ref = T2->getPosition();
 	T3Ref = T3->getPosition();
+
 }
 
 void Tree::resize(double factor, point composite_reference)
@@ -318,6 +373,8 @@ void Tree::resize(double factor, point composite_reference)
 	T2Ref = T2->getPosition();
 	T3Ref = T3->getPosition();
 	bodyRef = body->getPosition();
+	pGame->increment_steps();
+
 }
 
 void Tree::rotate(point reference) {
@@ -325,6 +382,8 @@ void Tree::rotate(point reference) {
 	T1->rotate(RefPoint);
 	T2->rotate(RefPoint);
 	T3->rotate(RefPoint);
+	pGame->increment_steps();
+
 }
 
 void Tree::flip() {
@@ -339,9 +398,18 @@ void Tree::flip() {
 	T1Ref = T1->getPosition();
 	T2Ref = T2->getPosition();
 	T3Ref = T3->getPosition();
+	pGame->increment_steps();
+
 }
 
-Rocket::Rocket(game* r_pGame, point ref) : shape(r_pGame, ref) {
+void Tree::matching_detection(game* pGame) {
+	body->matching_detection(pGame);
+	T1->matching_detection(pGame);
+	T2->matching_detection(pGame);
+	T3->matching_detection(pGame);
+}
+
+Rocket::Rocket(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
 	T1Ref = { ref.x + config.Rocket.side_length - 70,ref.y - 10 };
 	T2Ref = { ref.x + config.Rocket.Rbase_length - 65,ref.y + 35 };
 	T3Ref = { ref.x + config.Rocket.Lbase_length - 40,ref.y + 35 };
@@ -387,6 +455,8 @@ void Rocket::resize(double factor, point composite_reference)
 	T2Ref = T2->getPosition();
 	T3Ref = T3->getPosition();
 	bodyRef = body->getPosition();
+	pGame->increment_steps();
+
 }
 
 void Rocket::move(char c)
@@ -402,6 +472,7 @@ void Rocket::move(char c)
 	T1Ref = T1->getPosition();
 	T2Ref = T2->getPosition();
 	T3Ref = T3->getPosition();
+
 }
 
 void Rocket::rotate(point reference) {
@@ -409,6 +480,8 @@ void Rocket::rotate(point reference) {
 	T1->rotate(RefPoint);
 	T2->rotate(RefPoint);
 	T3->rotate(RefPoint);
+	pGame->increment_steps();
+
 }
 
 void Rocket::flip() {
@@ -423,9 +496,18 @@ void Rocket::flip() {
 	T1Ref = T1->getPosition();
 	T2Ref = T2->getPosition();
 	T3Ref = T3->getPosition();
+	pGame->increment_steps();
+
 }
 
-Car::Car(game* r_pGame, point ref) :shape(r_pGame, ref)
+void Rocket::matching_detection(game* pGame) {
+	T1->matching_detection(pGame);
+	T2->matching_detection(pGame);
+	T3->matching_detection(pGame);
+	body->matching_detection(pGame);
+}
+
+Car::Car(game* r_pGame, point ref) :shape(r_pGame, ref, true)
 {
 	T1Ref = { ref.x + config.Car.T1base_length - 95,ref.y - 20 };
 	C1Ref = { ref.x + config.Car.Radius - 100,ref.y + 25 };
@@ -474,6 +556,7 @@ void Car::move(char c)
 	R2Ref = R2->getPosition();
 	C1Ref = C1->getPosition();
 	C2Ref = C2->getPosition();
+
 }
 
 
@@ -496,6 +579,8 @@ void Car::resize(double factor, point composite_reference)
 	R2Ref = R2->getPosition();
 	C1Ref = C1->getPosition();
 	C2Ref = C2->getPosition();
+	pGame->increment_steps();
+
 }
 
 void Car::rotate(point reference) {
@@ -504,6 +589,8 @@ void Car::rotate(point reference) {
 	R2->rotate(RefPoint);
 	C1->rotate(RefPoint);
 	C2->rotate(RefPoint);
+	pGame->increment_steps();
+
 }
 
 void Car::flip() {
@@ -520,6 +607,16 @@ void Car::flip() {
 	R2Ref = R2->getPosition();
 	C1Ref = C1->getPosition();
 	C2Ref = C2->getPosition();
+	pGame->increment_steps();
+
+}
+
+void Car::matching_detection(game* pGame) {
+	T1->matching_detection(pGame);
+	R1->matching_detection(pGame);
+	R2->matching_detection(pGame);
+	C1->matching_detection(pGame);
+	C2->matching_detection(pGame);
 }
 
 point reference_shift(point refc, point refb, double factor) {

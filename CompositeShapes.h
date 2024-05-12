@@ -35,6 +35,8 @@ public:
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
+	void matching_detection(game* pGame) override;
+
 };
 
 class Home : public shape {
@@ -51,6 +53,8 @@ public:
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
+	void matching_detection(game* pGame) override;
+
 };
 
 class Person : public shape {
@@ -74,6 +78,8 @@ public:
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
+	void matching_detection(game* pGame) override;
+
 };
 
 class ice_cream :public shape {
@@ -89,6 +95,7 @@ public:
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
+	void matching_detection(game* pGame) override;
 };
 
 class Tree :public shape {
@@ -109,6 +116,7 @@ public:
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
+	void matching_detection(game* pGame) override;
 };
 
 class Rocket :public shape {
@@ -125,6 +133,7 @@ public:
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
+	void matching_detection(game* pGame) override;
 };
 
 class Car : public shape {
@@ -146,4 +155,6 @@ public:
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
+	void matching_detection(game* pGame) override;
+
 }; 
