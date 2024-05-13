@@ -13,6 +13,7 @@ game::game()
 	steps = 0;
 	sec = 11;
 	act = 16;
+	xsteps = 80;
 
 	//Create the main window
 	createWind(config.windWidth, config.windHeight, config.wx, config.wy);
@@ -51,6 +52,8 @@ int game::getScore() const {
 	return score;
 }
 
+int game::get_xsteps() const { return xsteps; }
+
 int game::get_steps() const { return steps; }
 
 void game::setScore(int s) { score = s; }
@@ -64,9 +67,19 @@ void game::increment_steps() {
 	steps++;
 	pWind->SetPen(config.bkGrndColor);
 	pWind->SetBrush(config.bkGrndColor);
-	pWind->DrawRectangle(xInteger + 100, 0, 1320, 40);
+	pWind->DrawRectangle(xInteger + 100, 0, 1320, 20);
 	pWind->SetPen(BLACK);
 	pWind->DrawInteger(xInteger + 100, 0, steps);
+}
+
+void game::decrement_steps() {
+	int xInteger = config.toolbarItemWidth * 17 + 65;
+	xsteps--;
+	pWind->SetPen(config.bkGrndColor);
+	pWind->SetBrush(config.bkGrndColor);
+	pWind->DrawRectangle(xInteger + 100, 40, 1320, 60);
+	pWind->SetPen(BLACK);
+	pWind->DrawInteger(xInteger + 100, 40, xsteps);
 }
 
 void game::setsec(int s) { sec = s; }
@@ -77,20 +90,43 @@ void game::setact(int a) { act = a; }
 
 void game::thinkTimer(int xInteger, game* pGame)
 {
-	while (sec > 0) {
-		clock_t stop = clock() + CLOCKS_PER_SEC;
-		while (clock() < stop) {}
-		sec--;
-		pWind->SetPen(config.bkGrndColor);
-		pWind->SetBrush(config.bkGrndColor);
-		pWind->DrawRectangle(xInteger + 100, 20, 1320, 40);
-		pWind->SetPen(BLACK);
-		pWind->DrawInteger(xInteger + 100, 20, sec);
+	keytype kin;
+	char c;
+	kin = pWind->WaitKeyPress(c);
+	pWind->FlushKeyQueue();
+	if (shapesGrid->getActiveShape() != nullptr){
+		if (kin == 1) {
+			//k = pWind->WaitKeyPress(c);
+			while (sec > 0) {
+				clock_t stop = clock() + CLOCKS_PER_SEC;
+				while (clock() < stop) {}
+				sec--;
+				pWind->SetPen(config.bkGrndColor);
+				pWind->SetBrush(config.bkGrndColor);
+				pWind->DrawRectangle(xInteger + 100, 20, 1320, 40);
+				pWind->SetPen(BLACK);
+				pWind->DrawInteger(xInteger + 100, 20, sec);
+			}
+			thread act_thread(&game::actTimer, pGame, xInteger);
+			act_thread.detach();
+		}
 	}
-	//startacting = true;
-	thread act_thread(&game::actTimer, pGame, xInteger);
-	act_thread.detach();
+
+	//else if (k == 2 || k == 4 || k == 6 || k == 8) {
+	//	getGrid()->getActiveShape()->move(c);
+	//}
+
+		//startacting = true;
+	//thread act_thread(&game::actTimer, pGame, xInteger);
+	//act_thread.detach();
 }
+
+//void game::levelup(game* pGame) {
+//	if (sh->matching_detection(pGame) == true) {
+//		int l = pGame->getLevel();
+//		pGame->setLevel(l++);
+//	}
+//}
 
 void game::actTimer(int xInteger){
 	while (act > 0) {
@@ -103,6 +139,16 @@ void game::actTimer(int xInteger){
 		pWind->SetPen(BLACK);
 		pWind->DrawInteger(xInteger + 100, 20, act);
 	}
+
+	//if (act == 0 && sh->matching_detection(pGame) == false) {
+	//	score--;
+	//	lives--;
+	//}
+
+	//else if (act > 0 && sh->matching_detection(pGame) == true) {
+	//	score += 2;
+	//	lives ++;
+	//}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -307,14 +353,14 @@ void game::run()
 				//4-Redraw the grid after each action
 				shapesGrid->draw();
 
-			//}
-		}
-		
+			}
 
-		operMove* p1;
-		p1 = new operMove(this);
-		thread new_thread(&operMove::Act, p1);
-		new_thread.detach();
+		//}
+
+			operMove* p1;
+			p1 = new operMove(this);
+			thread new_thread(&operMove::Act, p1);
+			new_thread.detach();
 		
 	} while (clickedItem!=ITM_EXIT);
 }

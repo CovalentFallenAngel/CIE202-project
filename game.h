@@ -13,13 +13,13 @@ class game
 	/// Add more members if needed
 	//chicco 
 	// santa
+	shape* sh;
 	toolbar* gameToolbar;
 	
 	window* pWind;	//Pointer to the CMU graphics window
 	grid* shapesGrid;
-
 protected:
-	int level, lives, steps, score, sec, act;
+	int level, lives, steps, score, sec, act, xsteps;
 
 public:
 	game();
@@ -35,6 +35,7 @@ public:
 	int getScore() const;
 	int getLives()const;
 	int get_steps() const;
+	int get_xsteps() const;
 	void setScore(int s);
 	void setLevel(int lev);
 	void setLives(int live);
@@ -46,6 +47,8 @@ public:
 	window* getWind() const;		//returns a pointer to the graphics window
 	grid* getGrid() const;		//returns a pointer to the shapes grid
 	toolbar* getToolBar() const;
+	void decrement_steps();
+	//void levelup(game* pGame);
 
 	//creates an operation according to the toolbar item clicked
 	operation* createRequiredOperation(toolbarItem clickedItem);

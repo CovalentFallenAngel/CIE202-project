@@ -50,13 +50,17 @@ toolbar::toolbar(game* pG)
 	pWind->DrawString(xString, 40, "Score =  ");
 	pWind->DrawString(xString + 100, 0, "Steps =  ");
 	pWind->DrawString(xString + 100, 20, "Timer = ");
+	pWind->DrawString(xString + 100, 40, "xsteps = ");
 
 	int xInteger = (xString + 65);
 	pWind->DrawInteger(xString, 0, pGame->getLives());
 	pWind->DrawInteger(xInteger, 20, pGame->getLevel());
 	pWind->DrawInteger(xInteger, 40, pGame->getScore());
 	pWind->DrawInteger(xInteger + 100, 0, pGame->get_steps());
-	//pGame->thinkTimer(xInteger, pGame);
+	pWind->DrawInteger(xInteger + 100, 40, pGame->get_xsteps());
+	thread think_thread(&game::thinkTimer, pGame, xInteger, pGame);
+	think_thread.detach();
+
 
 
 	//Draw a line under the toolbar
