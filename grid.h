@@ -1,5 +1,6 @@
 #pragma once
 #include "CompositeShapes.h"
+#include "operations.h"
 
 class game;
 
@@ -28,5 +29,7 @@ public:
 	shape* getActiveShape();
 	void Delete();
 	//void moveActiveShape(int dx, int dy);
+
+	friend void operSave::Act();
 };
 

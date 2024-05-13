@@ -1,6 +1,8 @@
 #include "CompositeShapes.h"
 #include "gameConfig.h"
 #include "game.h"
+#include <iostream>
+#include <fstream>
 
 point reference_shift(point refc, point refb, double factor);
 
@@ -58,6 +60,14 @@ void Sign::flip() {
 void Sign::matching_detection(game* pGame) {
 	base->matching_detection(pGame);
 	top->matching_detection(pGame);
+}
+
+void Sign::saveOrnaments(ofstream& file) {
+	file << pGame->getScore();
+	file << pGame->getLevel();
+	file << pGame->getLives();
+	top->saveOrnaments(file);
+	base->saveOrnaments(file);
 }
 
 Home::Home(game* r_pGame, point ref) :shape(r_pGame, ref, true) {
@@ -125,6 +135,14 @@ void Home::flip() {
 void Home::matching_detection(game* pGame) {
 	base->matching_detection(pGame);
 	top->matching_detection(pGame);
+}
+
+void Home::saveOrnaments(ofstream& file) {
+	file << pGame->getScore();
+	file << pGame->getLevel();
+	file << pGame->getLives();
+	top->saveOrnaments(file);
+	base->saveOrnaments(file);
 }
 
 Person::Person(game* r_pGame, point ref) : shape(r_pGame, ref, true)
@@ -244,6 +262,18 @@ void Person::matching_detection(game* pGame) {
 	Rleg->matching_detection(pGame);
 }
 
+void Person::saveOrnaments(ofstream& file) {
+	file << pGame->getScore();
+	file << pGame->getLevel();
+	file << pGame->getLives();
+	head->saveOrnaments(file);
+	body->saveOrnaments(file);
+	Larm->saveOrnaments(file);
+	Rarm->saveOrnaments(file);
+	Lleg->saveOrnaments(file);
+	Rleg->saveOrnaments(file);
+}
+
 ice_cream::ice_cream(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
 	scoopRef = { ref.x,ref.y };
 	coneRef = { ref.x + config.ice_cream.side_lenght - 50 ,ref.y + 8 };
@@ -309,6 +339,14 @@ void ice_cream::flip() {
 	coneRef = cone->getPosition();
 	pGame->increment_steps();
 
+}
+
+void ice_cream::saveOrnaments(ofstream& file) {
+	file << pGame->getScore();
+	file << pGame->getLevel();
+	file << pGame->getLives();
+	cone->saveOrnaments(file);
+	scoop->saveOrnaments(file);
 }
 
 void ice_cream::matching_detection(game* pGame) {
@@ -417,6 +455,16 @@ void Tree::matching_detection(game* pGame) {
 	T3->matching_detection(pGame);
 }
 
+void Tree::saveOrnaments(ofstream& file) {
+	file << pGame->getScore();
+	file << pGame->getLevel();
+	file << pGame->getLives();
+	body->saveOrnaments(file);
+	T1->saveOrnaments(file);
+	T2->saveOrnaments(file);
+	T3->saveOrnaments(file);
+}
+
 Rocket::Rocket(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
 	T1Ref = { ref.x + config.Rocket.side_length - 70,ref.y - 10 };
 	T2Ref = { ref.x + config.Rocket.Rbase_length - 65,ref.y + 35 };
@@ -513,6 +561,16 @@ void Rocket::matching_detection(game* pGame) {
 	T2->matching_detection(pGame);
 	T3->matching_detection(pGame);
 	body->matching_detection(pGame);
+}
+
+void Rocket::saveOrnaments(ofstream& file) {
+	file << pGame->getScore();
+	file << pGame->getLevel();
+	file << pGame->getLives();
+	body->saveOrnaments(file);
+	T1->saveOrnaments(file);
+	T2->saveOrnaments(file);
+	T3->saveOrnaments(file);
 }
 
 Car::Car(game* r_pGame, point ref) :shape(r_pGame, ref, true)
@@ -625,6 +683,17 @@ void Car::matching_detection(game* pGame) {
 	R2->matching_detection(pGame);
 	C1->matching_detection(pGame);
 	C2->matching_detection(pGame);
+}
+
+void Car::saveOrnaments(ofstream& file) {
+	file << pGame->getScore();
+	file << pGame->getLevel();
+	file << pGame->getLives();
+	T1->saveOrnaments(file);
+	R1->saveOrnaments(file);
+	R2->saveOrnaments(file);
+	C1->saveOrnaments(file);
+	C2->saveOrnaments(file);
 }
 
 point reference_shift(point refc, point refb, double factor) {

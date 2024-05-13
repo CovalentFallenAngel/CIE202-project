@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 using namespace std;
+#include <iostream>
+#include <fstream>
 #include "CMUgraphicsLib\CMUgraphics.h"
 
 class game;     //forward declaration
@@ -39,6 +41,9 @@ protected:
 	color borderColor;	//shape border color
 	int rotation_angle;
 	bool isComposite;
+	int rotations = 0;
+	int flips = 0;
+	int resizes;
 public:
     shape(game* r_pGame, point ref, bool isComposite = false);
     virtual void draw(int x) const = 0;//for a shape to draw itself on the screen
@@ -53,6 +58,7 @@ public:
 	virtual void matching_detection(game* pGame) = 0;
 	virtual void move(char c) = 0;
 	virtual void flip();
+	virtual void saveOrnaments(ofstream& file) = 0;
 
 };
 

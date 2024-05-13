@@ -5,6 +5,7 @@
 #include <limits>
 #include <sstream>
 #include <iostream>
+#include <memory>
 
 /////////////////////////////////// class operation  //////////////////
 operation::operation(game* r_pGame)
@@ -278,18 +279,15 @@ operSave::operSave(game* r_pGame) :operation(r_pGame)
 }
 void operSave::Act()
 {
+	ofstream file("saved_data.txt");
+	int num = pGame->getGrid()->shapeCount;
+	for (int i = 0; i < num; i++) {
+		if (pGame->getGrid()->shapeList[i]) {
+			pGame->getGrid()->shapeList[i]->saveOrnaments(file);
+		}
+	}
+	file.close();
 }
-
-//void operSave::Actmain(string filename)
-//{
-//	std::ofstream outfile(filename);
-//	outfile << "Player score: " << pGame->getScore() << "\n";
-//	outfile << "Levels completed: " << pGame->getLevel() << "\n";
-//	outfile << "Lives: " << pGame->getLives() << "\n";
-//	outfile << "\n";
-//
-//	outfile.close();
-//}
 
 operLoad::operLoad(game* r_pGame) :operation(r_pGame)
 {
@@ -298,9 +296,7 @@ operLoad::operLoad(game* r_pGame) :operation(r_pGame)
 void operLoad::Act()
 {
 }
-//void operLoad::Actmain(string filename) {
-//
-//}
+
 
 operMove::operMove(game* r_pGame) : operation(r_pGame)
 {
