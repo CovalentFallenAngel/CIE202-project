@@ -84,7 +84,6 @@ public:
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip(point reference);
-	virtual void calculate_points(point composite_reference);
 	virtual void calculate_reference();
 	void matching_detection(game* pGame) override;
 	virtual vector<point> getPoints();
@@ -105,7 +104,6 @@ public:
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip(point reference);
-	virtual void calculate_points(point composite_reference);
 	virtual void calculate_reference();
 	virtual vector<point> getPoints();
 	void matching_detection(game* pGame) override;

@@ -78,10 +78,12 @@ void Home::draw(int x) const {
 
 void Home::resize(double factor, point composite_reference)
 {
+	top->setRefPoint(reference_shift(composite_reference, top->getPosition(), factor));
 
 	top->resize(factor, RefPoint);
 	base->resize(factor, RefPoint);
-	top->calculate_points(RefPoint);
+
+	//top->calculate_points(RefPoint);
 
 	topRef = top->getPosition();
 	pGame->increment_steps();
@@ -274,11 +276,12 @@ void ice_cream::move(char c)
 
 void ice_cream::resize(double factor, point composite_reference)
 {
-	scoop->resize(factor, RefPoint);
-	cone->resize(factor, RefPoint);
 	cone->setRefPoint(reference_shift(RefPoint, cone->getPosition(), factor));
 
-	cone->calculate_points(RefPoint);
+	scoop->resize(factor, RefPoint);
+	cone->resize(factor, RefPoint);
+
+	//cone->calculate_points(RefPoint);
 
 	coneRef = cone->getPosition();
 	scoopRef = scoop->getPosition();
@@ -360,14 +363,19 @@ void Tree::move(char c)
 
 void Tree::resize(double factor, point composite_reference)
 {
+	T1->setRefPoint(reference_shift(composite_reference, T1->getPosition(), factor));
+	T2->setRefPoint(reference_shift(composite_reference, T2->getPosition(), factor));
+	T3->setRefPoint(reference_shift(composite_reference, T3->getPosition(), factor));
+	body->setRefPoint(reference_shift(composite_reference, body->getPosition(), factor));
+
 	T1->resize(factor, RefPoint);
 	T2->resize(factor, RefPoint);
 	T3->resize(factor, RefPoint);
 	body->resize(factor, RefPoint);
 
-	T1->calculate_points(RefPoint);
-	T2->calculate_points(RefPoint);
-	T3->calculate_points(RefPoint);
+	//T1->calculate_points(RefPoint);
+	//T2->calculate_points(RefPoint);
+	//T3->calculate_points(RefPoint);
 
 	T1Ref = T1->getPosition();
 	T2Ref = T2->getPosition();
@@ -441,15 +449,15 @@ void Rocket::draw(int x) const
 
 void Rocket::resize(double factor, point composite_reference)
 {
+	T1->setRefPoint(reference_shift(RefPoint, T1->getPosition(), factor));
+	T2->setRefPoint(reference_shift(RefPoint, T2->getPosition(), factor));
+	T3->setRefPoint(reference_shift(RefPoint, T3->getPosition(), factor));
+	body->setRefPoint(reference_shift(RefPoint, body->getPosition(), factor));
 
 	T1->resize(factor, RefPoint);
 	T2->resize(factor, RefPoint);
 	T3->resize(factor, RefPoint);
 	body->resize(factor, RefPoint);
-
-	T1->calculate_points(RefPoint);
-	T2->calculate_points(RefPoint);
-	T3->calculate_points(RefPoint);
 
 	T1Ref = T1->getPosition();
 	T2Ref = T2->getPosition();

@@ -249,7 +249,7 @@ void circle::matching_detection(game* pGame) {
 	//shape* predicate = pGame->getGrid()->getRandomShape(); //replace active shape with random shape
 	/*if (rad == predicate->getRadius() && RefPoint == predicate->getPosition()) {
 		score += 2;
-		return true;
+		return true; 
 	}
 	else {
 		score -= 1;
@@ -258,25 +258,6 @@ void circle::matching_detection(game* pGame) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-
-void EqTriangle::calculate_points(point composite_reference) { 
-	RefPoint = rotate_coordinates(RefPoint, -rotation_angle, composite_reference);
-
-	point1.x = RefPoint.x + side_length / 2;
-	point1.y = RefPoint.y;
-	point2.x = RefPoint.x - side_length / 2;
-	point2.y = RefPoint.y;
-	point3.x = RefPoint.x;
-	point3.y = RefPoint.y - sqrt(3) / 2 * side_length;
-
-	point1 = rotate_coordinates(point1, rotation_angle, composite_reference);
-	point2 = rotate_coordinates(point2, rotation_angle, composite_reference);
-	point3 = rotate_coordinates(point3, rotation_angle, composite_reference);
-
-	RefPoint = rotate_coordinates(RefPoint, rotation_angle, composite_reference);
-
-
-}
 
 void EqTriangle::calculate_reference() {
 	point1 = rotate_coordinates(point1, -rotation_angle, composite_reference);
@@ -412,6 +393,9 @@ void EqTriangle::resize(double factor, point composite_reference) {
 	this->side_length *= factor;
 
 	setRefPoint(resize_points(RefPoint, composite_reference, factor));
+	point1 = resize_points(point1, composite_reference, factor);
+	point2 = resize_points(point2, composite_reference, factor);
+	point3 = resize_points(point3, composite_reference, factor);
 }
 
 vector<point> EqTriangle::getPoints() {
@@ -434,49 +418,13 @@ void EqTriangle::matching_detection(game* pGame) {
 
 ////////////////////////////////////////////////////  class RightTriangle  ///////////////////////////////////////
 
-void RightTriangle::calculate_points(point composite_reference) {
-	RefPoint = rotate_coordinates(RefPoint, -rotation_angle, composite_reference);
-	if (x == 1) {
-		point1.x = RefPoint.x;
-		point1.y = RefPoint.y;
-		point2.x = RefPoint.x;
-		point2.y = RefPoint.y + base_length;
-		point3.x = RefPoint.x + height;
-		point3.y = RefPoint.y + base_length;
-	}
-	else if (x == 3)
-	{
-		point1.x = RefPoint.x;
-		point1.y = RefPoint.y;
-		point2.x = RefPoint.x - base_length;
-		point2.y = RefPoint.y;
-		point3.x = RefPoint.x - base_length;
-		point3.y = RefPoint.y - height;
-
-	}
-	else {
-		point1.x = RefPoint.x;
-		point1.y = RefPoint.y;
-		point2.x = RefPoint.x - height;
-		point2.y = RefPoint.y + base_length;
-		point3.x = RefPoint.x;
-		point3.y = RefPoint.y + base_length;
-	}
-
-	point1 = rotate_coordinates(point1, rotation_angle, composite_reference);
-	point2 = rotate_coordinates(point2, rotation_angle, composite_reference);
-	point3 = rotate_coordinates(point3, rotation_angle, composite_reference);
-	RefPoint = rotate_coordinates(RefPoint, rotation_angle, composite_reference);
-	
-}
-
 void RightTriangle::calculate_reference() {
-	point1 = rotate_coordinates(point1, -rotation_angle, composite_reference);
+	//point1 = rotate_coordinates(point1, -rotation_angle, composite_reference);
 	RefPoint.x = point1.x;
 	RefPoint.y = point1.y;
 
 	RefPoint = rotate_coordinates(RefPoint, rotation_angle, composite_reference);
-	point1 = rotate_coordinates(point1, rotation_angle, composite_reference);
+	//point1 = rotate_coordinates(point1, rotation_angle, composite_reference);
 }
 
 RightTriangle::RightTriangle(game* r_pGame, point ref, int BL, int H, int x) :shape(r_pGame, ref) {
@@ -502,7 +450,6 @@ RightTriangle::RightTriangle(game* r_pGame, point ref, int BL, int H, int x) :sh
 		point2.y = RefPoint.y;
 		point3.x = RefPoint.x - base_length;
 		point3.y = RefPoint.y - height;
-
 	}
 	else {
 		point1.x = RefPoint.x;
@@ -527,7 +474,10 @@ void RightTriangle::resize(double factor, point composite_reference) {
 	this->height *= factor;
 	this->base_length *= factor;
 
-	this->calculate_points(composite_reference);
+	setRefPoint(resize_points(RefPoint, composite_reference, factor));
+	point1 = resize_points(point1, composite_reference, factor);
+	point2 = resize_points(point2, composite_reference, factor);
+	point3 = resize_points(point3, composite_reference, factor);
 }
 
 void RightTriangle::rotate(point reference) {
