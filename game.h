@@ -13,13 +13,14 @@ class game
 	/// Add more members if needed
 	//chicco 
 	// santa
+	shape* sh;
 	toolbar* gameToolbar;
 	
 	window* pWind;	//Pointer to the CMU graphics window
 	grid* shapesGrid;
 
 protected:
-	int level, lives, steps, score, sec, act;
+	int level, lives, steps, score, sec, act, xsteps;
 
 public:
 	game();
