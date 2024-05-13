@@ -17,10 +17,11 @@ class game
 	
 	window* pWind;	//Pointer to the CMU graphics window
 	grid* shapesGrid;
-	int level, lives, steps;
+
+protected:
+	int level, lives, steps, score, sec, act;
 
 public:
-	int score, sec, act;
 	game();
 	~game();
 
@@ -37,10 +38,10 @@ public:
 	void setScore(int s);
 	void setLevel(int lev);
 	void setLives(int live);
-	void game::setsec(int s);
-	void game::setact(int a);
-	void game::actTimer(int xInteger);
-	void game::thinkTimer(int xInteger, game* pGame);
+	void setsec(int s);
+	void setact(int a);
+	void actTimer(int xInteger);
+	void thinkTimer(int xInteger, game* pGame);
 	void increment_steps();
 	window* getWind() const;		//returns a pointer to the graphics window
 	grid* getGrid() const;		//returns a pointer to the shapes grid
@@ -48,6 +49,9 @@ public:
 
 	//creates an operation according to the toolbar item clicked
 	operation* createRequiredOperation(toolbarItem clickedItem);
+
+	friend void operSave::Act();
+	friend void operLoad::Act();
 
 
 

@@ -1,6 +1,8 @@
 #include "shape.h"
 #include "game.h"
 #include "gameConfig.h"
+#include <iostream>
+#include <fstream>
 #include <thread>
 
 shape::shape(game* r_pGame, point ref, bool isComposite)
@@ -58,4 +60,8 @@ void shape::flip() {
 }
 
 void shape::matching_detection(game* pGame) {
+}
+
+void shape::saveOrnaments(ofstream& file) {
+
 }
