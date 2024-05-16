@@ -58,9 +58,6 @@ toolbar::toolbar(game* pG)
 	pWind->DrawInteger(xInteger, 40, pGame->getScore());
 	pWind->DrawInteger(xInteger + 100, 0, pGame->get_steps());
 	pWind->DrawInteger(xInteger + 100, 40, pGame->get_xsteps());
-	thread think_thread(&game::thinkTimer, pGame, xInteger, pGame);
-	think_thread.detach();
-
 
 
 	//Draw a line under the toolbar

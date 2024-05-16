@@ -18,6 +18,7 @@ class game
 	
 	window* pWind;	//Pointer to the CMU graphics window
 	grid* shapesGrid;
+	thread think_thread;
 protected:
 	int level, lives, steps, score, sec, act, xsteps;
 
@@ -42,7 +43,7 @@ public:
 	void setsec(int s);
 	void setact(int a);
 	void actTimer(int xInteger);
-	void thinkTimer(int xInteger, game* pGame);
+	void thinkTimer(game* pGame);
 	void increment_steps();
 	window* getWind() const;		//returns a pointer to the graphics window
 	grid* getGrid() const;		//returns a pointer to the shapes grid

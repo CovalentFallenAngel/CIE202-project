@@ -88,15 +88,16 @@ void game::setact(int a) { act = a; }
 
 //bool startacting = false;
 
-void game::thinkTimer(int xInteger, game* pGame)
+void game::thinkTimer(game* pGame)
 {
-	keytype kin;
-	char c;
-	kin = pWind->WaitKeyPress(c);
-	pWind->FlushKeyQueue();
-	if (shapesGrid->getActiveShape() != nullptr){
-		if (kin == 1) {
-			//k = pWind->WaitKeyPress(c);
+	int xInteger = config.toolbarItemWidth * 17 + 65;
+	do {
+		keytype kin;
+		char c;
+		pWind->FlushKeyQueue();
+		pWind->FlushMouseQueue();
+		kin = pWind->WaitKeyPress(c);
+		if (shapesGrid->getActiveShape() != nullptr && c == '1') {
 			while (sec > 0) {
 				clock_t stop = clock() + CLOCKS_PER_SEC;
 				while (clock() < stop) {}
@@ -107,10 +108,9 @@ void game::thinkTimer(int xInteger, game* pGame)
 				pWind->SetPen(BLACK);
 				pWind->DrawInteger(xInteger + 100, 20, sec);
 			}
-			thread act_thread(&game::actTimer, pGame, xInteger);
-			act_thread.detach();
+			actTimer(xInteger);
 		}
-	}
+	} while (true);
 
 	//else if (k == 2 || k == 4 || k == 6 || k == 8) {
 	//	getGrid()->getActiveShape()->move(c);
@@ -327,6 +327,14 @@ void game::run()
 	//This function reads the position where the user clicks to determine the desired operation
 	int x, y;
 	bool isExit = false;
+
+	think_thread = thread(&game::thinkTimer, this, this);
+	think_thread.detach();
+
+	operMove* p1;
+	p1 = new operMove(this);
+	thread new_thread(&operMove::Act, p1);
+	new_thread.detach();
 	
 
 	//Change the title
@@ -354,13 +362,6 @@ void game::run()
 				shapesGrid->draw();
 
 			}
-
-		//}
-
-			operMove* p1;
-			p1 = new operMove(this);
-			thread new_thread(&operMove::Act, p1);
-			new_thread.detach();
 		
 	} while (clickedItem!=ITM_EXIT);
 }
