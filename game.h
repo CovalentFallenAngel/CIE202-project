@@ -17,6 +17,7 @@ class game
 	
 	window* pWind;	//Pointer to the CMU graphics window
 	grid* shapesGrid;
+	shape* newshape;
 	int level, lives, steps;
 
 public:

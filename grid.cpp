@@ -1,6 +1,8 @@
 #include "grid.h"
 #include "game.h"
 #include "gameConfig.h"
+#include<cstdlib>
+#include<time.h>
 
 
 grid::grid(point r_uprleft, int wdth, int hght, game* pG)
@@ -12,6 +14,7 @@ grid::grid(point r_uprleft, int wdth, int hght, game* pG)
 	rows = height / config.gridSpacing;
 	cols = width / config.gridSpacing;
 	shapeCount = 0;
+	srand(time(nullptr));
 
 	for (int i = 0; i < MaxShapeCount; i++)
 		shapeList[i] = nullptr;
@@ -76,6 +79,19 @@ void grid::clearGridArea() const
 	pWind->SetBrush(config.bkGrndColor);
 	pWind->DrawRectangle(uprLeft.x, uprLeft.y, uprLeft.x + width, uprLeft.y + height);
 }
+//point grid::randomPoint() {
+//	return point{ rand() % cols * config.gridSpacing + uprLeft.x, rand() % rows * config.gridSpacing + uprLeft.y };
+//}
+//point grid::randomPoint() {
+//	int x = rand() % (cols - 1) * config.gridSpacing + uprLeft.x;
+//	int y = rand() % (rows - 1) * config.gridSpacing + uprLeft.y;
+//	return point{ x, y };
+//}
+point grid::randomPoint() {
+	int x = 80+ rand() %(500-80+1) ;
+	int y = 80+ rand() % (1100-80+1);
+	return point{ x, y };
+}
 
 //Adds a shape to the randomly created shapes list.
 bool grid::addShape(shape* newShape)
@@ -94,6 +110,98 @@ void grid::setActiveShape(shape* actShape)
 {
 	activeShape = actShape;
 }
+
+int grid:: randomSize() {
+	double random = 1 + rand() % 6, rndsize = (1 / random);
+	return rndsize ; // Generate a random number between 20 and 70 (inclusive)
+}
+void grid::addRandomShape()
+{
+	// Generate a random shape type
+	int shapeType = /*rand() %*/ 3; // Generate a random number between 0 and 2 (inclusive)
+
+	// Generate a random point and size
+	point p = randomPoint();
+	int s = randomSize();
+	// Create a random shape based on the generated type, point
+	shape* newShape =nullptr;
+	switch (shapeType) {
+	case 1:
+		newShape = new Car(pGame, p);
+		break;
+	case 2:
+		newShape = new Home(pGame, p);
+		break;
+	case 3:
+		newShape = new Rocket(pGame, p,s);
+		break;
+	case 4:
+		newShape = new ice_cream(pGame, p);
+		break;
+	case 5:
+		newShape = new Person(pGame, p);
+		break;
+	case 6:
+		newShape = new Tree(pGame, p);
+		break;
+	}
+	addShape(newShape);
+}
+
 shape* grid::getActiveShape() {
 	return activeShape;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//int getRandomXPosition(int maxWidth) {
+//	return rand() % maxWidth; // Generate a random x position within the grid width
+//}
+//
+//int getRandomYPosition(int maxHeight) {
+//	return rand() % maxHeight; // Generate a random y position within the grid height
+//}
+//
+//int getRandomSize() {
+//	return rand() % 50 + 20; // Generate a random size between 20 and 70
+//}
+//bool grid::addRandomShape() {
+//	if (shapeCount >= MaxShapeCount)
+//		return false; // Max shape count reached
+//
+//	int x = getRandomXPosition(width);
+//	int y = getRandomYPosition(height);
+//	int size = getRandomSize();
+//	point ref = { ref.x,ref.y };
+//	game* r_pGame;
+//	shapeList[shapeCount++] = new Car(r_pGame,ref ); // Assuming Rectangle is the shape you want to use
+//
+//	return true;
+//}

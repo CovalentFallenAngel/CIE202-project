@@ -15,7 +15,7 @@ class grid
 	shape* shapeList[MaxShapeCount];	//2D array of shape pointers
 
 	shape* activeShape;	//The shape that the user works on to match to the ranom shapes
-
+	int rnd;
 	int shapeCount;		//current number of shapes in the list
 	game* pGame;
 public:
@@ -25,6 +25,13 @@ public:
 	void clearGridArea() const;
 	bool addShape(shape* newShape);
 	void setActiveShape(shape* actShape);
+	//int getRandomXPosition(int maxWidth);
+	//int getRandomYPosition(int maxHeight);
+	//int getRandomSize();
+	/*bool addRandomShape();*/
+	point randomPoint();
+	int randomSize();
+	void addRandomShape();
 	shape* getActiveShape();
 	void Delete();
 	//void moveActiveShape(int dx, int dy);

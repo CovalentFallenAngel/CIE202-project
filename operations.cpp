@@ -168,9 +168,9 @@ void operAddRocket::Act()
 
 	//take the aligned point as the Rocket shape ref point
 	point RocketShapeRef = { xGrid,yGrid };
-
+	int size = 1;
 	//create a Rocket shape
-	shape* shape = new Rocket(pGame, RocketShapeRef);
+	shape* shape = new Rocket(pGame, RocketShapeRef,size);
 
 	//Add the shape to the grid
 	pGrid->setActiveShape(shape);

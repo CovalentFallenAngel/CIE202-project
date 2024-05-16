@@ -270,6 +270,7 @@ string game::getString() const
 grid* game::getGrid() const
 {
 	// TODO: Add your implementation code here.
+
 	return shapesGrid;
 }
 
@@ -291,8 +292,9 @@ void game::run()
 		//printMessage("Ready...");
 		//1- Get user click
 		//if (startacting) {
+			shapesGrid->addRandomShape();
 			pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
-
+			
 			//2-Explain the user click
 			//If user clicks on the Toolbar, ask toolbar which item is clicked
 			if (y >= 0 && y < config.toolBarHeight)
@@ -306,6 +308,7 @@ void game::run()
 
 				//4-Redraw the grid after each action
 				shapesGrid->draw();
+				
 
 			//}
 		}

@@ -127,7 +127,7 @@ class Rocket :public shape {
 
 	point T1Ref, T2Ref, T3Ref, bodyRef;
 public:
-	Rocket(game* r_pgame, point ref);
+	Rocket(game* r_pgame, point ref,int size);
 	virtual void draw(int x =5) const;
 	virtual void move(char c) override;
 	virtual void resize(double factor, point composite_reference) override;

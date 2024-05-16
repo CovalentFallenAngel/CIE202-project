@@ -417,11 +417,11 @@ void Tree::matching_detection(game* pGame) {
 	T3->matching_detection(pGame);
 }
 
-Rocket::Rocket(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
-	T1Ref = { ref.x + config.Rocket.side_length - 70,ref.y - 10 };
-	T2Ref = { ref.x + config.Rocket.Rbase_length - 65,ref.y + 35 };
-	T3Ref = { ref.x + config.Rocket.Lbase_length - 40,ref.y + 35 };
-	bodyRef = { ref.x - config.Rocket.basewdth - 9, ref.y + config.Rocket.basehght - 45 };
+Rocket::Rocket(game* r_pGame, point ref,int size) : shape(r_pGame, ref, true) {
+	T1Ref = { (ref.x + config.Rocket.side_length - 70)*size,(ref.y - 10) * size };
+	T2Ref = { (ref.x + config.Rocket.Rbase_length - 65) * size,(ref.y + 35) * size };
+	T3Ref = { (ref.x + config.Rocket.Lbase_length - 40) * size,(ref.y + 35) * size };
+	bodyRef = { (ref.x - config.Rocket.basewdth - 9) * size, (ref.y + config.Rocket.basehght - 45) * size };
 	RefPoint = bodyRef;
 	T1 = new EqTriangle(r_pGame, T1Ref, config.Rocket.side_length, 1);
 	T2 = new RightTriangle(r_pGame, T2Ref, config.Rocket.Rbase_length, config.Rocket.Rhght, 2);
