@@ -266,7 +266,7 @@ operSGL::operSGL(game* r_pGame) :operation(r_pGame)
 }
 void operSGL::Act()
 {
-	window* pw = pGame->getWind();
+	
 	int level = stoi(pGame->getString());
 	pGame->setLevel(level);
 	toolbar* tb = pGame->getToolBar();

@@ -191,6 +191,7 @@ void game::createGrid()
 operation* game::createRequiredOperation(toolbarItem clickedItem)
 {
 	operation* op=nullptr;
+	if (op != nullptr) { delete op; }
 	switch (clickedItem)
 	{
 	case ITM_SIGN:
@@ -256,7 +257,6 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		op = new operSGL(this);
 		break;
 	case ITM_SAL:
-		
 		printMessage("You clicked on Save!");
 		op = new operSave(this);
 		break;
