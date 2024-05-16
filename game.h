@@ -13,15 +13,21 @@ class game
 	/// Add more members if needed
 	//chicco 
 	// santa
+	shape* sh;
 	toolbar* gameToolbar;
 	
 	window* pWind;	//Pointer to the CMU graphics window
 	grid* shapesGrid;
+<<<<<<< HEAD
 	shape* newshape;
 	int level, lives, steps;
+=======
+	thread think_thread;
+protected:
+	int level, lives, steps, score, sec, act, xsteps;
+>>>>>>> 054c5899b180fbfabb8d7de6d6d20fb9cc57b554
 
 public:
-	int score, sec, act;
 	game();
 	~game();
 
@@ -35,20 +41,26 @@ public:
 	int getScore() const;
 	int getLives()const;
 	int get_steps() const;
+	int get_xsteps() const;
 	void setScore(int s);
 	void setLevel(int lev);
 	void setLives(int live);
-	void game::setsec(int s);
-	void game::setact(int a);
-	void game::actTimer(int xInteger);
-	void game::thinkTimer(int xInteger, game* pGame);
+	void setsec(int s);
+	void setact(int a);
+	void actTimer(int xInteger);
+	void thinkTimer(game* pGame);
 	void increment_steps();
 	window* getWind() const;		//returns a pointer to the graphics window
 	grid* getGrid() const;		//returns a pointer to the shapes grid
 	toolbar* getToolBar() const;
+	void decrement_steps();
+	//void levelup(game* pGame);
 
 	//creates an operation according to the toolbar item clicked
 	operation* createRequiredOperation(toolbarItem clickedItem);
+
+	friend void operSave::Act();
+	friend void operLoad::Act();
 
 
 

@@ -1,6 +1,8 @@
 //Header file for Basic shapes in the game
 #pragma once
 #include "shape.h"
+#include <iostream>
+#include <fstream>
 #include <vector>
 
 ////////////////////////////////////////////////////  class Rect  ///////////////////////////////////////
@@ -29,6 +31,7 @@ public:
 	virtual void calculate_points();
 	virtual void calculate_reference();
 	virtual vector<point> getCorners();
+	virtual void saveOrnaments(ofstream& file) override;
 	void matching_detection(game* pGame) override;
 
 };
@@ -70,6 +73,7 @@ public:
 	virtual void rotate(point reference);
 	virtual void flip(point reference);
 	virtual double getRadius();
+	virtual void saveOrnaments(ofstream& file) override;
 	void matching_detection(game* pGame) override;
 
 };
@@ -85,6 +89,7 @@ public:
 	virtual void rotate(point reference);
 	virtual void flip(point reference);
 	virtual void calculate_reference();
+	virtual void saveOrnaments(ofstream& file) override;
 	void matching_detection(game* pGame) override;
 	virtual vector<point> getPoints();
 
@@ -106,6 +111,7 @@ public:
 	virtual void flip(point reference);
 	virtual void calculate_reference();
 	virtual vector<point> getPoints();
+	virtual void saveOrnaments(ofstream& file) override;
 	void matching_detection(game* pGame) override;
 
 private:

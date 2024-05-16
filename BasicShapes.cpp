@@ -1,6 +1,8 @@
 #include <vector>
 #include "BasicShapes.h"
 #include "gameConfig.h"
+#include <iostream>
+#include <fstream>
 #include "game.h"
 
 point rotate_coordinates(point coords, double angle, point origin);
@@ -47,6 +49,7 @@ void Rect::resize(double factor, point composite_reference) {
 	this->wdth *= factor;
 
 	this->calculate_points();
+	resizes++;
 }
 
 void Rect::rotate(point reference)
@@ -65,6 +68,7 @@ void Rect::rotate(point reference)
 
 	this->draw(1);
 
+	rotations++;
 }
 
 void Rect::flip(point reference)
@@ -84,6 +88,7 @@ void Rect::flip(point reference)
 
 		this->draw(1);
 	}
+	flips++;
 }
 
 
@@ -108,6 +113,17 @@ void Rect::move(char c) {
 	}
 
 	calculate_reference();
+}
+
+void Rect::saveOrnaments(ofstream& file) {
+	file << "Rect";
+	file << RefPoint.x;
+	file << RefPoint.y;
+	file << rotations;
+	file << flips;
+	file << resizes;
+	//file << config.fillColor;
+	//file << config.penColor;
 }
 
 vector<point> Rect::getCorners() {
@@ -208,6 +224,8 @@ void circle::draw(int x = 1) const
 
 void circle::resize(double factor, point composite_reference) {
 	this->rad *= factor;
+	resizes++;
+
 }
 
 
@@ -230,6 +248,7 @@ void circle::rotate(point reference)
 		this->RefPoint = rotate_coordinates(this->RefPoint, -90, reference);
 		this->draw(1);
 	}
+	rotations++;
 }
 
 
@@ -239,10 +258,23 @@ void circle::flip(point reference)
 		this->RefPoint = reflect_coordinates(this->RefPoint, reference);
 		this->draw(1);
 	}
+	flips++;
 }
 
 double circle::getRadius() {
 	return rad;
+}
+
+void circle::saveOrnaments(ofstream& file) {
+	file << "circle";
+	file << RefPoint.x;
+	file << RefPoint.y;
+	//file << rad;
+	file << rotations;
+	file << flips;
+	file << resizes;
+	//file << config.fillColor;
+	//file << config.penColor;
 }
 
 void circle::matching_detection(game* pGame) {
@@ -318,6 +350,7 @@ void EqTriangle::flip(point reference)
 
 		this->draw(1);
 	}
+	flips++;
 }
 
 void EqTriangle::rotate(point reference) {
@@ -338,6 +371,7 @@ void EqTriangle::rotate(point reference) {
 	calculate_reference();
 
 	this->draw(1);
+	rotations++;
 }
 
 ////////////////////////////////////////////////////  class triangle  ///////////////////////////////////////
@@ -375,6 +409,20 @@ void EqTriangle::move(char c) {
 	calculate_reference();
 }
 
+void EqTriangle::saveOrnaments(ofstream& file) {
+	file << "EqTriangle";
+	file << RefPoint.x;
+	file << RefPoint.y;
+	//file << point1;
+	//file << point2;
+	//file << point3;
+	file << rotations;
+	file << flips;
+	file << resizes;
+	//file << config.fillColor;
+	//file << config.penColor;
+}
+
 point resize_points(point p, point origin, double factor) {
 	point new_coords{}; new_coords.x = p.x; new_coords.y = p.y;
 
@@ -396,6 +444,8 @@ void EqTriangle::resize(double factor, point composite_reference) {
 	point1 = resize_points(point1, composite_reference, factor);
 	point2 = resize_points(point2, composite_reference, factor);
 	point3 = resize_points(point3, composite_reference, factor);
+	resizes++;
+
 }
 
 vector<point> EqTriangle::getPoints() {
@@ -478,6 +528,8 @@ void RightTriangle::resize(double factor, point composite_reference) {
 	point1 = resize_points(point1, composite_reference, factor);
 	point2 = resize_points(point2, composite_reference, factor);
 	point3 = resize_points(point3, composite_reference, factor);
+	resizes++;
+
 }
 
 void RightTriangle::rotate(point reference) {
@@ -498,6 +550,7 @@ void RightTriangle::rotate(point reference) {
 	calculate_reference();
 
 	this->draw(1);
+	rotations++;
 }
 
 void RightTriangle::flip(point reference) {
@@ -521,6 +574,7 @@ void RightTriangle::flip(point reference) {
 	calculate_reference();
 
 	this->draw(1);
+	flips++;
 }
 
 void RightTriangle::move(char c) {
@@ -567,6 +621,20 @@ void RightTriangle::matching_detection(game* pGame) {
 		score -= 1;
 		return false;
 	}*/
+}
+
+void RightTriangle::saveOrnaments(ofstream& file) {
+	file << "RightTriangle";
+	file << RefPoint.x;
+	file << RefPoint.y;
+	//file << point1;
+	//file << point2;
+	//file << point3;
+	file << rotations;
+	file << flips;
+	file << resizes;
+	//file << config.fillColor;
+	//file << config.penColor;
 }
 
 point rotate_coordinates(point coords, double angle, point origin) {

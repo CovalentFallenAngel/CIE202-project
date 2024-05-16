@@ -13,6 +13,7 @@ game::game()
 	steps = 0;
 	sec = 11;
 	act = 16;
+	xsteps = 80;
 
 	//Create the main window
 	createWind(config.windWidth, config.windHeight, config.wx, config.wy);
@@ -51,6 +52,8 @@ int game::getScore() const {
 	return score;
 }
 
+int game::get_xsteps() const { return xsteps; }
+
 int game::get_steps() const { return steps; }
 
 void game::setScore(int s) { score = s; }
@@ -64,9 +67,19 @@ void game::increment_steps() {
 	steps++;
 	pWind->SetPen(config.bkGrndColor);
 	pWind->SetBrush(config.bkGrndColor);
-	pWind->DrawRectangle(xInteger + 100, 0, 1320, 40);
+	pWind->DrawRectangle(xInteger + 100, 0, 1320, 20);
 	pWind->SetPen(BLACK);
 	pWind->DrawInteger(xInteger + 100, 0, steps);
+}
+
+void game::decrement_steps() {
+	int xInteger = config.toolbarItemWidth * 17 + 65;
+	xsteps--;
+	pWind->SetPen(config.bkGrndColor);
+	pWind->SetBrush(config.bkGrndColor);
+	pWind->DrawRectangle(xInteger + 100, 40, 1320, 60);
+	pWind->SetPen(BLACK);
+	pWind->DrawInteger(xInteger + 100, 40, xsteps);
 }
 
 void game::setsec(int s) { sec = s; }
@@ -75,22 +88,45 @@ void game::setact(int a) { act = a; }
 
 //bool startacting = false;
 
-void game::thinkTimer(int xInteger, game* pGame)
+void game::thinkTimer(game* pGame)
 {
-	while (sec > 0) {
-		clock_t stop = clock() + CLOCKS_PER_SEC;
-		while (clock() < stop) {}
-		sec--;
-		pWind->SetPen(config.bkGrndColor);
-		pWind->SetBrush(config.bkGrndColor);
-		pWind->DrawRectangle(xInteger + 100, 20, 1320, 40);
-		pWind->SetPen(BLACK);
-		pWind->DrawInteger(xInteger + 100, 20, sec);
-	}
-	//startacting = true;
-	thread act_thread(&game::actTimer, pGame, xInteger);
-	act_thread.detach();
+	int xInteger = config.toolbarItemWidth * 17 + 65;
+	do {
+		keytype kin;
+		char c;
+		pWind->FlushKeyQueue();
+		pWind->FlushMouseQueue();
+		kin = pWind->WaitKeyPress(c);
+		if (shapesGrid->getActiveShape() != nullptr && c == '1') {
+			while (sec > 0) {
+				clock_t stop = clock() + CLOCKS_PER_SEC;
+				while (clock() < stop) {}
+				sec--;
+				pWind->SetPen(config.bkGrndColor);
+				pWind->SetBrush(config.bkGrndColor);
+				pWind->DrawRectangle(xInteger + 100, 20, 1320, 40);
+				pWind->SetPen(BLACK);
+				pWind->DrawInteger(xInteger + 100, 20, sec);
+			}
+			actTimer(xInteger);
+		}
+	} while (true);
+
+	//else if (k == 2 || k == 4 || k == 6 || k == 8) {
+	//	getGrid()->getActiveShape()->move(c);
+	//}
+
+		//startacting = true;
+	//thread act_thread(&game::actTimer, pGame, xInteger);
+	//act_thread.detach();
 }
+
+//void game::levelup(game* pGame) {
+//	if (sh->matching_detection(pGame) == true) {
+//		int l = pGame->getLevel();
+//		pGame->setLevel(l++);
+//	}
+//}
 
 void game::actTimer(int xInteger){
 	while (act > 0) {
@@ -103,6 +139,16 @@ void game::actTimer(int xInteger){
 		pWind->SetPen(BLACK);
 		pWind->DrawInteger(xInteger + 100, 20, act);
 	}
+
+	//if (act == 0 && sh->matching_detection(pGame) == false) {
+	//	score--;
+	//	lives--;
+	//}
+
+	//else if (act > 0 && sh->matching_detection(pGame) == true) {
+	//	score += 2;
+	//	lives ++;
+	//}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -145,6 +191,7 @@ void game::createGrid()
 operation* game::createRequiredOperation(toolbarItem clickedItem)
 {
 	operation* op=nullptr;
+	if (op != nullptr) { delete op; }
 	switch (clickedItem)
 	{
 	case ITM_SIGN:
@@ -210,7 +257,6 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		op = new operSGL(this);
 		break;
 	case ITM_SAL:
-		
 		printMessage("You clicked on Save!");
 		op = new operSave(this);
 		break;
@@ -282,6 +328,14 @@ void game::run()
 	//This function reads the position where the user clicks to determine the desired operation
 	int x, y;
 	bool isExit = false;
+
+	think_thread = thread(&game::thinkTimer, this, this);
+	think_thread.detach();
+
+	operMove* p1;
+	p1 = new operMove(this);
+	thread new_thread(&operMove::Act, p1);
+	new_thread.detach();
 	
 
 	//Change the title
@@ -310,14 +364,7 @@ void game::run()
 				shapesGrid->draw();
 				
 
-			//}
-		}
-		
-
-		operMove* p1;
-		p1 = new operMove(this);
-		thread new_thread(&operMove::Act, p1);
-		new_thread.detach();
+			}
 		
 	} while (clickedItem!=ITM_EXIT);
 }

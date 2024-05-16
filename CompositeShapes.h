@@ -1,4 +1,6 @@
 #pragma once
+#include <iostream>
+#include <fstream>
 #include "Basicshapes.h"
 
 
@@ -35,6 +37,7 @@ public:
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
+	virtual void saveOrnaments(ofstream& file) override;
 	void matching_detection(game* pGame) override;
 
 };
@@ -53,6 +56,7 @@ public:
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
+	virtual void saveOrnaments(ofstream& file) override;
 	void matching_detection(game* pGame) override;
 
 };
@@ -78,6 +82,7 @@ public:
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
+	virtual void saveOrnaments(ofstream& file) override;
 	void matching_detection(game* pGame) override;
 
 };
@@ -95,6 +100,7 @@ public:
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
+	virtual void saveOrnaments(ofstream& file) override;
 	void matching_detection(game* pGame) override;
 };
 
@@ -116,6 +122,7 @@ public:
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
+	virtual void saveOrnaments(ofstream& file) override;
 	void matching_detection(game* pGame) override;
 };
 
@@ -133,6 +140,7 @@ public:
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
+	virtual void saveOrnaments(ofstream& file) override;
 	void matching_detection(game* pGame) override;
 };
 
@@ -155,6 +163,7 @@ public:
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
+	virtual void saveOrnaments(ofstream& file) override;
 	void matching_detection(game* pGame) override;
 
 }; 
