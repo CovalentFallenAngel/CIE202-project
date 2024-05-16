@@ -321,6 +321,8 @@ void operMove::Act() {
 			as->move(key);
 
 			pGame->increment_steps(); // count the steps
+			pGame->decrement_steps();
+			//pGame->levelup(pGame);
 
 		}
 		else if (kin == ESCAPE)
