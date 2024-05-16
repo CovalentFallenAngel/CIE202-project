@@ -336,7 +336,14 @@ void game::run()
 	p1 = new operMove(this);
 	thread new_thread(&operMove::Act, p1);
 	new_thread.detach();
-	
+
+	if (level == 1) {
+		shapesGrid->addRandomShape();
+	}
+	if (level == 2) {
+		shapesGrid->addRandomShape();
+		shapesGrid->addRandomShape();
+	}
 
 	//Change the title
 	pWind->ChangeTitle("- - - - - - - - - - SHAPE HUNT Team 1 - - - - - - - - - -");
@@ -346,7 +353,7 @@ void game::run()
 		//printMessage("Ready...");
 		//1- Get user click
 		//if (startacting) {
-			shapesGrid->addRandomShape();
+		
 			pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
 			
 			//2-Explain the user click

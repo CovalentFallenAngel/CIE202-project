@@ -26,16 +26,13 @@ public:
 	void clearGridArea() const;
 	bool addShape(shape* newShape);
 	void setActiveShape(shape* actShape);
-	//int getRandomXPosition(int maxWidth);
-	//int getRandomYPosition(int maxHeight);
-	//int getRandomSize();
-	/*bool addRandomShape();*/
+
 	point randomPoint();
 	int randomSize();
 	void addRandomShape();
 	shape* getActiveShape();
 	void Delete();
-	//void moveActiveShape(int dx, int dy);
+	
 
 	friend void operSave::Act();
 };

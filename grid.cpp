@@ -89,8 +89,8 @@ void grid::clearGridArea() const
 //	return point{ x, y };
 //}
 point grid::randomPoint() {
-	int x = 80+ rand() %(500-80+1) ;
-	int y = 80+ rand() % (1100-80+1);
+	int x = 60+ rand() %(1340-60+1) ;
+	int y = 90+ rand() % (530-90+1);
 	return point{ x, y };
 }
 
@@ -119,7 +119,7 @@ int grid:: randomSize() {
 void grid::addRandomShape()
 {
 	// Generate a random shape type
-	int shapeType = /*rand() %*/ 3; // Generate a random number between 0 and 2 (inclusive)
+	int shapeType = rand() % 6; // Generate a random number between 0 and 2 (inclusive)
 
 	// Generate a random point and size
 	point p = randomPoint();
@@ -153,56 +153,3 @@ shape* grid::getActiveShape() {
 	return activeShape;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//int getRandomXPosition(int maxWidth) {
-//	return rand() % maxWidth; // Generate a random x position within the grid width
-//}
-//
-//int getRandomYPosition(int maxHeight) {
-//	return rand() % maxHeight; // Generate a random y position within the grid height
-//}
-//
-//int getRandomSize() {
-//	return rand() % 50 + 20; // Generate a random size between 20 and 70
-//}
-//bool grid::addRandomShape() {
-//	if (shapeCount >= MaxShapeCount)
-//		return false; // Max shape count reached
-//
-//	int x = getRandomXPosition(width);
-//	int y = getRandomYPosition(height);
-//	int size = getRandomSize();
-//	point ref = { ref.x,ref.y };
-//	game* r_pGame;
-//	shapeList[shapeCount++] = new Car(r_pGame,ref ); // Assuming Rectangle is the shape you want to use
-//
-//	return true;
-//}

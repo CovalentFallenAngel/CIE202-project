@@ -11,21 +11,20 @@ class game
 {
 
 	/// Add more members if needed
-	//chicco 
-	// santa
+
 	shape* sh;
 	toolbar* gameToolbar;
 	
 	window* pWind;	//Pointer to the CMU graphics window
 	grid* shapesGrid;
-<<<<<<< HEAD
+
 	shape* newshape;
-	int level, lives, steps;
-=======
+	/*int level, lives, steps;*/
+
 	thread think_thread;
 protected:
 	int level, lives, steps, score, sec, act, xsteps;
->>>>>>> 054c5899b180fbfabb8d7de6d6d20fb9cc57b554
+
 
 public:
 	game();
