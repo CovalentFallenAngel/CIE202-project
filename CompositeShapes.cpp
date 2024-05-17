@@ -71,9 +71,12 @@ vector<point> Sign::getPoints() {
 }
 
 bool Sign::matching_detection(game* pGame, shape* predicate) {
-	Sign* casted_predicate = dynamic_cast<Sign*>(predicate);
-	return (base->matching_detection(pGame, casted_predicate->base) && 
-		top->matching_detection(pGame, casted_predicate->top));
+	Sign* casted_sign = dynamic_cast<Sign*>(predicate);
+	bool cond = (base->matching_detection(pGame, casted_sign->base) &&
+		top->matching_detection(pGame, casted_sign->top));
+	
+	delete casted_sign;
+	return cond;
 }
 
 void Sign::saveOrnaments(ofstream& file) {
@@ -161,9 +164,12 @@ vector<point> Home::getPoints() {
 }
 
 bool Home::matching_detection(game* pGame, shape* predicate) {
-	Home* casted_predicate = dynamic_cast<Home*>(predicate);
-	return (base->matching_detection(pGame, casted_predicate->base) && 
-		top->matching_detection(pGame, casted_predicate->top));
+	Home* casted_home = dynamic_cast<Home*>(predicate);
+	bool cond = (base->matching_detection(pGame, casted_home->base) &&
+		top->matching_detection(pGame, casted_home->top));
+
+	delete casted_home;
+	return cond;
 }
 
 void Home::saveOrnaments(ofstream& file) {
@@ -299,13 +305,16 @@ vector<point> Person::getPoints() {
 }
 
 bool Person::matching_detection(game* pGame, shape* predicate) {
-	Person* casted_predicate = dynamic_cast<Person*>(predicate);
-	return (head->matching_detection(pGame, casted_predicate->head) && 
-		body->matching_detection(pGame, casted_predicate->body) &&
-		Larm->matching_detection(pGame, casted_predicate->Larm) && 
-		Rarm->matching_detection(pGame, casted_predicate->Rarm) &&
-		Lleg->matching_detection(pGame, casted_predicate->Lleg) && 
-		Rleg->matching_detection(pGame, casted_predicate->Rleg));
+	Person* casted_person = dynamic_cast<Person*>(predicate);
+	bool cond = (head->matching_detection(pGame, casted_person->head) &&
+		body->matching_detection(pGame, casted_person->body) &&
+		Larm->matching_detection(pGame, casted_person->Larm) &&
+		Rarm->matching_detection(pGame, casted_person->Rarm) &&
+		Lleg->matching_detection(pGame, casted_person->Lleg) &&
+		Rleg->matching_detection(pGame, casted_person->Rleg));
+
+	delete casted_person;
+	return cond;
 	
 }
 
@@ -411,9 +420,12 @@ void ice_cream::saveOrnaments(ofstream& file) {
 }
 
 bool ice_cream::matching_detection(game* pGame, shape* predicate) {
-	ice_cream* casted_predicate = dynamic_cast<ice_cream*>(predicate);
-	return (cone->matching_detection(pGame, casted_predicate->cone) && 
-		scoop->matching_detection(pGame, casted_predicate->scoop));
+	ice_cream* casted_icecream = dynamic_cast<ice_cream*>(predicate);
+	bool cond = (cone->matching_detection(pGame, casted_icecream->cone) &&
+		scoop->matching_detection(pGame, casted_icecream->scoop));
+
+	delete casted_icecream;
+	return cond;
 }
 
 string ice_cream::getID() {
@@ -523,11 +535,14 @@ vector<point> Tree::getPoints() {
 }
 
 bool Tree::matching_detection(game* pGame, shape* predicate) {
-	Tree* casted_predicate = dynamic_cast<Tree*>(predicate);
-	return (body->matching_detection(pGame, casted_predicate->body) && 
-		T1->matching_detection(pGame, casted_predicate->T1) &&
-		T2->matching_detection(pGame, casted_predicate->T2) && 
-		T3->matching_detection(pGame, casted_predicate->T3));
+	Tree* casted_tree = dynamic_cast<Tree*>(predicate);
+	bool cond = (body->matching_detection(pGame, casted_tree->body) &&
+		T1->matching_detection(pGame, casted_tree->T1) &&
+		T2->matching_detection(pGame, casted_tree->T2) &&
+		T3->matching_detection(pGame, casted_tree->T3));
+
+	delete casted_tree;
+	return cond;
 }
 
 string Tree::getID() {
@@ -656,11 +671,14 @@ vector<point> Rocket::getPoints() {
 }
 
 bool Rocket::matching_detection(game* pGame, shape* predicate) {
-	Rocket* casted_predicate = dynamic_cast<Rocket*>(predicate);
-	return (T1->matching_detection(pGame, casted_predicate->T1) && 
-		T2->matching_detection(pGame, casted_predicate->T2) &&
-		T3->matching_detection(pGame, casted_predicate->T3) &&
-		body->matching_detection(pGame, casted_predicate->body));
+	Rocket* casted_rocket = dynamic_cast<Rocket*>(predicate);
+	bool cond = (T1->matching_detection(pGame, casted_rocket->T1) &&
+		T2->matching_detection(pGame, casted_rocket->T2) &&
+		T3->matching_detection(pGame, casted_rocket->T3) &&
+		body->matching_detection(pGame, casted_rocket->body));;
+
+	delete casted_rocket;
+	return cond;
 }
 
 void Rocket::saveOrnaments(ofstream& file) {
@@ -794,12 +812,15 @@ vector<point> Car::getPoints() {
 }
 
 bool Car::matching_detection(game* pGame, shape* predicate) {
-	Car* casted_predicate = dynamic_cast<Car*>(predicate);
-	return (T1->matching_detection(pGame, casted_predicate->T1) && 
-		R1->matching_detection(pGame, casted_predicate->R1) &&
-		R2->matching_detection(pGame, casted_predicate->R2) && 
-		C1->matching_detection(pGame, casted_predicate->C1) &&
-		C2->matching_detection(pGame, casted_predicate->C2));
+	Car* casted_car = dynamic_cast<Car*>(predicate);
+	bool cond = (T1->matching_detection(pGame, casted_car->T1) &&
+		R1->matching_detection(pGame, casted_car->R1) &&
+		R2->matching_detection(pGame, casted_car->R2) &&
+		C1->matching_detection(pGame, casted_car->C1) &&
+		C2->matching_detection(pGame, casted_car->C2));
+
+	delete casted_car;
+	return cond;
 }
 
 void Car::saveOrnaments(ofstream& file) {

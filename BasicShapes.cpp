@@ -144,7 +144,9 @@ double Rect::getRadius() {
 
 bool Rect::matching_detection(game* pGame, shape* predicate) {
 	Rect* casted_rect = dynamic_cast<Rect*>(predicate);
-	return (getCorners() == casted_rect->getCorners());
+	bool cond = (getCorners() == casted_rect->getCorners());
+	delete casted_rect;
+	return cond;
 }
 
 RectangleTransform::RectangleTransform(point reference, vector<double> dimensions) {
@@ -290,7 +292,9 @@ void circle::saveOrnaments(ofstream& file) {
 
 bool circle::matching_detection(game* pGame, shape* predicate) {
 	circle* casted_circle = dynamic_cast<circle*>(predicate);
-	return (rad == casted_circle->getRadius() && RefPoint == casted_circle->getPosition());
+	bool cond = (rad == casted_circle->getRadius() && RefPoint == casted_circle->getPosition());
+	delete casted_circle;
+	return cond;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -466,7 +470,9 @@ vector<point> EqTriangle::getCorners() {
 
 bool EqTriangle::matching_detection(game* pGame, shape* predicate) {
 	EqTriangle* casted_eqtriangle = dynamic_cast<EqTriangle*>(predicate);
-	return (getPoints() == casted_eqtriangle->getPoints());
+	bool cond = (getPoints() == casted_eqtriangle->getPoints());
+	delete casted_eqtriangle;
+	return cond;
 }
 
 ////////////////////////////////////////////////////  class RightTriangle  ///////////////////////////////////////
@@ -624,7 +630,9 @@ vector<point> RightTriangle::getCorners() {
 
 bool RightTriangle::matching_detection(game* pGame, shape* predicate) {
 	RightTriangle* casted_rightriangle = dynamic_cast<RightTriangle*>(predicate);
-	return (getPoints() == casted_rightriangle->getPoints());
+	bool cond = (getPoints() == casted_rightriangle->getPoints());
+	delete casted_rightriangle;
+	return cond;
 }
 
 void RightTriangle::saveOrnaments(ofstream& file) {
