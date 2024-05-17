@@ -117,12 +117,12 @@ void grid::setActiveShape(shape* actShape)
 
 int grid:: randomSize() {
 	double random = 1 + rand() % 6, rndsize = (1 / random);
-	return rndsize ; // Generate a random number between 20 and 70 (inclusive)
+	return rndsize ; // Generate a random size 
 }
 void grid::addRandomShape()
 {
 	// Generate a random shape type
-	int shapeType = rand() % 6; // Generate a random number between 0 and 2 (inclusive)
+	int shapeType = rand() % 6; // Generate a random number between 0 and 6 (inclusive)
 
 	// Generate a random point and size
 	point p = randomPoint();

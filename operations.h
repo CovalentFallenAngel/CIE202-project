@@ -166,3 +166,9 @@ public:
 };
 
 
+class operRef :public operation
+{
+public:
+	operRef(game* r_pGame);
+	virtual void Act();
+};

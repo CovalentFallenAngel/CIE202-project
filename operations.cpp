@@ -297,6 +297,25 @@ void operLoad::Act()
 }
 
 
+operRef::operRef(game* r_pGame) : operation(r_pGame) 
+{
+}
+
+
+void operRef::Act() 
+{
+	grid* pGrid = pGame->getGrid();
+	pGrid->clearGridArea();
+	int l = pGame->getLevel();
+	int x;
+	x = (2 * l) - 1;
+	for (int i = 0; i < x; i++) {
+		pGrid->addRandomShape();
+	}
+	pGame->decrement_level();
+}
+
+
 operMove::operMove(game* r_pGame) : operation(r_pGame)
 {
 }
