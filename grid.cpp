@@ -3,7 +3,6 @@
 #include "gameConfig.h"
 #include<cstdlib>
 #include<time.h>
-#include <memory>
 
 
 grid::grid(point r_uprleft, int wdth, int hght, game* pG)
@@ -57,8 +56,8 @@ void grid::draw() const
 
 void grid::Delete()
 {
-	//delete activeShape;
-	activeShape.reset();
+	delete activeShape;
+	activeShape = nullptr;
 	clearGridArea();
 	window* pWind = pGame->getWind();
 	
@@ -113,7 +112,7 @@ bool grid::addShape(shape* newShape)
 
 void grid::setActiveShape(shape* actShape)
 {
-	activeShape.reset(actShape);
+	activeShape = actShape;
 }
 
 int grid:: randomSize() {
@@ -153,7 +152,7 @@ void grid::addRandomShape()
 	addShape(newShape);
 }
 
-shared_ptr<shape> grid::getActiveShape() {
+shape* grid::getActiveShape() {
 	return activeShape;
 }
 

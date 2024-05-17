@@ -5,7 +5,6 @@
 #include <limits>
 #include <sstream>
 #include <iostream>
-#include <memory>
 
 /////////////////////////////////// class operation  //////////////////
 operation::operation(game* r_pGame)
@@ -215,7 +214,7 @@ void operResize::Act() {}
 void operResize::Actmain(double factor)
 {
 	 grid* pGrid = pGame->getGrid();
-	 shared_ptr<shape> shape = make_shared<shape>(pGrid->getActiveShape());
+	 shape* shape = pGrid->getActiveShape();
 	 shape->resize(factor, shape->getPosition());
 	 pGrid->clearGridArea(); 
 	 pGrid->setActiveShape(shape);
@@ -226,7 +225,7 @@ operRotate::operRotate(game* r_pGame) :operation(r_pGame) {}
 void operRotate::Act()
 {
 	grid* pGrid = pGame->getGrid();
-	shared_ptr<shape> shape = make_shared<shape>(pGrid->getActiveShape());
+	shape* shape = pGrid->getActiveShape();
 	if (shape != nullptr) {
 		point p = shape->getPosition();
 		shape->rotate(p);
@@ -237,7 +236,7 @@ operFlip::operFlip(game* r_pGame) :operation(r_pGame) {}
 
 void operFlip::Act() {
 	grid* pGrid = pGame->getGrid();
-	shared_ptr<shape> shape = make_shared<shape>(pGrid->getActiveShape())
+	shape* shape = pGrid->getActiveShape();
 	if (shape != nullptr) {
 		shape->flip();
 	}
@@ -330,7 +329,7 @@ void operMove::Act() {
 	
 	if (pGrid->getActiveShape() != nullptr)
 	{
-		shared_ptr<shape> as = make_shared<shape>(pGrid->getActiveShape());
+		shape* as = pGrid->getActiveShape();
 
 
 		as->move(key);

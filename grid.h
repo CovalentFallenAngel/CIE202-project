@@ -16,7 +16,7 @@ class grid
 	//ShapeList should hold the RANDOMLY generated shapes
 	shape* shapeList[MaxShapeCount];	//2D array of shape pointers
 
-	shared_ptr<shape> activeShape;	//The shape that the user works on to match to the ranom shapes
+	shape* activeShape;	//The shape that the user works on to match to the ranom shapes
 	int rnd;
 	int shapeCount;		//current number of shapes in the list
 	game* pGame;
@@ -36,7 +36,7 @@ public:
 	point randomPoint();
 	int randomSize();
 	void addRandomShape();
-	shared_ptr<shape> getActiveShape();
+	shape* getActiveShape();
 	void Delete();
 	
 
