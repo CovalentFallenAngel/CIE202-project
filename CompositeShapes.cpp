@@ -44,18 +44,22 @@ void Sign::resize(double factor, point composite_reference) {
 
 	base->resize(factor, RefPoint);
 	top->resize(factor, RefPoint);
+	pGame->increment_steps();
+	pGame->decrement_xsteps();
 }
 
 void Sign::rotate(point reference) {
 	base->rotate(RefPoint);
 	top->rotate(RefPoint);
 	pGame->increment_steps();
+	pGame->decrement_xsteps();
 }
 
 void Sign::flip() {
 	base->flip(RefPoint);
 	top->flip(RefPoint);
 	pGame->increment_steps();
+	pGame->decrement_xsteps();
 }
 
 double Sign::getRadius() {
@@ -135,6 +139,7 @@ void Home::rotate(point reference) {
 	baseRef = base->getPosition();
 	topRef = top->getPosition();
 	pGame->increment_steps();
+	pGame->decrement_xsteps();
 
 }
 
@@ -145,6 +150,7 @@ void Home::flip() {
 	baseRef = base->getPosition();
 	topRef = top->getPosition();
 	pGame->increment_steps();
+	pGame->decrement_xsteps();
 
 }
 
@@ -219,6 +225,7 @@ void Person::rotate(point reference) {
 	Lleg->rotate(RefPoint);
 	Rleg->rotate(RefPoint);
 	pGame->increment_steps();
+	pGame->decrement_xsteps();
 
 }
 
@@ -237,7 +244,7 @@ void Person::flip() {
 	leftLegRef = Lleg->getPosition();
 	rightLegRef = Rleg->getPosition();
 	pGame->increment_steps();
-
+	pGame->decrement_xsteps();
 }
 
 void Person::resize(double factor, point composite_reference)
@@ -262,7 +269,7 @@ void Person::resize(double factor, point composite_reference)
 	leftLegRef = Lleg->getPosition();
 	rightLegRef = Rleg->getPosition();
 	pGame->increment_steps();
-
+	pGame->decrement_xsteps();
 }
 
 
@@ -365,7 +372,7 @@ void ice_cream::resize(double factor, point composite_reference)
 	coneRef = cone->getPosition();
 	scoopRef = scoop->getPosition();
 	pGame->increment_steps();
-
+	pGame->decrement_xsteps();
 
 }
 
@@ -376,7 +383,7 @@ void ice_cream::rotate(point reference) {
 	scoopRef = scoop->getPosition();
 	coneRef = cone->getPosition();
 	pGame->increment_steps();
-
+	pGame->decrement_xsteps();
 }
 
 void ice_cream::flip() {
@@ -387,7 +394,7 @@ void ice_cream::flip() {
 	scoopRef = scoop->getPosition();
 	coneRef = cone->getPosition();
 	pGame->increment_steps();
-
+	pGame->decrement_xsteps();
 }
 
 double ice_cream::getRadius() {
@@ -482,7 +489,7 @@ void Tree::resize(double factor, point composite_reference)
 	T3Ref = T3->getPosition();
 	bodyRef = body->getPosition();
 	pGame->increment_steps();
-
+	pGame->decrement_xsteps();
 }
 
 void Tree::rotate(point reference) {
@@ -491,7 +498,7 @@ void Tree::rotate(point reference) {
 	T2->rotate(RefPoint);
 	T3->rotate(RefPoint);
 	pGame->increment_steps();
-
+	pGame->decrement_xsteps();
 }
 
 void Tree::flip() {
@@ -507,7 +514,7 @@ void Tree::flip() {
 	T2Ref = T2->getPosition();
 	T3Ref = T3->getPosition();
 	pGame->increment_steps();
-
+	pGame->decrement_xsteps();
 }
 
 double Tree::getRadius() {
@@ -599,7 +606,7 @@ void Rocket::resize(double factor, point composite_reference)
 	T3Ref = T3->getPosition();
 	bodyRef = body->getPosition();
 	pGame->increment_steps();
-
+	pGame->decrement_xsteps();
 }
 
 void Rocket::move(char c)
@@ -624,7 +631,7 @@ void Rocket::rotate(point reference) {
 	T2->rotate(RefPoint);
 	T3->rotate(RefPoint);
 	pGame->increment_steps();
-
+	pGame->decrement_xsteps();
 }
 
 void Rocket::flip() {
@@ -640,7 +647,7 @@ void Rocket::flip() {
 	T2Ref = T2->getPosition();
 	T3Ref = T3->getPosition();
 	pGame->increment_steps();
-
+	pGame->decrement_xsteps();
 }
 
 double Rocket::getRadius() {
@@ -750,7 +757,7 @@ void Car::resize(double factor, point composite_reference)
 	C1Ref = C1->getPosition();
 	C2Ref = C2->getPosition();
 	pGame->increment_steps();
-
+	pGame->decrement_xsteps();
 }
 
 void Car::rotate(point reference) {
@@ -760,7 +767,7 @@ void Car::rotate(point reference) {
 	C1->rotate(RefPoint);
 	C2->rotate(RefPoint);
 	pGame->increment_steps();
-
+	pGame->decrement_xsteps();
 }
 
 void Car::flip() {
@@ -778,7 +785,7 @@ void Car::flip() {
 	C1Ref = C1->getPosition();
 	C2Ref = C2->getPosition();
 	pGame->increment_steps();
-
+	pGame->decrement_xsteps();
 }
 
 double Car::getRadius() {
