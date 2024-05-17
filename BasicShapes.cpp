@@ -469,7 +469,7 @@ vector<point> EqTriangle::getCorners() {
 }
 
 bool EqTriangle::matching_detection(game* pGame, shape* predicate) {
-	EqTriangle* casted_eqtriangle = dynamic_cast<EqTriangle*>(predicate);
+	EqTriangle* casted_eqtriangle = dynamic_cast<EqTriangle*>(predicate); 
 	bool cond = (getPoints() == casted_eqtriangle->getPoints());
 	delete casted_eqtriangle;
 	return cond;

@@ -46,7 +46,7 @@ protected:
 	int flips = 0;
 	int resizes;
 public:
-    shape(game* r_pGame, point ref, bool isComposite = false);
+    shape(game* r_pGame, point ref, bool isComposite = false); 
     virtual void draw(int x) const = 0;//for a shape to draw itself on the screen
 	void setRefPoint(point p);
 	void setcolor(color c);

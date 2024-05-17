@@ -96,7 +96,7 @@ public:
 	virtual vector<point> getCorners() override;
 	virtual double getRadius() override;
 	virtual void saveOrnaments(ofstream& file) override;
-	bool matching_detection(game* pGame, shape* predicate) override;
+	bool matching_detection(game* pGame, shape* predicate) override; 
 
 };
 

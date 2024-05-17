@@ -61,7 +61,7 @@ void shape::flip() {
 
 }
 
-bool shape::matching_detection(game* pGame, shape* predicate) {
+bool shape::matching_detection(game* pGame, shape* predicate) { 
 	return true;
 }
 

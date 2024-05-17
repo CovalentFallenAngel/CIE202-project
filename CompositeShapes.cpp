@@ -311,7 +311,7 @@ bool Person::matching_detection(game* pGame, shape* predicate) {
 		Larm->matching_detection(pGame, casted_person->Larm) &&
 		Rarm->matching_detection(pGame, casted_person->Rarm) &&
 		Lleg->matching_detection(pGame, casted_person->Lleg) &&
-		Rleg->matching_detection(pGame, casted_person->Rleg));
+		Rleg->matching_detection(pGame, casted_person->Rleg)); 
 
 	delete casted_person;
 	return cond;
