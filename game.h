@@ -55,7 +55,7 @@ public:
 	grid* getGrid() const;		//returns a pointer to the shapes grid
 	toolbar* getToolBar() const;
 	void decrement_xsteps();
-	void decrement_level();
+	void decrement_lives();
 	//void levelup(game* pGame);
 
 	//creates an operation according to the toolbar item clicked

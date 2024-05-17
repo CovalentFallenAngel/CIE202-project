@@ -89,14 +89,14 @@ void game::decrement_xsteps() {
 	createToolBar();
 }
 
-void game::decrement_level() {
+void game::decrement_lives() {
 	int xInteger = config.toolbarItemWidth * 16 + 65;
-	level--;
+	lives--;
 	pWind->SetPen(config.bkGrndColor);
 	pWind->SetBrush(config.bkGrndColor);
 	pWind->DrawRectangle(xInteger, 0, 1120, 20);
 	pWind->SetPen(BLACK);
-	pWind->DrawInteger(xInteger, 0, level);
+	pWind->DrawInteger(xInteger, 0, lives);
 }
 
 void game::setsec(int s) { sec = s; }
