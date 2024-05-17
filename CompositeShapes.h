@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <fstream>
+#include <string>
 #include "Basicshapes.h"
 
 
@@ -36,9 +37,13 @@ public:
 	virtual void move(char c) override;
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
+	virtual std::string getID() override;
 	virtual void flip();
+	virtual vector<point> getPoints() override;
+	virtual vector<point> getCorners() override;
+	virtual double getRadius() override;
 	virtual void saveOrnaments(ofstream& file) override;
-	void matching_detection(game* pGame) override;
+	bool matching_detection(game* pGame, shape* predicate) override;
 
 };
 
@@ -55,9 +60,13 @@ public:
 	virtual void move(char c) override;
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
+	virtual std::string getID() override;
 	virtual void flip();
+	virtual vector<point> getPoints() override;
+	virtual vector<point> getCorners() override;
+	virtual double getRadius() override;
 	virtual void saveOrnaments(ofstream& file) override;
-	void matching_detection(game* pGame) override;
+	bool matching_detection(game* pGame, shape* predicate) override;
 
 };
 
@@ -81,9 +90,13 @@ public:
 	virtual void move(char c) override;
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
+	virtual std::string getID() override;
 	virtual void flip();
+	virtual vector<point> getPoints() override;
+	virtual vector<point> getCorners() override;
+	virtual double getRadius() override;
 	virtual void saveOrnaments(ofstream& file) override;
-	void matching_detection(game* pGame) override;
+	bool matching_detection(game* pGame, shape* predicate) override;
 
 };
 
@@ -99,9 +112,13 @@ public:
 	virtual void move(char c) override;
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
+	virtual std::string getID() override;
 	virtual void flip();
+	virtual vector<point> getPoints() override;
+	virtual vector<point> getCorners() override;
+	virtual double getRadius() override;
 	virtual void saveOrnaments(ofstream& file) override;
-	void matching_detection(game* pGame) override;
+	bool matching_detection(game* pGame, shape* predicate) override;
 };
 
 class Tree :public shape {
@@ -122,8 +139,12 @@ public:
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip();
+	virtual std::string getID() override;
+	virtual vector<point> getPoints() override;
+	virtual vector<point> getCorners() override;
+	virtual double getRadius() override;
 	virtual void saveOrnaments(ofstream& file) override;
-	void matching_detection(game* pGame) override;
+	bool matching_detection(game* pGame, shape* predicate) override;
 };
 
 class Rocket :public shape {
@@ -139,9 +160,13 @@ public:
 	virtual void move(char c) override;
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
+	virtual std::string getID() override;
 	virtual void flip();
+	virtual vector<point> getPoints() override;
+	virtual vector<point> getCorners() override;
+	virtual double getRadius() override;
 	virtual void saveOrnaments(ofstream& file) override;
-	void matching_detection(game* pGame) override;
+	bool matching_detection(game* pGame, shape* predicate) override;
 };
 
 class Car : public shape {
@@ -162,8 +187,12 @@ public:
 	virtual void move(char c) override;
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
+	virtual std::string getID() override;
 	virtual void flip();
+	virtual vector<point> getPoints() override;
+	virtual vector<point> getCorners() override;
+	virtual double getRadius() override;
 	virtual void saveOrnaments(ofstream& file) override;
-	void matching_detection(game* pGame) override;
+	bool matching_detection(game* pGame, shape* predicate) override;
 
 }; 

@@ -1,6 +1,7 @@
 #include "game.h"
 #include "gameConfig.h"
 #include <thread>
+#include <memory>
 using namespace std;
 
 
@@ -70,9 +71,12 @@ void game::increment_steps() {
 	pWind->DrawRectangle(xInteger + 100, 0, 1320, 20);
 	pWind->SetPen(BLACK);
 	pWind->DrawInteger(xInteger + 100, 0, steps);
+	toolbar* tb = getToolBar();
+	delete tb;
+	createToolBar();
 }
 
-void game::decrement_steps() {
+void game::decrement_xsteps() {
 	int xInteger = config.toolbarItemWidth * 17 + 65;
 	xsteps--;
 	pWind->SetPen(config.bkGrndColor);
@@ -80,6 +84,9 @@ void game::decrement_steps() {
 	pWind->DrawRectangle(xInteger + 100, 40, 1320, 60);
 	pWind->SetPen(BLACK);
 	pWind->DrawInteger(xInteger + 100, 40, xsteps);
+	toolbar* tb = getToolBar();
+	delete tb;
+	createToolBar();
 }
 
 void game::setsec(int s) { sec = s; }
@@ -91,26 +98,21 @@ void game::setact(int a) { act = a; }
 void game::thinkTimer(game* pGame)
 {
 	int xInteger = config.toolbarItemWidth * 17 + 65;
-	do {
-		keytype kin;
-		char c;
-		pWind->FlushKeyQueue();
-		pWind->FlushMouseQueue();
-		kin = pWind->WaitKeyPress(c);
-		if (shapesGrid->getActiveShape() != nullptr && c == '1') {
-			while (sec > 0) {
-				clock_t stop = clock() + CLOCKS_PER_SEC;
-				while (clock() < stop) {}
-				sec--;
-				pWind->SetPen(config.bkGrndColor);
-				pWind->SetBrush(config.bkGrndColor);
-				pWind->DrawRectangle(xInteger + 100, 20, 1320, 40);
-				pWind->SetPen(BLACK);
-				pWind->DrawInteger(xInteger + 100, 20, sec);
-			}
-			actTimer(xInteger);
+		
+	if (shapesGrid->getActiveShape() != nullptr) {
+		while (sec > 0) {
+			clock_t stop = clock() + CLOCKS_PER_SEC;
+			while (clock() < stop) {}
+			sec--;
+			
+			pWind->SetPen(config.bkGrndColor);
+			pWind->SetBrush(config.bkGrndColor);
+			pWind->DrawRectangle(xInteger + 100, 20, 1320, 40);
+			pWind->SetPen(BLACK);
+			pWind->DrawInteger(xInteger + 100, 20, sec);
 		}
-	} while (true);
+		actTimer(xInteger);
+	}
 
 	//else if (k == 2 || k == 4 || k == 6 || k == 8) {
 	//	getGrid()->getActiveShape()->move(c);
@@ -132,10 +134,10 @@ void game::actTimer(int xInteger){
 	while (act > 0) {
 		clock_t stop = clock() + CLOCKS_PER_SEC;
 		while (clock() < stop) {}
+		act--;
 		pWind->SetPen(config.bkGrndColor);
 		pWind->SetBrush(config.bkGrndColor);
 		pWind->DrawRectangle(xInteger + 100, 20, 1320, 40);
-		act--;
 		pWind->SetPen(BLACK);
 		pWind->DrawInteger(xInteger + 100, 20, act);
 	}
@@ -320,6 +322,58 @@ grid* game::getGrid() const
 	return shapesGrid;
 }
 
+void game::matching_proxy() {
+	shape** shape_array = this->getGrid()->getShapeList();
+	int scount = this->getGrid()->getShapeCount();
+	int isMatched = 0;
+	for (int i = 0; i < scount; i++) {
+		if ((*shape_array)[i].getID() == this->getGrid()->getActiveShape()->getID()) {
+			bool check = (*shape_array)[i].matching_detection(this, this->getGrid()->getActiveShape());
+			// ^^^ replace active shape with the array of random shapes ^^^
+
+			if (check == true) {
+				isMatched++;
+			}
+		}
+	}
+
+	if (isMatched != 0) {
+		score += 2;
+		getGrid()->Delete();
+	}
+	else {
+		score--;
+	}
+
+	toolbar* tb = getToolBar();
+	delete tb;
+	createToolBar();
+	
+}
+
+void game::thread_hub() {
+	window* pWind = this->getWind();
+	grid* pGrid = this->getGrid();
+	while (true) {
+		keytype kin;
+		char c;
+		pWind->FlushKeyQueue();
+		pWind->FlushMouseQueue();
+		kin = pWind->WaitKeyPress(c);
+		pGrid->setKey(c);
+		if (c == '1') {
+			thinkTimer(this);
+		}
+		else if (kin == ARROW) {
+			operMove* p1 = new operMove(this);
+			p1->Act();
+		}
+		else if (c == 32) {
+			matching_proxy();
+		}
+		
+	}
+}
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -329,13 +383,13 @@ void game::run()
 	int x, y;
 	bool isExit = false;
 
-	think_thread = thread(&game::thinkTimer, this, this);
-	think_thread.detach();
+	hub_thread = thread(&game::thread_hub, this);
+	hub_thread.detach();
 
-	operMove* p1;
+	/*operMove* p1;
 	p1 = new operMove(this);
 	thread new_thread(&operMove::Act, p1);
-	new_thread.detach();
+	new_thread.detach();*/
 
 	if (level == 1) {
 		shapesGrid->addRandomShape();
@@ -374,4 +428,6 @@ void game::run()
 			}
 		
 	} while (clickedItem!=ITM_EXIT);
+
+	hub_thread.~thread();
 }

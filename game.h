@@ -21,7 +21,7 @@ class game
 	shape* newshape;
 	/*int level, lives, steps;*/
 
-	thread think_thread;
+	thread hub_thread;
 protected:
 	int level, lives, steps, score, sec, act, xsteps;
 
@@ -48,11 +48,13 @@ public:
 	void setact(int a);
 	void actTimer(int xInteger);
 	void thinkTimer(game* pGame);
+	void matching_proxy();
 	void increment_steps();
+	void thread_hub();
 	window* getWind() const;		//returns a pointer to the graphics window
 	grid* getGrid() const;		//returns a pointer to the shapes grid
 	toolbar* getToolBar() const;
-	void decrement_steps();
+	void decrement_xsteps();
 	//void levelup(game* pGame);
 
 	//creates an operation according to the toolbar item clicked
@@ -60,8 +62,6 @@ public:
 
 	friend void operSave::Act();
 	friend void operLoad::Act();
-
-
 
 	void run();	//start the game
 

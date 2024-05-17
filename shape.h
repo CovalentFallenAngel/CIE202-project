@@ -3,6 +3,7 @@
 using namespace std;
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include "CMUgraphicsLib\CMUgraphics.h"
 
 class game;     //forward declaration
@@ -13,7 +14,7 @@ struct point
 
 public:
 	friend bool operator==(const point& lhs, const point& rhs) {
-		return (abs(lhs.x - rhs.x) <= 5 && abs(lhs.y - rhs.y) <= 5);
+		return (abs(lhs.x - rhs.x) <= 20 && abs(lhs.y - rhs.y) <= 20);
 	}
 };
 
@@ -53,13 +54,16 @@ public:
 	void setRotationAngle(int increment);
 	int getRotationAngle();
 	point getPosition() const;
+	virtual vector<point> getPoints();
+	virtual vector<point> getCorners();
+	virtual double getRadius();
+	virtual string getID();
 	virtual void rotate(point reference);
 	virtual void resize(double factor, point composite_reference) = 0;
-	virtual void matching_detection(game* pGame) = 0;
+	virtual bool matching_detection(game* pGame, shape* predicate) = 0;
 	virtual void move(char c) = 0;
 	virtual void flip();
 	virtual void saveOrnaments(ofstream& file) = 0;
-
 };
 
 

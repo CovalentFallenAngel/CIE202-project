@@ -5,7 +5,6 @@
 #include <limits>
 #include <sstream>
 #include <iostream>
-#include <memory>
 
 /////////////////////////////////// class operation  //////////////////
 operation::operation(game* r_pGame)
@@ -307,28 +306,18 @@ operMove::operMove(game* r_pGame) : operation(r_pGame)
 void operMove::Act() {
 	window* pWind = pGame->getWind();
 	grid* pGrid = pGame->getGrid();
-	keytype kin;
-	char key;
-	bool ismoving = true;
-	do {
-		kin = pWind->WaitKeyPress(key);
-		pWind->FlushKeyQueue();
-		pWind->FlushMouseQueue();
-		if (kin == ARROW && pGrid->getActiveShape() != nullptr)
-		{
-			shape* as = pGrid->getActiveShape();
+	char key = pGrid->getKey();
+	
+	if (pGrid->getActiveShape() != nullptr)
+	{
+		shape* as = pGrid->getActiveShape();
 
-			as->move(key);
+		as->move(key);
 
-			pGame->increment_steps(); // count the steps
-			pGame->decrement_steps();
-			//pGame->levelup(pGame);
-
-		}
-		else if (kin == ESCAPE)
-			ismoving = false;
-
+		pGame->increment_steps(); // count the steps
+		pGame->decrement_xsteps();
+		//pGame->levelup(pGame);
 		pGrid->draw();
-
-	} while (ismoving);
+		
+	}
 }

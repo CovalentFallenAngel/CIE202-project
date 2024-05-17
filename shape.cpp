@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <thread>
+#include <string>
 
 shape::shape(game* r_pGame, point ref, bool isComposite)
 {
@@ -13,6 +14,7 @@ shape::shape(game* r_pGame, point ref, bool isComposite)
 	fillColor = config.fillColor;
 	borderColor = config.penColor;
 	rotation_angle = 0;
+	resizes = 0;
 
 	if (isComposite) {
 		//thread matching_detection_thread(&game::matching_detection, pGame);
@@ -59,9 +61,26 @@ void shape::flip() {
 
 }
 
-void shape::matching_detection(game* pGame) {
+bool shape::matching_detection(game* pGame, shape* predicate) {
+	return true;
 }
 
 void shape::saveOrnaments(ofstream& file) {
 
+}
+
+vector<point> shape::getPoints() {
+	return vector<point>();
+}
+
+vector<point> shape::getCorners() {
+	return vector<point>();
+}
+
+double shape::getRadius() {
+	return NULL;
+}
+
+string shape::getID() {
+	return "";
 }

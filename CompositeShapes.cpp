@@ -1,6 +1,7 @@
 #include "CompositeShapes.h"
 #include "gameConfig.h"
 #include "game.h"
+#include "BasicShapes.h"
 #include <iostream>
 #include <fstream>
 
@@ -57,9 +58,22 @@ void Sign::flip() {
 	pGame->increment_steps();
 }
 
-void Sign::matching_detection(game* pGame) {
-	base->matching_detection(pGame);
-	top->matching_detection(pGame);
+double Sign::getRadius() {
+	return NULL;
+}
+
+vector<point> Sign::getCorners() {
+	return vector<point>();
+}
+
+vector<point> Sign::getPoints() {
+	return vector<point>();
+}
+
+bool Sign::matching_detection(game* pGame, shape* predicate) {
+	Sign* casted_predicate = dynamic_cast<Sign*>(predicate);
+	return (base->matching_detection(pGame, casted_predicate->base) && 
+		top->matching_detection(pGame, casted_predicate->top));
 }
 
 void Sign::saveOrnaments(ofstream& file) {
@@ -68,6 +82,10 @@ void Sign::saveOrnaments(ofstream& file) {
 	file << pGame->getLives();
 	top->saveOrnaments(file);
 	base->saveOrnaments(file);
+}
+
+string Sign::getID() {
+	return "Sign";
 }
 
 Home::Home(game* r_pGame, point ref) :shape(r_pGame, ref, true) {
@@ -92,8 +110,6 @@ void Home::resize(double factor, point composite_reference)
 
 	top->resize(factor, RefPoint);
 	base->resize(factor, RefPoint);
-
-	//top->calculate_points(RefPoint);
 
 	topRef = top->getPosition();
 	pGame->increment_steps();
@@ -132,9 +148,22 @@ void Home::flip() {
 
 }
 
-void Home::matching_detection(game* pGame) {
-	base->matching_detection(pGame);
-	top->matching_detection(pGame);
+double Home::getRadius() {
+	return NULL;
+}
+
+vector<point> Home::getCorners() {
+	return vector<point>();
+}
+
+vector<point> Home::getPoints() {
+	return vector<point>();
+}
+
+bool Home::matching_detection(game* pGame, shape* predicate) {
+	Home* casted_predicate = dynamic_cast<Home*>(predicate);
+	return (base->matching_detection(pGame, casted_predicate->base) && 
+		top->matching_detection(pGame, casted_predicate->top));
 }
 
 void Home::saveOrnaments(ofstream& file) {
@@ -143,6 +172,10 @@ void Home::saveOrnaments(ofstream& file) {
 	file << pGame->getLives();
 	top->saveOrnaments(file);
 	base->saveOrnaments(file);
+}
+
+string Home::getID() {
+	return "Home";
 }
 
 Person::Person(game* r_pGame, point ref) : shape(r_pGame, ref, true)
@@ -253,13 +286,27 @@ void Person::move(char c)
 
 }
 
-void Person::matching_detection(game* pGame) {
-	head->matching_detection(pGame);
-	body->matching_detection(pGame);
-	Larm->matching_detection(pGame);
-	Rarm->matching_detection(pGame);
-	Lleg->matching_detection(pGame);
-	Rleg->matching_detection(pGame);
+double Person::getRadius() {
+	return NULL;
+}
+
+vector<point> Person::getCorners() {
+	return vector<point>();
+}
+
+vector<point> Person::getPoints() {
+	return vector<point>();
+}
+
+bool Person::matching_detection(game* pGame, shape* predicate) {
+	Person* casted_predicate = dynamic_cast<Person*>(predicate);
+	return (head->matching_detection(pGame, casted_predicate->head) && 
+		body->matching_detection(pGame, casted_predicate->body) &&
+		Larm->matching_detection(pGame, casted_predicate->Larm) && 
+		Rarm->matching_detection(pGame, casted_predicate->Rarm) &&
+		Lleg->matching_detection(pGame, casted_predicate->Lleg) && 
+		Rleg->matching_detection(pGame, casted_predicate->Rleg));
+	
 }
 
 void Person::saveOrnaments(ofstream& file) {
@@ -272,6 +319,10 @@ void Person::saveOrnaments(ofstream& file) {
 	Rarm->saveOrnaments(file);
 	Lleg->saveOrnaments(file);
 	Rleg->saveOrnaments(file);
+}
+
+string Person::getID() {
+	return "Person";
 }
 
 ice_cream::ice_cream(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
@@ -311,8 +362,6 @@ void ice_cream::resize(double factor, point composite_reference)
 	scoop->resize(factor, RefPoint);
 	cone->resize(factor, RefPoint);
 
-	//cone->calculate_points(RefPoint);
-
 	coneRef = cone->getPosition();
 	scoopRef = scoop->getPosition();
 	pGame->increment_steps();
@@ -341,6 +390,18 @@ void ice_cream::flip() {
 
 }
 
+double ice_cream::getRadius() {
+	return NULL;
+}
+
+vector<point> ice_cream::getCorners() {
+	return vector<point>();
+}
+
+vector<point> ice_cream::getPoints() {
+	return vector<point>();
+}
+
 void ice_cream::saveOrnaments(ofstream& file) {
 	file << pGame->getScore();
 	file << pGame->getLevel();
@@ -349,9 +410,14 @@ void ice_cream::saveOrnaments(ofstream& file) {
 	scoop->saveOrnaments(file);
 }
 
-void ice_cream::matching_detection(game* pGame) {
-	cone->matching_detection(pGame);
-	scoop->matching_detection(pGame);
+bool ice_cream::matching_detection(game* pGame, shape* predicate) {
+	ice_cream* casted_predicate = dynamic_cast<ice_cream*>(predicate);
+	return (cone->matching_detection(pGame, casted_predicate->cone) && 
+		scoop->matching_detection(pGame, casted_predicate->scoop));
+}
+
+string ice_cream::getID() {
+	return "Ice-Cream";
 }
 
 Tree::Tree(game* r_pGame, point ref) : shape(r_pGame, ref, true) { 
@@ -411,10 +477,6 @@ void Tree::resize(double factor, point composite_reference)
 	T3->resize(factor, RefPoint);
 	body->resize(factor, RefPoint);
 
-	//T1->calculate_points(RefPoint);
-	//T2->calculate_points(RefPoint);
-	//T3->calculate_points(RefPoint);
-
 	T1Ref = T1->getPosition();
 	T2Ref = T2->getPosition();
 	T3Ref = T3->getPosition();
@@ -448,11 +510,28 @@ void Tree::flip() {
 
 }
 
-void Tree::matching_detection(game* pGame) {
-	body->matching_detection(pGame);
-	T1->matching_detection(pGame);
-	T2->matching_detection(pGame);
-	T3->matching_detection(pGame);
+double Tree::getRadius() {
+	return NULL;
+}
+
+vector<point> Tree::getCorners() {
+	return vector<point>();
+}
+
+vector<point> Tree::getPoints() {
+	return vector<point>();
+}
+
+bool Tree::matching_detection(game* pGame, shape* predicate) {
+	Tree* casted_predicate = dynamic_cast<Tree*>(predicate);
+	return (body->matching_detection(pGame, casted_predicate->body) && 
+		T1->matching_detection(pGame, casted_predicate->T1) &&
+		T2->matching_detection(pGame, casted_predicate->T2) && 
+		T3->matching_detection(pGame, casted_predicate->T3));
+}
+
+string Tree::getID() {
+	return "Tree";
 }
 
 
@@ -564,11 +643,24 @@ void Rocket::flip() {
 
 }
 
-void Rocket::matching_detection(game* pGame) {
-	T1->matching_detection(pGame);
-	T2->matching_detection(pGame);
-	T3->matching_detection(pGame);
-	body->matching_detection(pGame);
+double Rocket::getRadius() {
+	return NULL;
+}
+
+vector<point> Rocket::getCorners() {
+	return vector<point>();
+}
+
+vector<point> Rocket::getPoints() {
+	return vector<point>();
+}
+
+bool Rocket::matching_detection(game* pGame, shape* predicate) {
+	Rocket* casted_predicate = dynamic_cast<Rocket*>(predicate);
+	return (T1->matching_detection(pGame, casted_predicate->T1) && 
+		T2->matching_detection(pGame, casted_predicate->T2) &&
+		T3->matching_detection(pGame, casted_predicate->T3) &&
+		body->matching_detection(pGame, casted_predicate->body));
 }
 
 void Rocket::saveOrnaments(ofstream& file) {
@@ -579,6 +671,10 @@ void Rocket::saveOrnaments(ofstream& file) {
 	T1->saveOrnaments(file);
 	T2->saveOrnaments(file);
 	T3->saveOrnaments(file);
+}
+
+string Rocket::getID() {
+	return "Rocket";
 }
 
 Car::Car(game* r_pGame, point ref) :shape(r_pGame, ref, true)
@@ -685,12 +781,25 @@ void Car::flip() {
 
 }
 
-void Car::matching_detection(game* pGame) {
-	T1->matching_detection(pGame);
-	R1->matching_detection(pGame);
-	R2->matching_detection(pGame);
-	C1->matching_detection(pGame);
-	C2->matching_detection(pGame);
+double Car::getRadius() {
+	return NULL;
+}
+
+vector<point> Car::getCorners() {
+	return vector<point>();
+}
+
+vector<point> Car::getPoints() {
+	return vector<point>();
+}
+
+bool Car::matching_detection(game* pGame, shape* predicate) {
+	Car* casted_predicate = dynamic_cast<Car*>(predicate);
+	return (T1->matching_detection(pGame, casted_predicate->T1) && 
+		R1->matching_detection(pGame, casted_predicate->R1) &&
+		R2->matching_detection(pGame, casted_predicate->R2) && 
+		C1->matching_detection(pGame, casted_predicate->C1) &&
+		C2->matching_detection(pGame, casted_predicate->C2));
 }
 
 void Car::saveOrnaments(ofstream& file) {
@@ -702,6 +811,10 @@ void Car::saveOrnaments(ofstream& file) {
 	R2->saveOrnaments(file);
 	C1->saveOrnaments(file);
 	C2->saveOrnaments(file);
+}
+
+string Car::getID() {
+	return "Car";
 }
 
 point reference_shift(point refc, point refb, double factor) {

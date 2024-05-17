@@ -15,6 +15,7 @@ grid::grid(point r_uprleft, int wdth, int hght, game* pG)
 	cols = width / config.gridSpacing;
 	shapeCount = 0;
 	srand(time(nullptr));
+	key = NULL;
 
 	for (int i = 0; i < MaxShapeCount; i++)
 		shapeList[i] = nullptr;
@@ -91,6 +92,8 @@ void grid::clearGridArea() const
 point grid::randomPoint() {
 	int x = 60+ rand() %(1340-60+1) ;
 	int y = 90+ rand() % (530-90+1);
+	x -= x % config.gridSpacing;
+	y -= y % config.gridSpacing;
 	return point{ x, y };
 }
 
@@ -151,5 +154,22 @@ void grid::addRandomShape()
 
 shape* grid::getActiveShape() {
 	return activeShape;
+}
+
+shape** grid::getShapeList() {
+	return &shapeList[0];
+}
+
+int grid::getShapeCount() {
+	return shapeCount;
+}
+
+
+char grid::getKey() {
+	return key;
+}
+
+void grid::setKey(char k) {
+	key = k;
 }
 

@@ -3,6 +3,7 @@
 #include "gameConfig.h"
 #include <iostream>
 #include <fstream>
+#include <string>
 #include "game.h"
 
 point rotate_coordinates(point coords, double angle, point origin);
@@ -133,16 +134,17 @@ vector<point> Rect::getCorners() {
 	return corners;
 }
 
-void Rect::matching_detection(game* pGame) {
-	//shape* predicate = pGame->getGrid()->getRandomShape(); //replace active shape with random shape
-	/*if (getCorners() == predicate->getCorners()) {
-		score += 2;
-		return true;
-	}
-	else {
-		score -= 1;
-		return false;
-	}*/
+vector<point> Rect::getPoints() {
+	return vector<point>();
+}
+
+double Rect::getRadius() {
+	return NULL;
+}
+
+bool Rect::matching_detection(game* pGame, shape* predicate) {
+	Rect* casted_rect = dynamic_cast<Rect*>(predicate);
+	return (getCorners() == casted_rect->getCorners());
 }
 
 RectangleTransform::RectangleTransform(point reference, vector<double> dimensions) {
@@ -265,6 +267,15 @@ double circle::getRadius() {
 	return rad;
 }
 
+vector<point> circle::getCorners() {
+	return vector<point>();
+}
+
+vector<point> circle::getPoints() {
+	return vector<point>();
+}
+
+
 void circle::saveOrnaments(ofstream& file) {
 	file << "circle";
 	file << RefPoint.x;
@@ -277,16 +288,9 @@ void circle::saveOrnaments(ofstream& file) {
 	//file << config.penColor;
 }
 
-void circle::matching_detection(game* pGame) {
-	//shape* predicate = pGame->getGrid()->getRandomShape(); //replace active shape with random shape
-	/*if (rad == predicate->getRadius() && RefPoint == predicate->getPosition()) {
-		score += 2;
-		return true; 
-	}
-	else {
-		score -= 1;
-		return false;
-	}*/
+bool circle::matching_detection(game* pGame, shape* predicate) {
+	circle* casted_circle = dynamic_cast<circle*>(predicate);
+	return (rad == casted_circle->getRadius() && RefPoint == casted_circle->getPosition());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -411,14 +415,10 @@ void EqTriangle::move(char c) {
 
 void EqTriangle::saveOrnaments(ofstream& file) {
 	file << "EqTriangle";
-	file << RefPoint.x;
-	file << RefPoint.y;
+	file << RefPoint.x << RefPoint.y << rotations << flips << resizes;
 	//file << point1;
 	//file << point2;
 	//file << point3;
-	file << rotations;
-	file << flips;
-	file << resizes;
 	//file << config.fillColor;
 	//file << config.penColor;
 }
@@ -456,14 +456,17 @@ vector<point> EqTriangle::getPoints() {
 	return points;
 }
 
-void EqTriangle::matching_detection(game* pGame) {
-	//shape* predicate = pGame->getGrid()->getRandomShape(); //replace active shape with random shape
-	/*if (getPoints() == predicate->getPoints()) {
-		score += 2;
-	}
-	else {
-		score -= 1;
-	}*/
+double EqTriangle::getRadius() {
+	return NULL;
+}
+
+vector<point> EqTriangle::getCorners() {
+	return vector<point>();
+}
+
+bool EqTriangle::matching_detection(game* pGame, shape* predicate) {
+	EqTriangle* casted_eqtriangle = dynamic_cast<EqTriangle*>(predicate);
+	return (getPoints() == casted_eqtriangle->getPoints());
 }
 
 ////////////////////////////////////////////////////  class RightTriangle  ///////////////////////////////////////
@@ -611,16 +614,17 @@ vector<point> RightTriangle::getPoints() {
 	return points;
 }
 
-void RightTriangle::matching_detection(game* pGame) {
-	//shape* predicate = pGame->getGrid()->getRandomShape(); //replace active shape with random shape
-	/*if (getPoints() == predicate->getPoints()) {
-		score += 2;
-		return true;
-	}
-	else {
-		score -= 1;
-		return false;
-	}*/
+double RightTriangle::getRadius() {
+	return NULL;
+}
+
+vector<point> RightTriangle::getCorners() {
+	return vector<point>();
+}
+
+bool RightTriangle::matching_detection(game* pGame, shape* predicate) {
+	RightTriangle* casted_rightriangle = dynamic_cast<RightTriangle*>(predicate);
+	return (getPoints() == casted_rightriangle->getPoints());
 }
 
 void RightTriangle::saveOrnaments(ofstream& file) {

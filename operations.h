@@ -36,7 +36,7 @@ public:
 
 class operMove : public operation {
 public:
-	operMove(game* r_Ggame);
+	operMove(game* r_pGame);
 	virtual void Act();
 };
 
