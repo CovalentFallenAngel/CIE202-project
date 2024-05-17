@@ -82,6 +82,16 @@ void game::decrement_steps() {
 	pWind->DrawInteger(xInteger + 100, 40, xsteps);
 }
 
+void game::decrement_level() {
+	int xInteger = config.toolbarItemWidth * 16 + 65;
+	level--;
+	pWind->SetPen(config.bkGrndColor);
+	pWind->SetBrush(config.bkGrndColor);
+	pWind->DrawRectangle(xInteger, 0, 1120, 20);
+	pWind->SetPen(BLACK);
+	pWind->DrawInteger(xInteger, 0, level);
+}
+
 void game::setsec(int s) { sec = s; }
 
 void game::setact(int a) { act = a; }
@@ -244,6 +254,7 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		break;
 	case ITM_Ref:
 		printMessage("You clicked on Refresh!");
+		op = new operRef(this);
 		break;
 	case ITM_Hint:
 		printMessage("You clicked on Hint!");
@@ -353,7 +364,6 @@ void game::run()
 		//printMessage("Ready...");
 		//1- Get user click
 		//if (startacting) {
-		
 			pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
 			
 			//2-Explain the user click

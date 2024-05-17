@@ -53,6 +53,7 @@ public:
 	grid* getGrid() const;		//returns a pointer to the shapes grid
 	toolbar* getToolBar() const;
 	void decrement_steps();
+	void decrement_level();
 	//void levelup(game* pGame);
 
 	//creates an operation according to the toolbar item clicked
