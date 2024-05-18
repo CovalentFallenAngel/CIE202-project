@@ -285,6 +285,10 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		printMessage("You clicked on Save!");
 		op = new operSave(this);
 		break;
+	case ITM_Load:
+		printMessage("You clicked on Load!");
+		op = new operLoad(this);
+		break;
 	
 	case ITM_EXIT:
 	default:
@@ -415,13 +419,13 @@ void game::run()
 	thread new_thread(&operMove::Act, p1);
 	new_thread.detach();*/
 
-	if (level == 1) {
-		shapesGrid->addRandomShape();
-	}
-	if (level == 2) {
-		shapesGrid->addRandomShape();
-		shapesGrid->addRandomShape();
-	}
+	//if (level == 1) {
+	//	shapesGrid->addRandomShape();
+	//}
+	//if (level == 2) {
+	//	shapesGrid->addRandomShape();
+	//	shapesGrid->addRandomShape();
+	//}
 
 	//Change the title
 	pWind->ChangeTitle("- - - - - - - - - - SHAPE HUNT Team 1 - - - - - - - - - -");
@@ -431,6 +435,7 @@ void game::run()
 		//printMessage("Ready...");
 		//1- Get user click
 		//if (startacting) {
+		shapesGrid->addRandomShape();
 			pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
 			
 			//2-Explain the user click
