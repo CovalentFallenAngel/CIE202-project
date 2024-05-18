@@ -34,7 +34,7 @@ public:
 	virtual vector<point> getPoints() override;
 	virtual vector<point> getCorners() override;
 	virtual double getRadius() override;
-	virtual void saveOrnaments(ofstream& file) override;
+	//virtual void saveOrnaments(ofstream& file) override;
 	bool matching_detection(game* pGame, shape* predicate) override;
 
 };
@@ -78,7 +78,7 @@ public:
 	virtual vector<point> getPoints() override;
 	virtual vector<point> getCorners() override;
 	virtual double getRadius() override;
-	virtual void saveOrnaments(ofstream& file) override;
+	//virtual void saveOrnaments(ofstream& file) override;
 	bool matching_detection(game* pGame, shape* predicate);
 
 };
@@ -94,7 +94,7 @@ public:
 	virtual void rotate(point reference);
 	virtual void flip(point reference);
 	virtual void calculate_reference();
-	virtual void saveOrnaments(ofstream& file) override;
+	//virtual void saveOrnaments(ofstream& file) override;
 	bool matching_detection(game* pGame, shape* predicate) override;
 	virtual vector<point> getPoints() override;
 	virtual vector<point> getCorners() override;
@@ -120,7 +120,7 @@ public:
 	vector<point> getPoints() override;
 	vector<point> getCorners() override;
 	double getRadius() override;
-	virtual void saveOrnaments(ofstream& file) override;
+	//virtual void saveOrnaments(ofstream& file) override;
 	bool matching_detection(game* pGame, shape* predicate) override;
 
 private:

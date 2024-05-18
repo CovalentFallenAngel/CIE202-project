@@ -210,6 +210,9 @@
     <None Include="ClassDiagram.cd" />
     <None Include="ProjClassDiagram.cd" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Saved_Data.TXT" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
