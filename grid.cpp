@@ -90,8 +90,8 @@ void grid::clearGridArea() const
 //	return point{ x, y };
 //}
 point grid::randomPoint() {
-	int x = 60+ rand() %(1340-60+1) ;
-	int y = 90+ rand() % (530-90+1);
+	int x = 120+ rand() %(200-120+1) ;
+	int y = 100+ rand() % (470-100+1);
 	x -= x % config.gridSpacing;
 	y -= y % config.gridSpacing;
 	return point{ x, y };
@@ -116,7 +116,7 @@ void grid::setActiveShape(shape* actShape)
 }
 
 int grid:: randomSize() {
-	double random = 1 + rand() % 6, rndsize = (1 / random);
+	double random = 1 + rand() % (10-1+1), rndsize = (1 / random);
 	return rndsize ; // Generate a random size 
 }
 void grid::addRandomShape()

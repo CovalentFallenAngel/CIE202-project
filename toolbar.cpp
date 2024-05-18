@@ -30,6 +30,7 @@ toolbar::toolbar(game* pG)
 	toolbarItemImages[ITM_del] = "images\\toolbarItems\\Delete.jpg";
 	toolbarItemImages[ITM_SGL] = "images\\toolbarItems\\SGL.jpg";
 	toolbarItemImages[ITM_SAL] = "images\\toolbarItems\\save.jpg";
+	toolbarItemImages[ITM_Load] = "images\\toolbarItems\\Load.jpg";
 	toolbarItemImages[ITM_EXIT] = "images\\toolbarItems\\toolbar_Exit.jpg";
 	//TODO: Prepare image for each toolbar item and add it to the list
 	//Draw toolbar item one image at a time

@@ -1,4 +1,1 @@
-Player score: 13
-Levels completed: 15
-Lives: 14
-
+015Rect00000EqTriangle00000RightTriangle00000RightTriangle00000
