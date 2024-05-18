@@ -307,13 +307,16 @@ void operRef::Act()
 {
 	grid* pGrid = pGame->getGrid();
 	pGrid->clearGridArea();
-	int l = pGame->getLevel();
+	int lev = pGame->getLevel();
+	int l = pGame->getLives();
 	int x;
-	x = (2 * l) - 1;
-	for (int i = 0; i < x; i++) {
-		pGrid->addRandomShape();
+	x = (2 * lev) - 1;
+	if (l > 0) {
+		for (int i = 0; i < x; i++) {
+			pGrid->addRandomShape();
+		}
+		pGame->decrement_lives();
 	}
-	pGame->decrement_level();
 }
 
 
