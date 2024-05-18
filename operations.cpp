@@ -295,6 +295,20 @@ operLoad::operLoad(game* r_pGame) :operation(r_pGame)
 
 void operLoad::Act()
 {
+	ifstream file("saved_data.txt");
+	vector<string>retrieved_data;
+	string data;
+	while (file >> data) {
+		retrieved_data.push_back(data);
+	}
+
+	pGame->score = stoi(retrieved_data[0]);
+	pGame->level = stoi(retrieved_data[1]);
+	pGame->lives = stoi(retrieved_data[2]);
+
+	for (int i = 3; i < retrieved_data.size(); i += 11) {
+		 
+	}
 }
 
 

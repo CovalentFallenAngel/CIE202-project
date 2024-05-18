@@ -86,8 +86,8 @@ void Sign::saveOrnaments(ofstream& file) {
 	file << "Sign" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
 	file << rotations << " " << resizes << " ";
-	file << fillColor.ucRed << " " << fillColor.ucGreen << " " << fillColor.ucBlue << " ";
-	file << borderColor.ucRed << " " << borderColor.ucGreen << " " << borderColor.ucBlue << endl;
+	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
 string Sign::getID() {
@@ -180,8 +180,8 @@ void Home::saveOrnaments(ofstream& file) {
 	file << "Home" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
 	file << rotations << " " << resizes << " ";
-	file << fillColor.ucRed << " " << fillColor.ucGreen << " " << fillColor.ucBlue << " ";
-	file << borderColor.ucRed << " " << borderColor.ucGreen << " " << borderColor.ucBlue << endl;
+	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
 string Home::getID() {
@@ -326,8 +326,8 @@ void Person::saveOrnaments(ofstream& file) {
 	file << "Person" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
 	file << rotations << " " << resizes << " ";
-	file << fillColor.ucRed << " " << fillColor.ucGreen << " " << fillColor.ucBlue << " ";
-	file << borderColor.ucRed << " " << borderColor.ucGreen << " " << borderColor.ucBlue << endl;
+	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
 string Person::getID() {
@@ -415,8 +415,8 @@ void ice_cream::saveOrnaments(ofstream& file) {
 	file << "Ice-Cream" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
 	file << rotations << " " << resizes << " ";
-	file << fillColor.ucRed << " " << fillColor.ucGreen << " " << fillColor.ucBlue << " ";
-	file << borderColor.ucRed << " " << borderColor.ucGreen << " " << borderColor.ucBlue << endl;
+	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
 bool ice_cream::matching_detection(game* pGame, shape* predicate) {
@@ -559,8 +559,8 @@ void Tree::saveOrnaments(ofstream& file) {
 	file << "Tree" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
 	file << rotations << " " << resizes << " ";
-	file << fillColor.ucRed << " " << fillColor.ucGreen << " " << fillColor.ucBlue << " ";
-	file << borderColor.ucRed << " " << borderColor.ucGreen << " " << borderColor.ucBlue << endl;
+	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
 Rocket::Rocket(game* r_pGame, point ref,int size) : shape(r_pGame, ref, true) {
@@ -680,8 +680,8 @@ void Rocket::saveOrnaments(ofstream& file) {
 	file << "Rocket" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
 	file << rotations << " " << resizes << " ";
-	file << fillColor.ucRed << " " << fillColor.ucGreen << " " << fillColor.ucBlue << " ";
-	file << borderColor.ucRed << " " << borderColor.ucGreen << " " << borderColor.ucBlue << endl;
+	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
 string Rocket::getID() {
@@ -819,8 +819,8 @@ void Car::saveOrnaments(ofstream& file) {
 	file << "Car" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
 	file << rotations << " " << resizes << " ";
-	file << fillColor.ucRed << " " << fillColor.ucGreen << " " << fillColor.ucBlue << " ";
-	file << borderColor.ucRed << " " << borderColor.ucGreen << " " << borderColor.ucBlue << endl;
+	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
 string Car::getID() {
