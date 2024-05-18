@@ -99,11 +99,23 @@ void game::decrement_lives() {
 	pWind->DrawInteger(xInteger, 0, lives);
 }
 
+void game::increment_level() {
+	int xInteger = config.toolbarItemWidth * 17 + 65;
+	level += 1;
+	pWind->SetPen(config.bkGrndColor);
+	pWind->SetBrush(config.bkGrndColor);
+	pWind->DrawRectangle(xInteger, 20, 1200, 40);
+	pWind->SetPen(BLACK);
+	pWind->DrawInteger(xInteger, 20, level);
+}
+
 void game::setsec(int s) { sec = s; }
 
 void game::setact(int a) { act = a; }
 
 //bool startacting = false;
+
+//int v;
 
 void game::thinkTimer(game* pGame)
 {
@@ -152,12 +164,12 @@ void game::actTimer(int xInteger){
 		pWind->DrawInteger(xInteger + 100, 20, act);
 	}
 
-	//if (act == 0 && sh->matching_detection(pGame) == false) {
+	//if (act == 0 && sh->matching_detection(pGame, ) == false) {
 	//	score--;
 	//	lives--;
 	//}
 
-	//else if (act > 0 && sh->matching_detection(pGame) == true) {
+	//else if (act > 0 && sh->matching_detection(pGame, ) == true) {
 	//	score += 2;
 	//	lives ++;
 	//}
@@ -350,6 +362,7 @@ void game::matching_proxy() {
 
 	if (isMatched != 0) {
 		score += 2;
+		increment_level();
 		getGrid()->Delete();
 	}
 	else {
