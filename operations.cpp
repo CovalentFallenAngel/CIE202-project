@@ -279,6 +279,7 @@ operSave::operSave(game* r_pGame) :operation(r_pGame)
 void operSave::Act()
 {
 	ofstream file("saved_data.txt");
+	file << pGame->getScore() << " " << pGame->getLevel() << " " << pGame->getLives() << endl;
 	int num = pGame->getGrid()->shapeCount;
 	for (int i = 0; i < num; i++) {
 		if (pGame->getGrid()->shapeList[i]) {

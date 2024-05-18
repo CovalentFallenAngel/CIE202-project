@@ -75,17 +75,19 @@ vector<point> Sign::getPoints() {
 }
 
 bool Sign::matching_detection(game* pGame, shape* predicate) {
-	Sign* casted_predicate = dynamic_cast<Sign*>(predicate);
-	return (base->matching_detection(pGame, casted_predicate->base) && 
-		top->matching_detection(pGame, casted_predicate->top));
+	bool cond = (base->matching_detection(pGame, dynamic_cast<Sign*>(predicate)->base) &&
+		top->matching_detection(pGame, dynamic_cast<Sign*>(predicate)->top));
+	
+	
+	return cond;
 }
 
 void Sign::saveOrnaments(ofstream& file) {
-	file << pGame->getScore();
-	file << pGame->getLevel();
-	file << pGame->getLives();
-	top->saveOrnaments(file);
-	base->saveOrnaments(file);
+	file << "Sign" << " ";
+	file << RefPoint.x << " " << RefPoint.y << " ";
+	file << rotations << " " << resizes << " ";
+	file << fillColor.ucRed << " " << fillColor.ucGreen << " " << fillColor.ucBlue << " ";
+	file << borderColor.ucRed << " " << borderColor.ucGreen << " " << borderColor.ucBlue << endl;
 }
 
 string Sign::getID() {
@@ -167,17 +169,19 @@ vector<point> Home::getPoints() {
 }
 
 bool Home::matching_detection(game* pGame, shape* predicate) {
-	Home* casted_predicate = dynamic_cast<Home*>(predicate);
-	return (base->matching_detection(pGame, casted_predicate->base) && 
-		top->matching_detection(pGame, casted_predicate->top));
+	bool cond = (base->matching_detection(pGame, dynamic_cast<Home*>(predicate)->base) &&
+		top->matching_detection(pGame, dynamic_cast<Home*>(predicate)->top));
+
+	
+	return cond;
 }
 
 void Home::saveOrnaments(ofstream& file) {
-	file << pGame->getScore();
-	file << pGame->getLevel();
-	file << pGame->getLives();
-	top->saveOrnaments(file);
-	base->saveOrnaments(file);
+	file << "Home" << " ";
+	file << RefPoint.x << " " << RefPoint.y << " ";
+	file << rotations << " " << resizes << " ";
+	file << fillColor.ucRed << " " << fillColor.ucGreen << " " << fillColor.ucBlue << " ";
+	file << borderColor.ucRed << " " << borderColor.ucGreen << " " << borderColor.ucBlue << endl;
 }
 
 string Home::getID() {
@@ -306,26 +310,24 @@ vector<point> Person::getPoints() {
 }
 
 bool Person::matching_detection(game* pGame, shape* predicate) {
-	Person* casted_predicate = dynamic_cast<Person*>(predicate);
-	return (head->matching_detection(pGame, casted_predicate->head) && 
-		body->matching_detection(pGame, casted_predicate->body) &&
-		Larm->matching_detection(pGame, casted_predicate->Larm) && 
-		Rarm->matching_detection(pGame, casted_predicate->Rarm) &&
-		Lleg->matching_detection(pGame, casted_predicate->Lleg) && 
-		Rleg->matching_detection(pGame, casted_predicate->Rleg));
+	bool cond = (head->matching_detection(pGame, dynamic_cast<Person*>(predicate)->head) &&
+		body->matching_detection(pGame, dynamic_cast<Person*>(predicate)->body) &&
+		Larm->matching_detection(pGame, dynamic_cast<Person*>(predicate)->Larm) &&
+		Rarm->matching_detection(pGame, dynamic_cast<Person*>(predicate)->Rarm) &&
+		Lleg->matching_detection(pGame, dynamic_cast<Person*>(predicate)->Lleg) &&
+		Rleg->matching_detection(pGame, dynamic_cast<Person*>(predicate)->Rleg));
+
+	
+	return cond;
 	
 }
 
 void Person::saveOrnaments(ofstream& file) {
-	file << pGame->getScore();
-	file << pGame->getLevel();
-	file << pGame->getLives();
-	head->saveOrnaments(file);
-	body->saveOrnaments(file);
-	Larm->saveOrnaments(file);
-	Rarm->saveOrnaments(file);
-	Lleg->saveOrnaments(file);
-	Rleg->saveOrnaments(file);
+	file << "Person" << " ";
+	file << RefPoint.x << " " << RefPoint.y << " ";
+	file << rotations << " " << resizes << " ";
+	file << fillColor.ucRed << " " << fillColor.ucGreen << " " << fillColor.ucBlue << " ";
+	file << borderColor.ucRed << " " << borderColor.ucGreen << " " << borderColor.ucBlue << endl;
 }
 
 string Person::getID() {
@@ -410,17 +412,19 @@ vector<point> ice_cream::getPoints() {
 }
 
 void ice_cream::saveOrnaments(ofstream& file) {
-	file << pGame->getScore();
-	file << pGame->getLevel();
-	file << pGame->getLives();
-	cone->saveOrnaments(file);
-	scoop->saveOrnaments(file);
+	file << "Ice-Cream" << " ";
+	file << RefPoint.x << " " << RefPoint.y << " ";
+	file << rotations << " " << resizes << " ";
+	file << fillColor.ucRed << " " << fillColor.ucGreen << " " << fillColor.ucBlue << " ";
+	file << borderColor.ucRed << " " << borderColor.ucGreen << " " << borderColor.ucBlue << endl;
 }
 
 bool ice_cream::matching_detection(game* pGame, shape* predicate) {
-	ice_cream* casted_predicate = dynamic_cast<ice_cream*>(predicate);
-	return (cone->matching_detection(pGame, casted_predicate->cone) && 
-		scoop->matching_detection(pGame, casted_predicate->scoop));
+	bool cond = (cone->matching_detection(pGame, dynamic_cast<ice_cream*>(predicate)->cone) &&
+		scoop->matching_detection(pGame, dynamic_cast<ice_cream*>(predicate)->scoop));
+
+	
+	return cond;
 }
 
 string ice_cream::getID() {
@@ -530,11 +534,13 @@ vector<point> Tree::getPoints() {
 }
 
 bool Tree::matching_detection(game* pGame, shape* predicate) {
-	Tree* casted_predicate = dynamic_cast<Tree*>(predicate);
-	return (body->matching_detection(pGame, casted_predicate->body) && 
-		T1->matching_detection(pGame, casted_predicate->T1) &&
-		T2->matching_detection(pGame, casted_predicate->T2) && 
-		T3->matching_detection(pGame, casted_predicate->T3));
+	bool cond = (body->matching_detection(pGame, dynamic_cast<Tree*>(predicate)->body) &&
+		T1->matching_detection(pGame, dynamic_cast<Tree*>(predicate)->T1) &&
+		T2->matching_detection(pGame, dynamic_cast<Tree*>(predicate)->T2) &&
+		T3->matching_detection(pGame, dynamic_cast<Tree*>(predicate)->T3));
+
+	
+	return cond;
 }
 
 string Tree::getID() {
@@ -550,13 +556,11 @@ string Tree::getID() {
 //}
 
 void Tree::saveOrnaments(ofstream& file) {
-	file << pGame->getScore();
-	file << pGame->getLevel();
-	file << pGame->getLives();
-	body->saveOrnaments(file);
-	T1->saveOrnaments(file);
-	T2->saveOrnaments(file);
-	T3->saveOrnaments(file);
+	file << "Tree" << " ";
+	file << RefPoint.x << " " << RefPoint.y << " ";
+	file << rotations << " " << resizes << " ";
+	file << fillColor.ucRed << " " << fillColor.ucGreen << " " << fillColor.ucBlue << " ";
+	file << borderColor.ucRed << " " << borderColor.ucGreen << " " << borderColor.ucBlue << endl;
 }
 
 Rocket::Rocket(game* r_pGame, point ref,int size) : shape(r_pGame, ref, true) {
@@ -663,21 +667,21 @@ vector<point> Rocket::getPoints() {
 }
 
 bool Rocket::matching_detection(game* pGame, shape* predicate) {
-	Rocket* casted_predicate = dynamic_cast<Rocket*>(predicate);
-	return (T1->matching_detection(pGame, casted_predicate->T1) && 
-		T2->matching_detection(pGame, casted_predicate->T2) &&
-		T3->matching_detection(pGame, casted_predicate->T3) &&
-		body->matching_detection(pGame, casted_predicate->body));
+	bool cond = (T1->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->T1) &&
+		T2->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->T2) &&
+		T3->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->T3) &&
+		body->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->body));;
+
+	
+	return cond;
 }
 
 void Rocket::saveOrnaments(ofstream& file) {
-	file << pGame->getScore();
-	file << pGame->getLevel();
-	file << pGame->getLives();
-	body->saveOrnaments(file);
-	T1->saveOrnaments(file);
-	T2->saveOrnaments(file);
-	T3->saveOrnaments(file);
+	file << "Rocket" << " ";
+	file << RefPoint.x << " " << RefPoint.y << " ";
+	file << rotations << " " << resizes << " ";
+	file << fillColor.ucRed << " " << fillColor.ucGreen << " " << fillColor.ucBlue << " ";
+	file << borderColor.ucRed << " " << borderColor.ucGreen << " " << borderColor.ucBlue << endl;
 }
 
 string Rocket::getID() {
@@ -801,23 +805,22 @@ vector<point> Car::getPoints() {
 }
 
 bool Car::matching_detection(game* pGame, shape* predicate) {
-	Car* casted_predicate = dynamic_cast<Car*>(predicate);
-	return (T1->matching_detection(pGame, casted_predicate->T1) && 
-		R1->matching_detection(pGame, casted_predicate->R1) &&
-		R2->matching_detection(pGame, casted_predicate->R2) && 
-		C1->matching_detection(pGame, casted_predicate->C1) &&
-		C2->matching_detection(pGame, casted_predicate->C2));
+	bool cond = (T1->matching_detection(pGame, dynamic_cast<Car*>(predicate)->T1) &&
+		R1->matching_detection(pGame, dynamic_cast<Car*>(predicate)->R1) &&
+		R2->matching_detection(pGame, dynamic_cast<Car*>(predicate)->R2) &&
+		C1->matching_detection(pGame, dynamic_cast<Car*>(predicate)->C1) &&
+		C2->matching_detection(pGame, dynamic_cast<Car*>(predicate)->C2));
+
+	
+	return cond;
 }
 
 void Car::saveOrnaments(ofstream& file) {
-	file << pGame->getScore();
-	file << pGame->getLevel();
-	file << pGame->getLives();
-	T1->saveOrnaments(file);
-	R1->saveOrnaments(file);
-	R2->saveOrnaments(file);
-	C1->saveOrnaments(file);
-	C2->saveOrnaments(file);
+	file << "Car" << " ";
+	file << RefPoint.x << " " << RefPoint.y << " ";
+	file << rotations << " " << resizes << " ";
+	file << fillColor.ucRed << " " << fillColor.ucGreen << " " << fillColor.ucBlue << " ";
+	file << borderColor.ucRed << " " << borderColor.ucGreen << " " << borderColor.ucBlue << endl;
 }
 
 string Car::getID() {

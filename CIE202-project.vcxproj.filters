@@ -218,9 +218,17 @@
     <Filter Include="toolbar">
       <UniqueIdentifier>{5f727420-cd1d-483b-8541-bd342f07e6df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Saved Data">
+      <UniqueIdentifier>{0439ee55-4978-489f-ab8e-9153ee43be59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
     <None Include="ProjClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Saved_Data.TXT">
+      <Filter>Saved Data</Filter>
+    </Text>
   </ItemGroup>
 </Project>

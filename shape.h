@@ -14,7 +14,7 @@ struct point
 
 public:
 	friend bool operator==(const point& lhs, const point& rhs) {
-		return (abs(lhs.x - rhs.x) <= 20 && abs(lhs.y - rhs.y) <= 20);
+		return (abs(lhs.x - rhs.x) <= 15 && abs(lhs.y - rhs.y) <= 15);
 	}
 };
 
@@ -63,7 +63,7 @@ public:
 	virtual bool matching_detection(game* pGame, shape* predicate) = 0;
 	virtual void move(char c) = 0;
 	virtual void flip();
-	virtual void saveOrnaments(ofstream& file) = 0;
+	virtual void saveOrnaments(ofstream& file);
 };
 
 
