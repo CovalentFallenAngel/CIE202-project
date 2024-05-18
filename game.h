@@ -57,6 +57,8 @@ public:
 	void decrement_xsteps();
 	void decrement_lives();
 	void increment_level();
+	void increment_score();
+	void decrement_score();
 	//void levelup(game* pGame);
 
 	//creates an operation according to the toolbar item clicked

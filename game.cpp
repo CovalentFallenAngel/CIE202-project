@@ -64,11 +64,11 @@ void game::setLives(int live) { lives = live; }
 void game::setLevel(int lev) { level = lev; }
 
 void game::increment_steps() { 
-	int xInteger = config.toolbarItemWidth * 17 + 65;
-	steps++;
+	int xInteger = config.toolbarItemWidth * 18 + 65;
+	steps += 1;
 	pWind->SetPen(config.bkGrndColor);
 	pWind->SetBrush(config.bkGrndColor);
-	pWind->DrawRectangle(xInteger + 100, 0, 1320, 20);
+	pWind->DrawRectangle(xInteger + 100, 0, 1370, 20);
 	pWind->SetPen(BLACK);
 	pWind->DrawInteger(xInteger + 100, 0, steps);
 	toolbar* tb = getToolBar();
@@ -77,11 +77,11 @@ void game::increment_steps() {
 }
 
 void game::decrement_xsteps() {
-	int xInteger = config.toolbarItemWidth * 17 + 65;
-	xsteps--;
+	int xInteger = config.toolbarItemWidth * 18 + 65;
+	xsteps -= 1;
 	pWind->SetPen(config.bkGrndColor);
 	pWind->SetBrush(config.bkGrndColor);
-	pWind->DrawRectangle(xInteger + 100, 40, 1320, 60);
+	pWind->DrawRectangle(xInteger + 100, 40, 1370, 60);
 	pWind->SetPen(BLACK);
 	pWind->DrawInteger(xInteger + 100, 40, xsteps);
 	toolbar* tb = getToolBar();
@@ -90,23 +90,43 @@ void game::decrement_xsteps() {
 }
 
 void game::decrement_lives() {
-	int xInteger = config.toolbarItemWidth * 16 + 65;
-	lives--;
+	int xInteger = config.toolbarItemWidth * 17 + 65;
+	lives -= 1;
 	pWind->SetPen(config.bkGrndColor);
 	pWind->SetBrush(config.bkGrndColor);
-	pWind->DrawRectangle(xInteger, 0, 1120, 20);
+	pWind->DrawRectangle(xInteger, 0, 1180, 20);
 	pWind->SetPen(BLACK);
 	pWind->DrawInteger(xInteger, 0, lives);
 }
 
 void game::increment_level() {
-	int xInteger = config.toolbarItemWidth * 17 + 65;
+	int xInteger = config.toolbarItemWidth * 18 + 65;
 	level += 1;
 	pWind->SetPen(config.bkGrndColor);
 	pWind->SetBrush(config.bkGrndColor);
-	pWind->DrawRectangle(xInteger, 20, 1200, 40);
+	pWind->DrawRectangle(xInteger, 20, 1250, 40);
 	pWind->SetPen(BLACK);
 	pWind->DrawInteger(xInteger, 20, level);
+}
+
+void game::increment_score() {
+	int xInteger = config.toolbarItemWidth * 18 + 65;
+	score += 2;
+	pWind->SetPen(config.bkGrndColor);
+	pWind->SetBrush(config.bkGrndColor);
+	pWind->DrawRectangle(xInteger, 40, 1260, 60);
+	pWind->SetPen(BLACK);
+	pWind->DrawInteger(xInteger, 40, score);
+}
+
+void game::decrement_score() {
+	int xInteger = config.toolbarItemWidth * 18 + 65;
+	score -= 1;
+	pWind->SetPen(config.bkGrndColor);
+	pWind->SetBrush(config.bkGrndColor);
+	pWind->DrawRectangle(xInteger, 40, 1260, 60);
+	pWind->SetPen(BLACK);
+	pWind->DrawInteger(xInteger, 40, score);
 }
 
 void game::setsec(int s) { sec = s; }
@@ -119,8 +139,8 @@ void game::setact(int a) { act = a; }
 
 void game::thinkTimer(game* pGame)
 {
-	int xInteger = config.toolbarItemWidth * 17 + 65;
-		
+	int xInteger = config.toolbarItemWidth * 18 + 65;
+		 
 	if (shapesGrid->getActiveShape() != nullptr) {
 		while (sec > 0) {
 			clock_t stop = clock() + CLOCKS_PER_SEC;
@@ -129,9 +149,9 @@ void game::thinkTimer(game* pGame)
 			
 			pWind->SetPen(config.bkGrndColor);
 			pWind->SetBrush(config.bkGrndColor);
-			pWind->DrawRectangle(xInteger + 100, 20, 1320, 40);
+			pWind->DrawRectangle(xInteger + 94, 20, 1366, 40);
 			pWind->SetPen(BLACK);
-			pWind->DrawInteger(xInteger + 100, 20, sec);
+			pWind->DrawInteger(xInteger + 94, 20, sec);
 		}
 		actTimer(xInteger);
 	}
@@ -159,9 +179,9 @@ void game::actTimer(int xInteger){
 		act--;
 		pWind->SetPen(config.bkGrndColor);
 		pWind->SetBrush(config.bkGrndColor);
-		pWind->DrawRectangle(xInteger + 100, 20, 1320, 40);
+		pWind->DrawRectangle(xInteger + 94, 20, 1366, 40);
 		pWind->SetPen(BLACK);
-		pWind->DrawInteger(xInteger + 100, 20, act);
+		pWind->DrawInteger(xInteger + 94, 20, act);
 	}
 
 	//if (act == 0 && sh->matching_detection(pGame, ) == false) {
@@ -365,12 +385,12 @@ void game::matching_proxy() {
 	}
 
 	if (isMatched != 0) {
-		score += 2;
+		increment_score();
 		increment_level();
 		getGrid()->Delete();
 	}
 	else {
-		score--;
+		decrement_score();
 	}
 
 	toolbar* tb = getToolBar();
