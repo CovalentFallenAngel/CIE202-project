@@ -275,6 +275,7 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		break;
 	case ITM_Load:
 		printMessage("You clicked on Load!");
+		op = new operLoad(this);
 		break;
 	
 	case ITM_EXIT:
