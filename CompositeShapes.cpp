@@ -29,7 +29,6 @@ void Sign::move(char c)
 	base->move(c);
 	top->move(c);
 	RefPoint = base->getPosition();
-
 	baseRef = base->getPosition();
 	topRef = top->getPosition();
 }
@@ -44,8 +43,6 @@ void Sign::resize(double factor, point composite_reference) {
 
 	base->resize(factor, RefPoint);
 	top->resize(factor, RefPoint);
-	pGame->increment_steps();
-	pGame->decrement_xsteps();
 	if (factor < 1) {
 		addResizes(-1);
 	}
@@ -57,16 +54,12 @@ void Sign::resize(double factor, point composite_reference) {
 void Sign::rotate(point reference) {
 	base->rotate(RefPoint);
 	top->rotate(RefPoint);
-	pGame->increment_steps();
-	pGame->decrement_xsteps();
 	setRotationAngle(-90);
 }
 
 void Sign::flip() {
 	base->flip(RefPoint);
 	top->flip(RefPoint);
-	pGame->increment_steps();
-	pGame->decrement_xsteps();
 	if (rotation_angle == 90 || rotation_angle == 270) {
 		setRotationAngle(180);
 	}
@@ -157,11 +150,7 @@ void Home::rotate(point reference) {
 
 	baseRef = base->getPosition();
 	topRef = top->getPosition();
-	pGame->increment_steps();
-	pGame->decrement_xsteps();
 	setRotationAngle(-90);
-
-
 }
 
 void Home::flip() {
@@ -170,12 +159,9 @@ void Home::flip() {
 
 	baseRef = base->getPosition();
 	topRef = top->getPosition();
-	pGame->increment_steps();
-	pGame->decrement_xsteps();
 	if (rotation_angle == 90 || rotation_angle == 270) {
 		setRotationAngle(180);
 	}
-
 }
 
 double Home::getRadius() {
@@ -250,8 +236,6 @@ void Person::rotate(point reference) {
 	Rarm->rotate(RefPoint);
 	Lleg->rotate(RefPoint);
 	Rleg->rotate(RefPoint);
-	pGame->increment_steps();
-	pGame->decrement_xsteps();
 	setRotationAngle(-90);
 
 
@@ -271,8 +255,6 @@ void Person::flip() {
 	rightArmRef = Rarm->getPosition();
 	leftLegRef = Lleg->getPosition();
 	rightLegRef = Rleg->getPosition();
-	pGame->increment_steps();
-	pGame->decrement_xsteps();
 	if (rotation_angle == 90 || rotation_angle == 270) {
 		setRotationAngle(180);
 	}
@@ -299,8 +281,6 @@ void Person::resize(double factor, point composite_reference)
 	rightArmRef = Rarm->getPosition();
 	leftLegRef = Lleg->getPosition();
 	rightLegRef = Rleg->getPosition();
-	pGame->increment_steps();
-	pGame->decrement_xsteps();
 
 	if (factor < 1) {
 		addResizes(-1);
@@ -407,8 +387,6 @@ void ice_cream::resize(double factor, point composite_reference)
 
 	coneRef = cone->getPosition();
 	scoopRef = scoop->getPosition();
-	pGame->increment_steps();
-	pGame->decrement_xsteps();
 	if (factor < 1) {
 		addResizes(-1);
 	}
@@ -424,8 +402,6 @@ void ice_cream::rotate(point reference) {
 
 	scoopRef = scoop->getPosition();
 	coneRef = cone->getPosition();
-	pGame->increment_steps();
-	pGame->decrement_xsteps();
 	setRotationAngle(-90);
 }
 
@@ -436,8 +412,6 @@ void ice_cream::flip() {
 	RefPoint = scoop->getPosition();
 	scoopRef = scoop->getPosition();
 	coneRef = cone->getPosition();
-	pGame->increment_steps();
-	pGame->decrement_xsteps();
 	if (rotation_angle == 90 || rotation_angle == 270) {
 		setRotationAngle(180);
 	}
@@ -517,7 +491,6 @@ void Tree::move(char c)
 	T1Ref = T1->getPosition();
 	T2Ref = T2->getPosition();
 	T3Ref = T3->getPosition();
-
 }
 
 void Tree::resize(double factor, point composite_reference)
@@ -536,8 +509,6 @@ void Tree::resize(double factor, point composite_reference)
 	T2Ref = T2->getPosition();
 	T3Ref = T3->getPosition();
 	bodyRef = body->getPosition();
-	pGame->increment_steps();
-	pGame->decrement_xsteps();
 
 	if (factor < 1) {
 		addResizes(-1);
@@ -552,8 +523,6 @@ void Tree::rotate(point reference) {
 	T1->rotate(RefPoint);
 	T2->rotate(RefPoint);
 	T3->rotate(RefPoint);
-	pGame->increment_steps();
-	pGame->decrement_xsteps();
 	setRotationAngle(-90);
 }
 
@@ -569,8 +538,6 @@ void Tree::flip() {
 	T1Ref = T1->getPosition();
 	T2Ref = T2->getPosition();
 	T3Ref = T3->getPosition();
-	pGame->increment_steps();
-	pGame->decrement_xsteps();
 	if (rotation_angle == 90 || rotation_angle == 270) {
 		setRotationAngle(180);
 	}
@@ -602,14 +569,6 @@ string Tree::getID() {
 	return "Tree";
 }
 
-
-//Rocket::Rocket(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
-//	T1Ref = { (ref.x + config.Rocket.side_length - 70) * size,(ref.y - 10) * size };
-//	T2Ref = { (ref.x + config.Rocket.Rbase_length - 65) * size,(ref.y + 35) * size };
-//	T3Ref = { (ref.x + config.Rocket.Lbase_length - 40) * size,(ref.y + 35) * size };
-//	bodyRef = { (ref.x - config.Rocket.basewdth - 9) * size, (ref.y + config.Rocket.basehght - 45) * size };
-//}
-
 void Tree::saveOrnaments(ofstream& file) {
 	file << "Tree" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
@@ -618,11 +577,11 @@ void Tree::saveOrnaments(ofstream& file) {
 	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
-Rocket::Rocket(game* r_pGame, point ref,int size) : shape(r_pGame, ref, true) {
-	T1Ref = { (ref.x + config.Rocket.side_length - 70)*size,(ref.y - 10) * size };
-	T2Ref = { (ref.x + config.Rocket.Rbase_length - 65) * size,(ref.y + 35) * size };
-	T3Ref = { (ref.x + config.Rocket.Lbase_length - 40) * size,(ref.y + 35) * size };
-	bodyRef = { (ref.x - config.Rocket.basewdth - 9) * size, (ref.y + config.Rocket.basehght - 45) * size };
+Rocket::Rocket(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
+	T1Ref = { (ref.x + config.Rocket.side_length - 70),(ref.y - 10) };
+	T2Ref = { (ref.x + config.Rocket.Rbase_length - 65),(ref.y + 35)};
+	T3Ref = { (ref.x + config.Rocket.Lbase_length - 40),(ref.y + 35) };
+	bodyRef = { (ref.x - config.Rocket.basewdth - 9), (ref.y + config.Rocket.basehght - 45) };
 	RefPoint = bodyRef;
 	T1 = new EqTriangle(r_pGame, T1Ref, config.Rocket.side_length, 1);
 	T2 = new RightTriangle(r_pGame, T2Ref, config.Rocket.Rbase_length, config.Rocket.Rhght, 2);
@@ -664,8 +623,6 @@ void Rocket::resize(double factor, point composite_reference)
 	T2Ref = T2->getPosition();
 	T3Ref = T3->getPosition();
 	bodyRef = body->getPosition();
-	pGame->increment_steps();
-	pGame->decrement_xsteps();
 
 	if (factor < 1) {
 		addResizes(-1);
@@ -696,8 +653,6 @@ void Rocket::rotate(point reference) {
 	T1->rotate(RefPoint);
 	T2->rotate(RefPoint);
 	T3->rotate(RefPoint);
-	pGame->increment_steps();
-	pGame->decrement_xsteps();
 	setRotationAngle(-90);
 }
 
@@ -713,8 +668,6 @@ void Rocket::flip() {
 	T1Ref = T1->getPosition();
 	T2Ref = T2->getPosition();
 	T3Ref = T3->getPosition();
-	pGame->increment_steps();
-	pGame->decrement_xsteps();
 	if (rotation_angle == 90 || rotation_angle == 270) {
 		setRotationAngle(180);
 	}
@@ -826,8 +779,6 @@ void Car::resize(double factor, point composite_reference)
 	R2Ref = R2->getPosition();
 	C1Ref = C1->getPosition();
 	C2Ref = C2->getPosition();
-	pGame->increment_steps();
-	pGame->decrement_xsteps();
 
 	if (factor < 1) {
 		addResizes(-1);
@@ -843,8 +794,6 @@ void Car::rotate(point reference) {
 	R2->rotate(RefPoint);
 	C1->rotate(RefPoint);
 	C2->rotate(RefPoint);
-	pGame->increment_steps();
-	pGame->decrement_xsteps();
 	setRotationAngle(-90);
 }
 
@@ -862,8 +811,6 @@ void Car::flip() {
 	R2Ref = R2->getPosition();
 	C1Ref = C1->getPosition();
 	C2Ref = C2->getPosition();
-	pGame->increment_steps();
-	pGame->decrement_xsteps();
 	if (rotation_angle == 90 || rotation_angle == 270) {
 		setRotationAngle(180);
 	}

@@ -67,7 +67,6 @@ void Rect::rotate(point reference)
 
 	this->upperLeft = new_coords[0]; this->lowerBottom = new_coords[1];
 
-	this->draw(1);
 }
 
 void Rect::flip(point reference)
@@ -84,8 +83,6 @@ void Rect::flip(point reference)
 		this->wdth = new_dims[0]; this->hght = new_dims[1];
 
 		this->upperLeft = new_coords[0]; this->lowerBottom = new_coords[1];
-
-		this->draw(1);
 	}
 }
 
@@ -113,16 +110,6 @@ void Rect::move(char c) {
 	calculate_reference();
 }
 
-//void Rect::saveOrnaments(ofstream& file) {
-//	file << "Rect" << " ";
-//	file << RefPoint.x << " ";
-//	file << RefPoint.y << " ";
-//	file << rotations << " ";
-//	file << flips << " ";
-//	file << resizes << " ";
-//	//file << config.fillColor;
-//	//file << config.penColor;
-//}
 
 vector<point> Rect::getCorners() {
 	vector<point> corners;
@@ -246,7 +233,6 @@ void circle::rotate(point reference)
 {
 	if (reference.x != this->RefPoint.x || reference.y != this->RefPoint.y) {
 		this->RefPoint = rotate_coordinates(this->RefPoint, -90, reference);
-		this->draw(1);
 	}
 }
 
@@ -255,7 +241,6 @@ void circle::flip(point reference)
 {
 	if (reference.x != this->RefPoint.x || reference.y != this->RefPoint.y) {
 		this->RefPoint = reflect_coordinates(this->RefPoint, reference);
-		this->draw(1);
 	}
 }
 
@@ -270,19 +255,6 @@ vector<point> circle::getCorners() {
 vector<point> circle::getPoints() {
 	return vector<point>();
 }
-
-
-//void circle::saveOrnaments(ofstream& file) {
-//	file << "circle" << " ";
-//	file << RefPoint.x << " ";
-//	file << RefPoint.y << " ";
-//	//file << rad;
-//	file << rotations << " ";
-//	file << flips << " ";
-//	file << resizes << " ";
-//	//file << config.fillColor;
-//	//file << config.penColor;
-//}
 
 bool circle::matching_detection(game* pGame, shape* predicate) {
 	bool cond = (rad == dynamic_cast<circle*>(predicate)->getRadius() && 
@@ -370,8 +342,6 @@ void EqTriangle::rotate(point reference) {
 	this->point3 = new_coords[2];
 
 	calculate_reference();
-
-	this->draw(1);
 }
 
 ////////////////////////////////////////////////////  class triangle  ///////////////////////////////////////
@@ -408,16 +378,6 @@ void EqTriangle::move(char c) {
 
 	calculate_reference();
 }
-
-//void EqTriangle::saveOrnaments(ofstream& file) {
-//	file << "EqTriangle" << " ";
-//	file << RefPoint.x << " " << RefPoint.y << " " << rotations << " " << flips << " " << resizes << " ";
-//	//file << point1;
-//	//file << point2;
-//	//file << point3;
-//	//file << config.fillColor;
-//	//file << config.penColor;
-//}
 
 point resize_points(point p, point origin, double factor) {
 	point new_coords{}; new_coords.x = p.x; new_coords.y = p.y;
@@ -548,8 +508,6 @@ void RightTriangle::rotate(point reference) {
 	this->point3 = new_coords[2];
 
 	calculate_reference();
-
-	this->draw(1);
 }
 
 void RightTriangle::flip(point reference) {
@@ -572,7 +530,6 @@ void RightTriangle::flip(point reference) {
 
 	calculate_reference();
 
-	this->draw(1);
 }
 
 void RightTriangle::move(char c) {
@@ -622,20 +579,6 @@ bool RightTriangle::matching_detection(game* pGame, shape* predicate) {
 	
 	return cond;
 }
-
-//void RightTriangle::saveOrnaments(ofstream& file) {
-//	file << "RightTriangle" << " ";
-//	file << RefPoint.x << " ";
-//	file << RefPoint.y << " ";
-//	//file << point1;
-//	//file << point2;
-//	//file << point3;
-//	file << rotations << " ";
-//	file << flips << " ";
-//	file << resizes << " ";
-//	//file << config.fillColor;
-//	//file << config.penColor;
-//}
 
 point rotate_coordinates(point coords, double angle, point origin) {
 	double rad_angle = angle * 3.141592653 / 180;
