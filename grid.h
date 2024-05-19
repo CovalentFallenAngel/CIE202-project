@@ -27,13 +27,14 @@ public:
 	void clearGridArea() const;
 	bool addShape(shape* newShape);
 	void setActiveShape(shape* actShape);
-	shape** getShapeList();
+	shape* getShapeList();
 	int getShapeCount();
 	void setKey(char key);
 	char getKey();
 
 	point randomPoint();
 	void randomSize(int resize_times, shape* &newShape);
+	void randomFlip(int Flip_times, shape*& newshape);
 	void randomrotate (int rotate_times, shape* newshape);
 	void addRandomShape();
 	shape* getActiveShape();
