@@ -258,8 +258,10 @@ operHint::operHint(game* r_pGame) :operation(r_pGame)
 {
 	shape* myShape = pGame->getGrid()->getActiveShape();
 	myShape->setcolor(RED);
+	myShape->draw(1);
 	Sleep(200);
 	myShape->setcolor(BLACK);
+	myShape->draw(1);
 }
 void operHint::Act()
 {

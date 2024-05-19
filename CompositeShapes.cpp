@@ -98,6 +98,11 @@ string Sign::getID() {
 	return "Sign";
 }
 
+void Sign::setcolor(color c) {
+	base->setcolor(c);
+	top->setcolor(c);
+}
+
 Home::Home(game* r_pGame, point ref) :shape(r_pGame, ref, true) {
 	topRef = ref;
 	baseRef = { ref.x,ref.y + config.Homeshape.side_length / 30 + config.Homeshape.basehght / 2 };
@@ -194,6 +199,10 @@ void Home::saveOrnaments(ofstream& file) {
 
 string Home::getID() {
 	return "Home";
+}
+void Home::setcolor(color c) {
+	base->setcolor(c);
+	top->setcolor(c);
 }
 
 Person::Person(game* r_pGame, point ref) : shape(r_pGame, ref, true)
@@ -347,6 +356,10 @@ void Person::saveOrnaments(ofstream& file) {
 string Person::getID() {
 	return "Person";
 }
+void Person::setcolor(color c) {
+	body->setcolor(c);
+	head->setcolor(c);
+}
 
 ice_cream::ice_cream(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
 	scoopRef = { ref.x,ref.y };
@@ -447,6 +460,11 @@ bool ice_cream::matching_detection(game* pGame, shape* predicate) {
 
 string ice_cream::getID() {
 	return "Ice-Cream";
+}
+
+void ice_cream::setcolor(color c) {
+	cone->setcolor(c);
+	scoop->setcolor(c);
 }
 
 Tree::Tree(game* r_pGame, point ref) : shape(r_pGame, ref, true) { 
@@ -577,6 +595,13 @@ void Tree::saveOrnaments(ofstream& file) {
 	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
+void Tree::setcolor(color c) {
+	body->setcolor(c);
+	T1->setcolor(c);
+	T2->setcolor(c);
+	T3->setcolor(c);
+}
+
 Rocket::Rocket(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
 	T1Ref = { (ref.x + config.Rocket.side_length - 70),(ref.y - 10) };
 	T2Ref = { (ref.x + config.Rocket.Rbase_length - 65),(ref.y + 35)};
@@ -705,6 +730,12 @@ void Rocket::saveOrnaments(ofstream& file) {
 
 string Rocket::getID() {
 	return "Rocket";
+}
+void Rocket::setcolor(color c) {
+	body->setcolor(c);
+	T1->setcolor(c);
+	T2->setcolor(c);
+	T3->setcolor(c);
 }
 
 Car::Car(game* r_pGame, point ref) :shape(r_pGame, ref, true)
@@ -867,4 +898,11 @@ point reference_shift(point refc, point refb, double factor) {
 	new_ref.y = refb.y + shift.y;
 
 	return new_ref;
+}
+void Car::setcolor(color c) {
+	T1->setcolor(c);
+	C1->setcolor(c);
+	C2->setcolor(c);
+	R1->setcolor(c);
+	R2->setcolor(c);
 }

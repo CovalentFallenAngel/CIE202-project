@@ -49,7 +49,6 @@ public:
     shape(game* r_pGame, point ref, bool isComposite = false);
     virtual void draw(int x) const = 0;//for a shape to draw itself on the screen
 	void setRefPoint(point p);
-	void setcolor(color c);
 	void setbordercolor(color c);
 	void setRotationAngle(int increment);
 	int getRotationAngle();
@@ -58,6 +57,7 @@ public:
 	virtual vector<point> getCorners();
 	virtual double getRadius();
 	virtual string getID();
+	virtual void setcolor(color c);
 	virtual void rotate(point reference);
 	virtual void resize(double factor, point composite_reference) = 0;
 	virtual bool matching_detection(game* pGame, shape* predicate) = 0;

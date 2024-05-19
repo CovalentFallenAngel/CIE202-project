@@ -37,6 +37,7 @@ public:
 	virtual void move(char c) override;
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
+	virtual void setcolor(color c) override;
 	virtual std::string getID() override;
 	virtual void flip();
 	virtual vector<point> getPoints() override;
@@ -67,7 +68,7 @@ public:
 	virtual double getRadius() override;
 	virtual void saveOrnaments(ofstream& file) override;
 	bool matching_detection(game* pGame, shape* predicate) override;
-
+	virtual void setcolor(color c) override;
 };
 
 class Person : public shape {
@@ -97,7 +98,7 @@ public:
 	virtual double getRadius() override;
 	virtual void saveOrnaments(ofstream& file) override;
 	bool matching_detection(game* pGame, shape* predicate) override;
-
+	virtual void setcolor(color c) override;
 };
 
 class ice_cream :public shape {
@@ -119,6 +120,8 @@ public:
 	virtual double getRadius() override;
 	virtual void saveOrnaments(ofstream& file) override;
 	bool matching_detection(game* pGame, shape* predicate) override;
+	virtual void setcolor(color c) override;
+
 };
 
 class Tree :public shape {
@@ -145,6 +148,7 @@ public:
 	virtual double getRadius() override;
 	virtual void saveOrnaments(ofstream& file) override;
 	bool matching_detection(game* pGame, shape* predicate) override;
+	virtual void setcolor(color c) override;
 };
 
 class Rocket :public shape {
@@ -167,6 +171,7 @@ public:
 	virtual double getRadius() override;
 	virtual void saveOrnaments(ofstream& file) override;
 	bool matching_detection(game* pGame, shape* predicate) override;
+	virtual void setcolor(color c) override;
 };
 
 class Car : public shape {
@@ -194,5 +199,5 @@ public:
 	virtual double getRadius() override;
 	virtual void saveOrnaments(ofstream& file) override;
 	bool matching_detection(game* pGame, shape* predicate) override;
-
+	virtual void setcolor(color c) override;
 }; 

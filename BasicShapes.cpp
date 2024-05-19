@@ -193,6 +193,10 @@ void RectangleTransform::flip(point flip_reference) {
 	flip_dims.push_back(dims[0]); flip_dims.push_back(dims[1]);
 }
 
+void Rect::setcolor(color c) {
+	fillColor = c;
+}
+
 ////////////////////////////////////////////////////  class circle  ///////////////////////////////////////
 //TODO: Add implementation for class circle here
 circle::circle(game* r_pGame, point ref, int r) :shape(r_pGame, ref)
@@ -261,6 +265,10 @@ bool circle::matching_detection(game* pGame, shape* predicate) {
 		RefPoint == dynamic_cast<circle*>(predicate)->getPosition());
 	
 	return cond;
+}
+
+void circle::setcolor(color c) {
+	fillColor = c;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -424,6 +432,10 @@ bool EqTriangle::matching_detection(game* pGame, shape* predicate) {
 	bool cond = (getPoints() == dynamic_cast<EqTriangle*>(predicate)->getPoints());
 	
 	return cond;
+}
+
+void EqTriangle::setcolor(color c) {
+	fillColor = c;
 }
 
 ////////////////////////////////////////////////////  class RightTriangle  ///////////////////////////////////////
@@ -671,4 +683,8 @@ void TriangleTransform::reflect(point reference) {
 		reflect_coords.push_back(reflect_coordinates(coords[i], reference));
 	}
 	flip_ref = reflect_coordinates(ref, reference);
+}
+
+void RightTriangle::setcolor(color c) {
+	fillColor = c;
 }
