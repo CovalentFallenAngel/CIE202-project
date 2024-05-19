@@ -321,8 +321,6 @@ void EqTriangle::flip(point reference)
 		this->point3 = new_coords[2];
 
 		calculate_reference();
-
-		this->draw(1);
 	}
 }
 

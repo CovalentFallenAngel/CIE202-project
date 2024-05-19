@@ -400,30 +400,33 @@ grid* game::getGrid() const
 }
 
 void game::matching_proxy() {
-	shape* shape_array = this->getGrid()->getShapeList();
+	shape** shape_array = this->getGrid()->getShapeList();
+	shape* ashape = nullptr;
 	shape* matchedShape = nullptr;
 	int scount = this->getGrid()->getShapeCount();
 	int isMatched = 0;
 	for (int i = 0; i < scount; i++) {
-		if ((shape_array + i) != nullptr) {
-			if ((shape_array + i)->getID() == (this->getGrid()->getActiveShape())->getID() &&
-				(shape_array + i) != this->getGrid()->getActiveShape()) {
-				bool check = (shape_array + i)->matching_detection(this, this->getGrid()->getActiveShape());
-				// ^^^ replace active shape with the array of random shapes ^^^
+
+		shape_array = this->getGrid()->getShapeList();
+		if (shape_array[i] != nullptr) {
+
+			ashape = this->getGrid()->getActiveShape();
+			if (shape_array[i]->getID() == ashape->getID())
+			{
+				bool check = shape_array[i]->matching_detection(this, ashape);
 
 				if (check == true) {
 					isMatched++;
 					num_matched++;
-					matchedShape = (shape_array + i);
+					increment_score();
+					increment_level();
+					delete shape_array[i];
+					shape_array[i] = nullptr;
+					this->getGrid()->Delete();
 				}
 			}
 		}
 
-		if (isMatched != 0) {
-			increment_score();
-			increment_level();
-			delete matchedShape;
-		}
 		else {
 			decrement_score();
 		}
@@ -465,6 +468,7 @@ void game::run()
 	//This function reads the position where the user clicks to determine the desired operation
 	int x, y;
 	bool isExit = false;
+	int current_level = level - 1;
 
 	hub_thread = thread(&game::thread_hub, this);
 	hub_thread.detach();
@@ -483,9 +487,13 @@ void game::run()
 		//printMessage("Ready...");
 		//1- Get user click
 		//if (startacting) {
-		int numofShapes = (2 * level) - 1;
-		for (int i = 0; i < numofShapes; i++) {
-			shapesGrid->addRandomShape();
+		if (level > current_level) {
+			int numofShapes = (2 * level) - 1;
+			for (int i = 0; i < numofShapes; i++) {
+				shapesGrid->addRandomShape();
+			}
+			shapesGrid->draw();
+			current_level++;
 		}
 		pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
 			
@@ -500,10 +508,10 @@ void game::run()
 			if (op)
 				op->Act();
 
-			//4-Redraw the grid after each action
-			
-			shapesGrid->draw();
 		}
+		//4-Redraw the grid after each action
+
+		shapesGrid->draw();
 		
 	} while (clickedItem!=ITM_EXIT);
 
