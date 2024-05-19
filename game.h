@@ -25,7 +25,7 @@ class game
 	bool isThinking;
 	int num_matched;
 protected:
-	int level, lives, steps, score, sec, act, xsteps;
+	int level, lives, steps, score, sec, act, Matched;
 
 
 public:
@@ -42,7 +42,6 @@ public:
 	int getScore() const;
 	int getLives()const;
 	int get_steps() const;
-	int get_xsteps() const;
 	void setScore(int s);
 	void setLevel(int lev);
 	void setLives(int live);
@@ -56,11 +55,13 @@ public:
 	window* getWind() const;		//returns a pointer to the graphics window
 	grid* getGrid() const;		//returns a pointer to the shapes grid
 	toolbar* getToolBar() const;
-	void decrement_xsteps();
 	void decrement_lives();
 	void increment_level();
 	void increment_score();
 	void decrement_score();
+	int getMatched();
+	void increment_match();
+	void game::setThink(int i);
 	//void levelup(game* pGame);
 
 	//creates an operation according to the toolbar item clicked
