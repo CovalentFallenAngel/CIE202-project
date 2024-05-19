@@ -168,9 +168,9 @@ void operAddRocket::Act()
 
 	//take the aligned point as the Rocket shape ref point
 	point RocketShapeRef = { xGrid,yGrid };
-	int size = 1;
+	double size = 1;
 	//create a Rocket shape
-	shape* shape = new Rocket(pGame, RocketShapeRef,size);
+	shape* shape = new Rocket(pGame, RocketShapeRef);
 
 	//Add the shape to the grid
 	pGrid->setActiveShape(shape);
@@ -229,6 +229,7 @@ void operRotate::Act()
 	if (shape != nullptr) {
 		point p = shape->getPosition();
 		shape->rotate(p);
+		shape->draw(1);
 	}
 }
 
@@ -255,6 +256,10 @@ void operDelete::Act()
 
 operHint::operHint(game* r_pGame) :operation(r_pGame)
 {
+	shape* myShape = pGame->getGrid()->getActiveShape();
+	myShape->setcolor(RED);
+	Sleep(200);
+	myShape->setcolor(BLACK);
 }
 void operHint::Act()
 {
@@ -352,7 +357,7 @@ void operLoad::Act()
 			newShape = new Home(pGame, RPoint);
 		}
 		else if (shape_name == "Rocket") {
-			newShape = new Rocket(pGame, RPoint, resizes);
+			newShape = new Rocket(pGame, RPoint);
 		}
 		else if (shape_name == "Ice-Cream") {
 			newShape = new ice_cream(pGame, RPoint);

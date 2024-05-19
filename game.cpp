@@ -153,13 +153,13 @@ void game::setact(int a) { act = a; }
 void game::thinkTimer(game* pGame)
 {
 	int xInteger = config.toolbarItemWidth * 18 + 65;
-		 
+
 	if (shapesGrid->getActiveShape() != nullptr) {
 		while (sec > 0) {
 			clock_t stop = clock() + CLOCKS_PER_SEC;
 			while (clock() < stop) {}
 			sec--;
-			
+
 			pWind->SetPen(config.bkGrndColor);
 			pWind->SetBrush(config.bkGrndColor);
 			pWind->DrawRectangle(xInteger + 94, 20, 1366, 40);
@@ -170,22 +170,7 @@ void game::thinkTimer(game* pGame)
 		thread actThread(&game::actTimer, this, xInteger);
 		actThread.detach();
 	}
-
-	//else if (k == 2 || k == 4 || k == 6 || k == 8) {
-	//	getGrid()->getActiveShape()->move(c);
-	//}
-
-		//startacting = true;
-	//thread act_thread(&game::actTimer, pGame, xInteger);
-	//act_thread.detach();
 }
-
-//void game::levelup(game* pGame) {
-//	if (sh->matching_detection(pGame) == true) {
-//		int l = pGame->getLevel();
-//		pGame->setLevel(l++);
-//	}
-//}
 
 void game::actTimer(int xInteger){
 	int n_matched = num_matched;
@@ -259,57 +244,89 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 	case ITM_SIGN:
 		op = new operAddSign(this);
 		printMessage("You clicked on the Sign shape!");
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_ICE:
 		printMessage("You clicked on the Icecream shape!");
 		op = new operAddice(this);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_CAR:
 		printMessage("You clicked on the Car shape!");
 		op = new operAddCar(this);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_Person:
 		printMessage("You clicked on the Person shape!");
 		op = new operAddPerson(this);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_Home:
 		printMessage("You clicked on the Home shape!");
 		op = new operAddHome(this);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_Rocket:
 		printMessage("You clicked on the Rocket shape");
 		op = new operAddRocket(this);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_Tree:
 		printMessage("You clicked on the Tree shape!");
 		op = new operAddTree(this);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_Inc:
 		printMessage("You clicked on Upscale!");
 		operResize* Sizeup;
 		Sizeup = new operResize(this);
 		Sizeup->Actmain(1.1);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_Dec:
 		printMessage("You clicked on Downscale!");
 		operResize* Sizedown;
 		Sizedown = new operResize(this);
 		Sizedown->Actmain(0.9);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_Rotate:
 		printMessage("You clicked on Rotate!");
 		op = new operRotate(this);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_Flip:
 		printMessage("You clicked on Flip!");
 		op = new operFlip(this);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_Ref:
 		printMessage("You clicked on Refresh!");
 		op = new operRef(this);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_Hint:
-		printMessage("You clicked on Hint!");
+		if (level > 3) {
+			op = new operHint(this);
+			printMessage("A hint was given!");
+			increment_steps();
+			decrement_xsteps();
+		}
+		else {
+			printMessage("Hints are only given after level 3!");
+		}
 		break;
 	case ITM_del:
 		op = new operDelete(this);
@@ -327,7 +344,6 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		printMessage("You clicked on Load!");
 		op = new operLoad(this);
 		break;
-	
 	case ITM_EXIT:
 	default:
 		break;
@@ -459,14 +475,6 @@ void game::run()
 	thread new_thread(&operMove::Act, p1);
 	new_thread.detach();*/
 
-	//if (level == 1) {
-	//	shapesGrid->addRandomShape();
-	//}
-	//if (level == 2) {
-	//	shapesGrid->addRandomShape();
-	//	shapesGrid->addRandomShape();
-	//}
-
 	//Change the title
 	pWind->ChangeTitle("- - - - - - - - - - SHAPE HUNT Team 1 - - - - - - - - - -");
 	toolbarItem clickedItem=ITM_CNT;
@@ -475,7 +483,10 @@ void game::run()
 		//printMessage("Ready...");
 		//1- Get user click
 		//if (startacting) {
-		shapesGrid->addRandomShape();
+		/*int numofShapes = (2 * level) - 1;
+		for (int i = 0; i < numofShapes; i++) {
+			shapesGrid->addRandomShape();
+		}*/
 		pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
 			
 		//2-Explain the user click
@@ -491,8 +502,6 @@ void game::run()
 
 			//4-Redraw the grid after each action
 			shapesGrid->draw();
-				
-
 		}
 		
 	} while (clickedItem!=ITM_EXIT);

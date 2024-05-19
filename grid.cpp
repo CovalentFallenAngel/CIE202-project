@@ -3,6 +3,7 @@
 #include "gameConfig.h"
 #include<cstdlib>
 #include<time.h>
+#include <cmath>
 
 
 grid::grid(point r_uprleft, int wdth, int hght, game* pG)
@@ -81,14 +82,7 @@ void grid::clearGridArea() const
 	pWind->SetBrush(config.bkGrndColor);
 	pWind->DrawRectangle(uprLeft.x, uprLeft.y, uprLeft.x + width, uprLeft.y + height);
 }
-//point grid::randomPoint() {
-//	return point{ rand() % cols * config.gridSpacing + uprLeft.x, rand() % rows * config.gridSpacing + uprLeft.y };
-//}
-//point grid::randomPoint() {
-//	int x = rand() % (cols - 1) * config.gridSpacing + uprLeft.x;
-//	int y = rand() % (rows - 1) * config.gridSpacing + uprLeft.y;
-//	return point{ x, y };
-//}
+
 point grid::randomPoint() {
 	int x = 120+ rand() %(200-120+1) ;
 	int y = 100+ rand() % (470-100+1);
@@ -115,10 +109,24 @@ void grid::setActiveShape(shape* actShape)
 	activeShape = actShape;
 }
 
-int grid:: randomSize() {
-	double random = 1 + rand() % (10-1+1), rndsize = (1 / random);
-	return rndsize ; // Generate a random size 
+void grid:: randomSize(int reize_times, shape* &newshape ) {
+	for (int i = 0; i < abs(reize_times); i++) {
+		if (reize_times > 0) {
+			newshape->resize(1.1, newshape->getPosition());
+		}
+		else {
+			newshape->resize(0.9, newshape->getPosition());
+		}
+	}
 }
+
+void grid::randomrotate(int rotate_times, shape* newshape)
+{
+	for (int i = 0; i < rotate_times; i++) {
+		newshape->rotate(newshape->getPosition());
+	}
+}
+
 void grid::addRandomShape()
 {
 	// Generate a random shape type
@@ -126,7 +134,6 @@ void grid::addRandomShape()
 
 	// Generate a random point and size
 	point p = randomPoint();
-	int s = randomSize();
 	// Create a random shape based on the generated type, point
 	shape* newShape =nullptr;
 	switch (shapeType) {
@@ -137,7 +144,7 @@ void grid::addRandomShape()
 		newShape = new Home(pGame, p);
 		break;
 	case 3:
-		newShape = new Rocket(pGame, p,s);
+		newShape = new Rocket(pGame, p);
 		break;
 	case 4:
 		newShape = new ice_cream(pGame, p);
@@ -149,6 +156,8 @@ void grid::addRandomShape()
 		newShape = new Tree(pGame, p);
 		break;
 	}
+	randomSize(2, newShape);
+	randomrotate(3, newShape);
 	addShape(newShape);
 }
 
