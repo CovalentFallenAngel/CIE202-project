@@ -46,6 +46,12 @@ void Sign::resize(double factor, point composite_reference) {
 	top->resize(factor, RefPoint);
 	pGame->increment_steps();
 	pGame->decrement_xsteps();
+	if (factor < 1) {
+		addResizes(-1);
+	}
+	else if (factor > 1) {
+		addResizes(1);
+	}
 }
 
 void Sign::rotate(point reference) {
@@ -53,6 +59,7 @@ void Sign::rotate(point reference) {
 	top->rotate(RefPoint);
 	pGame->increment_steps();
 	pGame->decrement_xsteps();
+	setRotationAngle(-90);
 }
 
 void Sign::flip() {
@@ -60,6 +67,10 @@ void Sign::flip() {
 	top->flip(RefPoint);
 	pGame->increment_steps();
 	pGame->decrement_xsteps();
+	if (rotation_angle == 90 || rotation_angle == 270) {
+		setRotationAngle(180);
+	}
+
 }
 
 double Sign::getRadius() {
@@ -85,9 +96,9 @@ bool Sign::matching_detection(game* pGame, shape* predicate) {
 void Sign::saveOrnaments(ofstream& file) {
 	file << "Sign" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
-	file << rotations << " " << resizes << " ";
-	file << fillColor.ucRed << " " << fillColor.ucGreen << " " << fillColor.ucBlue << " ";
-	file << borderColor.ucRed << " " << borderColor.ucGreen << " " << borderColor.ucBlue << endl;
+	file << rotation_angle << " " << resizes << " " << isFlipped << " ";
+	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
 string Sign::getID() {
@@ -119,6 +130,12 @@ void Home::resize(double factor, point composite_reference)
 
 	topRef = top->getPosition();
 	pGame->increment_steps();
+	if (factor < 1) {
+		addResizes(-1);
+	}
+	else if (factor > 1) {
+		addResizes(1);
+	}
 
 }
 
@@ -142,6 +159,8 @@ void Home::rotate(point reference) {
 	topRef = top->getPosition();
 	pGame->increment_steps();
 	pGame->decrement_xsteps();
+	setRotationAngle(-90);
+
 
 }
 
@@ -153,6 +172,9 @@ void Home::flip() {
 	topRef = top->getPosition();
 	pGame->increment_steps();
 	pGame->decrement_xsteps();
+	if (rotation_angle == 90 || rotation_angle == 270) {
+		setRotationAngle(180);
+	}
 
 }
 
@@ -179,9 +201,9 @@ bool Home::matching_detection(game* pGame, shape* predicate) {
 void Home::saveOrnaments(ofstream& file) {
 	file << "Home" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
-	file << rotations << " " << resizes << " ";
-	file << fillColor.ucRed << " " << fillColor.ucGreen << " " << fillColor.ucBlue << " ";
-	file << borderColor.ucRed << " " << borderColor.ucGreen << " " << borderColor.ucBlue << endl;
+	file << rotation_angle << " " << resizes << " " << isFlipped << " ";
+	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
 string Home::getID() {
@@ -230,6 +252,8 @@ void Person::rotate(point reference) {
 	Rleg->rotate(RefPoint);
 	pGame->increment_steps();
 	pGame->decrement_xsteps();
+	setRotationAngle(-90);
+
 
 }
 
@@ -249,6 +273,9 @@ void Person::flip() {
 	rightLegRef = Rleg->getPosition();
 	pGame->increment_steps();
 	pGame->decrement_xsteps();
+	if (rotation_angle == 90 || rotation_angle == 270) {
+		setRotationAngle(180);
+	}
 }
 
 void Person::resize(double factor, point composite_reference)
@@ -274,6 +301,13 @@ void Person::resize(double factor, point composite_reference)
 	rightLegRef = Rleg->getPosition();
 	pGame->increment_steps();
 	pGame->decrement_xsteps();
+
+	if (factor < 1) {
+		addResizes(-1);
+	}
+	else if (factor > 1) {
+		addResizes(1);
+	}
 }
 
 
@@ -325,9 +359,9 @@ bool Person::matching_detection(game* pGame, shape* predicate) {
 void Person::saveOrnaments(ofstream& file) {
 	file << "Person" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
-	file << rotations << " " << resizes << " ";
-	file << fillColor.ucRed << " " << fillColor.ucGreen << " " << fillColor.ucBlue << " ";
-	file << borderColor.ucRed << " " << borderColor.ucGreen << " " << borderColor.ucBlue << endl;
+	file << rotation_angle << " " << resizes << " " << isFlipped << " ";
+	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
 string Person::getID() {
@@ -375,6 +409,12 @@ void ice_cream::resize(double factor, point composite_reference)
 	scoopRef = scoop->getPosition();
 	pGame->increment_steps();
 	pGame->decrement_xsteps();
+	if (factor < 1) {
+		addResizes(-1);
+	}
+	else if (factor > 1) {
+		addResizes(1);
+	}
 
 }
 
@@ -386,6 +426,7 @@ void ice_cream::rotate(point reference) {
 	coneRef = cone->getPosition();
 	pGame->increment_steps();
 	pGame->decrement_xsteps();
+	setRotationAngle(-90);
 }
 
 void ice_cream::flip() {
@@ -397,6 +438,9 @@ void ice_cream::flip() {
 	coneRef = cone->getPosition();
 	pGame->increment_steps();
 	pGame->decrement_xsteps();
+	if (rotation_angle == 90 || rotation_angle == 270) {
+		setRotationAngle(180);
+	}
 }
 
 double ice_cream::getRadius() {
@@ -414,9 +458,9 @@ vector<point> ice_cream::getPoints() {
 void ice_cream::saveOrnaments(ofstream& file) {
 	file << "Ice-Cream" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
-	file << rotations << " " << resizes << " ";
-	file << fillColor.ucRed << " " << fillColor.ucGreen << " " << fillColor.ucBlue << " ";
-	file << borderColor.ucRed << " " << borderColor.ucGreen << " " << borderColor.ucBlue << endl;
+	file << rotation_angle << " " << resizes << " " << isFlipped << " ";
+	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
 bool ice_cream::matching_detection(game* pGame, shape* predicate) {
@@ -494,6 +538,13 @@ void Tree::resize(double factor, point composite_reference)
 	bodyRef = body->getPosition();
 	pGame->increment_steps();
 	pGame->decrement_xsteps();
+
+	if (factor < 1) {
+		addResizes(-1);
+	}
+	else if (factor > 1) {
+		addResizes(1);
+	}
 }
 
 void Tree::rotate(point reference) {
@@ -503,6 +554,7 @@ void Tree::rotate(point reference) {
 	T3->rotate(RefPoint);
 	pGame->increment_steps();
 	pGame->decrement_xsteps();
+	setRotationAngle(-90);
 }
 
 void Tree::flip() {
@@ -519,6 +571,9 @@ void Tree::flip() {
 	T3Ref = T3->getPosition();
 	pGame->increment_steps();
 	pGame->decrement_xsteps();
+	if (rotation_angle == 90 || rotation_angle == 270) {
+		setRotationAngle(180);
+	}
 }
 
 double Tree::getRadius() {
@@ -558,9 +613,9 @@ string Tree::getID() {
 void Tree::saveOrnaments(ofstream& file) {
 	file << "Tree" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
-	file << rotations << " " << resizes << " ";
-	file << fillColor.ucRed << " " << fillColor.ucGreen << " " << fillColor.ucBlue << " ";
-	file << borderColor.ucRed << " " << borderColor.ucGreen << " " << borderColor.ucBlue << endl;
+	file << rotation_angle << " " << resizes << " " << isFlipped << " ";
+	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
 Rocket::Rocket(game* r_pGame, point ref,int size) : shape(r_pGame, ref, true) {
@@ -611,6 +666,13 @@ void Rocket::resize(double factor, point composite_reference)
 	bodyRef = body->getPosition();
 	pGame->increment_steps();
 	pGame->decrement_xsteps();
+
+	if (factor < 1) {
+		addResizes(-1);
+	}
+	else if (factor > 1) {
+		addResizes(1);
+	}
 }
 
 void Rocket::move(char c)
@@ -636,6 +698,7 @@ void Rocket::rotate(point reference) {
 	T3->rotate(RefPoint);
 	pGame->increment_steps();
 	pGame->decrement_xsteps();
+	setRotationAngle(-90);
 }
 
 void Rocket::flip() {
@@ -652,6 +715,9 @@ void Rocket::flip() {
 	T3Ref = T3->getPosition();
 	pGame->increment_steps();
 	pGame->decrement_xsteps();
+	if (rotation_angle == 90 || rotation_angle == 270) {
+		setRotationAngle(180);
+	}
 }
 
 double Rocket::getRadius() {
@@ -679,9 +745,9 @@ bool Rocket::matching_detection(game* pGame, shape* predicate) {
 void Rocket::saveOrnaments(ofstream& file) {
 	file << "Rocket" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
-	file << rotations << " " << resizes << " ";
-	file << fillColor.ucRed << " " << fillColor.ucGreen << " " << fillColor.ucBlue << " ";
-	file << borderColor.ucRed << " " << borderColor.ucGreen << " " << borderColor.ucBlue << endl;
+	file << rotation_angle << " " << resizes << " " << isFlipped << " ";
+	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
 string Rocket::getID() {
@@ -762,6 +828,13 @@ void Car::resize(double factor, point composite_reference)
 	C2Ref = C2->getPosition();
 	pGame->increment_steps();
 	pGame->decrement_xsteps();
+
+	if (factor < 1) {
+		addResizes(-1);
+	}
+	else if (factor > 1) {
+		addResizes(1);
+	}
 }
 
 void Car::rotate(point reference) {
@@ -772,6 +845,7 @@ void Car::rotate(point reference) {
 	C2->rotate(RefPoint);
 	pGame->increment_steps();
 	pGame->decrement_xsteps();
+	setRotationAngle(-90);
 }
 
 void Car::flip() {
@@ -790,6 +864,11 @@ void Car::flip() {
 	C2Ref = C2->getPosition();
 	pGame->increment_steps();
 	pGame->decrement_xsteps();
+	if (rotation_angle == 90 || rotation_angle == 270) {
+		setRotationAngle(180);
+	}
+	switchFlip();
+
 }
 
 double Car::getRadius() {
@@ -818,9 +897,9 @@ bool Car::matching_detection(game* pGame, shape* predicate) {
 void Car::saveOrnaments(ofstream& file) {
 	file << "Car" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
-	file << rotations << " " << resizes << " ";
-	file << fillColor.ucRed << " " << fillColor.ucGreen << " " << fillColor.ucBlue << " ";
-	file << borderColor.ucRed << " " << borderColor.ucGreen << " " << borderColor.ucBlue << endl;
+	file << rotation_angle << " " << resizes << " " << isFlipped << " ";
+	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
 string Car::getID() {

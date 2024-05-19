@@ -68,8 +68,6 @@ void Rect::rotate(point reference)
 	this->upperLeft = new_coords[0]; this->lowerBottom = new_coords[1];
 
 	this->draw(1);
-
-	rotations++;
 }
 
 void Rect::flip(point reference)
@@ -89,7 +87,6 @@ void Rect::flip(point reference)
 
 		this->draw(1);
 	}
-	flips++;
 }
 
 
@@ -251,7 +248,6 @@ void circle::rotate(point reference)
 		this->RefPoint = rotate_coordinates(this->RefPoint, -90, reference);
 		this->draw(1);
 	}
-	rotations++;
 }
 
 
@@ -261,7 +257,6 @@ void circle::flip(point reference)
 		this->RefPoint = reflect_coordinates(this->RefPoint, reference);
 		this->draw(1);
 	}
-	flips++;
 }
 
 double circle::getRadius() {
@@ -357,7 +352,6 @@ void EqTriangle::flip(point reference)
 
 		this->draw(1);
 	}
-	flips++;
 }
 
 void EqTriangle::rotate(point reference) {
@@ -378,7 +372,6 @@ void EqTriangle::rotate(point reference) {
 	calculate_reference();
 
 	this->draw(1);
-	rotations++;
 }
 
 ////////////////////////////////////////////////////  class triangle  ///////////////////////////////////////
@@ -557,7 +550,6 @@ void RightTriangle::rotate(point reference) {
 	calculate_reference();
 
 	this->draw(1);
-	rotations++;
 }
 
 void RightTriangle::flip(point reference) {
@@ -581,7 +573,6 @@ void RightTriangle::flip(point reference) {
 	calculate_reference();
 
 	this->draw(1);
-	flips++;
 }
 
 void RightTriangle::move(char c) {

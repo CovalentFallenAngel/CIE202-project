@@ -42,8 +42,7 @@ protected:
 	color borderColor;	//shape border color
 	int rotation_angle;
 	bool isComposite;
-	int rotations = 0;
-	int flips = 0;
+	bool isFlipped;
 	int resizes;
 public:
     shape(game* r_pGame, point ref, bool isComposite = false);
@@ -64,6 +63,8 @@ public:
 	virtual void move(char c) = 0;
 	virtual void flip();
 	virtual void saveOrnaments(ofstream& file);
+	void addResizes(int resizes);
+	void switchFlip();
 };
 
 
