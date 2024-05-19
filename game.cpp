@@ -16,6 +16,7 @@ game::game()
 	act = 16;
 	xsteps = 80;
 
+
 	//Create the main window
 	createWind(config.windWidth, config.windHeight, config.wx, config.wy);
 
@@ -354,12 +355,15 @@ void game::matching_proxy() {
 	int scount = this->getGrid()->getShapeCount();
 	int isMatched = 0;
 	for (int i = 0; i < scount; i++) {
-		if ((*shape_array)[i].getID() == this->getGrid()->getActiveShape()->getID()) {
-			bool check = (*shape_array)[i].matching_detection(this, this->getGrid()->getActiveShape());
-			// ^^^ replace active shape with the array of random shapes ^^^
+		if (shape_array[i] != nullptr) {
+			if ((*shape_array)[i].getID() == this->getGrid()->getActiveShape()->getID() && 
+				shape_array[i] != this->getGrid()->getActiveShape()) {
+				bool check = (*shape_array)[i].matching_detection(this, this->getGrid()->getActiveShape());
+				// ^^^ replace active shape with the array of random shapes ^^^
 
-			if (check == true) {
-				isMatched++;
+				if (check == true) {
+					isMatched++;
+				}
 			}
 		}
 	}
