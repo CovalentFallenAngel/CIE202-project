@@ -15,6 +15,7 @@ game::game()
 	sec = 11;
 	act = 16;
 	xsteps = 80;
+	isThinking = false;
 
 
 	//Create the main window
@@ -65,11 +66,11 @@ void game::setLives(int live) { lives = live; }
 void game::setLevel(int lev) { level = lev; }
 
 void game::increment_steps() { 
-	int xInteger = config.toolbarItemWidth * 17 + 65;
-	steps++;
+	int xInteger = config.toolbarItemWidth * 18 + 65;
+	steps += 1;
 	pWind->SetPen(config.bkGrndColor);
 	pWind->SetBrush(config.bkGrndColor);
-	pWind->DrawRectangle(xInteger + 100, 0, 1320, 20);
+	pWind->DrawRectangle(xInteger + 100, 0, 1370, 20);
 	pWind->SetPen(BLACK);
 	pWind->DrawInteger(xInteger + 100, 0, steps);
 	toolbar* tb = getToolBar();
@@ -78,11 +79,11 @@ void game::increment_steps() {
 }
 
 void game::decrement_xsteps() {
-	int xInteger = config.toolbarItemWidth * 17 + 65;
-	xsteps--;
+	int xInteger = config.toolbarItemWidth * 18 + 65;
+	xsteps -= 1;
 	pWind->SetPen(config.bkGrndColor);
 	pWind->SetBrush(config.bkGrndColor);
-	pWind->DrawRectangle(xInteger + 100, 40, 1320, 60);
+	pWind->DrawRectangle(xInteger + 100, 40, 1370, 60);
 	pWind->SetPen(BLACK);
 	pWind->DrawInteger(xInteger + 100, 40, xsteps);
 	toolbar* tb = getToolBar();
@@ -91,23 +92,55 @@ void game::decrement_xsteps() {
 }
 
 void game::decrement_lives() {
-	int xInteger = config.toolbarItemWidth * 16 + 65;
-	lives--;
+	int xInteger = config.toolbarItemWidth * 17 + 65;
+	lives -= 1;
 	pWind->SetPen(config.bkGrndColor);
 	pWind->SetBrush(config.bkGrndColor);
-	pWind->DrawRectangle(xInteger, 0, 1120, 20);
+	pWind->DrawRectangle(xInteger, 0, 1150, 20);
 	pWind->SetPen(BLACK);
 	pWind->DrawInteger(xInteger, 0, lives);
+	toolbar* tb = getToolBar();
+	delete tb;
+	createToolBar();
 }
 
 void game::increment_level() {
-	int xInteger = config.toolbarItemWidth * 17 + 65;
+	int xInteger = config.toolbarItemWidth * 18 + 65;
 	level += 1;
 	pWind->SetPen(config.bkGrndColor);
 	pWind->SetBrush(config.bkGrndColor);
-	pWind->DrawRectangle(xInteger, 20, 1200, 40);
+	pWind->DrawRectangle(xInteger, 20, 1250, 40);
 	pWind->SetPen(BLACK);
 	pWind->DrawInteger(xInteger, 20, level);
+	toolbar* tb = getToolBar();
+	delete tb;
+	createToolBar();
+}
+
+void game::increment_score() {
+	int xInteger = config.toolbarItemWidth * 18 + 65;
+	score += 2;
+	pWind->SetPen(config.bkGrndColor);
+	pWind->SetBrush(config.bkGrndColor);
+	pWind->DrawRectangle(xInteger, 40, 1260, 60);
+	pWind->SetPen(BLACK);
+	pWind->DrawInteger(xInteger, 40, score);
+	toolbar* tb = getToolBar();
+	delete tb;
+	createToolBar();
+}
+
+void game::decrement_score() {
+	int xInteger = config.toolbarItemWidth * 18 + 65;
+	score -= 1;
+	pWind->SetPen(config.bkGrndColor);
+	pWind->SetBrush(config.bkGrndColor);
+	pWind->DrawRectangle(xInteger, 40, 1260, 60);
+	pWind->SetPen(BLACK);
+	pWind->DrawInteger(xInteger, 40, score);
+	toolbar* tb = getToolBar();
+	delete tb;
+	createToolBar();
 }
 
 void game::setsec(int s) { sec = s; }
@@ -120,60 +153,50 @@ void game::setact(int a) { act = a; }
 
 void game::thinkTimer(game* pGame)
 {
-	int xInteger = config.toolbarItemWidth * 17 + 65;
-		
+	int xInteger = config.toolbarItemWidth * 18 + 65;
+
 	if (shapesGrid->getActiveShape() != nullptr) {
 		while (sec > 0) {
 			clock_t stop = clock() + CLOCKS_PER_SEC;
 			while (clock() < stop) {}
 			sec--;
-			
+
 			pWind->SetPen(config.bkGrndColor);
 			pWind->SetBrush(config.bkGrndColor);
-			pWind->DrawRectangle(xInteger + 100, 20, 1320, 40);
+			pWind->DrawRectangle(xInteger + 94, 20, 1366, 40);
 			pWind->SetPen(BLACK);
-			pWind->DrawInteger(xInteger + 100, 20, sec);
+			pWind->DrawInteger(xInteger + 94, 20, sec);
 		}
-		actTimer(xInteger);
+		isThinking = false;
+		thread actThread(&game::actTimer, this, xInteger);
+		actThread.detach();
 	}
-
-	//else if (k == 2 || k == 4 || k == 6 || k == 8) {
-	//	getGrid()->getActiveShape()->move(c);
-	//}
-
-		//startacting = true;
-	//thread act_thread(&game::actTimer, pGame, xInteger);
-	//act_thread.detach();
 }
 
-//void game::levelup(game* pGame) {
-//	if (sh->matching_detection(pGame) == true) {
-//		int l = pGame->getLevel();
-//		pGame->setLevel(l++);
-//	}
-//}
-
 void game::actTimer(int xInteger){
+	int n_matched = num_matched;
 	while (act > 0) {
 		clock_t stop = clock() + CLOCKS_PER_SEC;
 		while (clock() < stop) {}
 		act--;
 		pWind->SetPen(config.bkGrndColor);
 		pWind->SetBrush(config.bkGrndColor);
-		pWind->DrawRectangle(xInteger + 100, 20, 1320, 40);
+		pWind->DrawRectangle(xInteger + 94, 20, 1366, 40);
 		pWind->SetPen(BLACK);
-		pWind->DrawInteger(xInteger + 100, 20, act);
+		pWind->DrawInteger(xInteger + 94, 20, act);
 	}
 
-	//if (act == 0 && sh->matching_detection(pGame, ) == false) {
-	//	score--;
-	//	lives--;
-	//}
+	bool wasMatched = (num_matched - n_matched > 0);
 
-	//else if (act > 0 && sh->matching_detection(pGame, ) == true) {
-	//	score += 2;
-	//	lives ++;
-	//}
+	if (act == 0 && wasMatched == false) {
+		decrement_lives();
+		decrement_score();
+	}
+
+	/*else if (act > 0 && wasMatched == true) {
+			score += 2;
+			lives++;
+		}*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -222,57 +245,89 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 	case ITM_SIGN:
 		op = new operAddSign(this);
 		printMessage("You clicked on the Sign shape!");
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_ICE:
 		printMessage("You clicked on the Icecream shape!");
 		op = new operAddice(this);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_CAR:
 		printMessage("You clicked on the Car shape!");
 		op = new operAddCar(this);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_Person:
 		printMessage("You clicked on the Person shape!");
 		op = new operAddPerson(this);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_Home:
 		printMessage("You clicked on the Home shape!");
 		op = new operAddHome(this);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_Rocket:
 		printMessage("You clicked on the Rocket shape");
 		op = new operAddRocket(this);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_Tree:
 		printMessage("You clicked on the Tree shape!");
 		op = new operAddTree(this);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_Inc:
 		printMessage("You clicked on Upscale!");
 		operResize* Sizeup;
 		Sizeup = new operResize(this);
 		Sizeup->Actmain(1.1);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_Dec:
 		printMessage("You clicked on Downscale!");
 		operResize* Sizedown;
 		Sizedown = new operResize(this);
 		Sizedown->Actmain(0.9);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_Rotate:
 		printMessage("You clicked on Rotate!");
 		op = new operRotate(this);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_Flip:
 		printMessage("You clicked on Flip!");
 		op = new operFlip(this);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_Ref:
 		printMessage("You clicked on Refresh!");
 		op = new operRef(this);
+		increment_steps();
+		decrement_xsteps();
 		break;
 	case ITM_Hint:
-		printMessage("You clicked on Hint!");
+		if (level > 3) {
+			op = new operHint(this);
+			printMessage("A hint was given!");
+			increment_steps();
+			decrement_xsteps();
+		}
+		else {
+			printMessage("Hints are only given after level 3!");
+		}
 		break;
 	case ITM_del:
 		op = new operDelete(this);
@@ -290,7 +345,6 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		printMessage("You clicked on Load!");
 		op = new operLoad(this);
 		break;
-	
 	case ITM_EXIT:
 	default:
 		break;
@@ -361,20 +415,20 @@ void game::matching_proxy() {
 				bool check = (*shape_array)[i].matching_detection(this, this->getGrid()->getActiveShape());
 				// ^^^ replace active shape with the array of random shapes ^^^
 
-				if (check == true) {
-					isMatched++;
-				}
+			if (check == true) {
+				isMatched++;
+				num_matched++;
 			}
 		}
 	}
 
 	if (isMatched != 0) {
-		score += 2;
+		increment_score();
 		increment_level();
 		getGrid()->Delete();
 	}
 	else {
-		score--;
+		decrement_score();
 	}
 
 	toolbar* tb = getToolBar();
@@ -394,9 +448,10 @@ void game::thread_hub() {
 		kin = pWind->WaitKeyPress(c);
 		pGrid->setKey(c);
 		if (c == '1') {
+			isThinking = true;
 			thinkTimer(this);
 		}
-		else if (kin == ARROW) {
+		else if (kin == ARROW && isThinking == false) {
 			operMove* p1 = new operMove(this);
 			p1->Act();
 		}
@@ -423,14 +478,6 @@ void game::run()
 	thread new_thread(&operMove::Act, p1);
 	new_thread.detach();*/
 
-	//if (level == 1) {
-	//	shapesGrid->addRandomShape();
-	//}
-	//if (level == 2) {
-	//	shapesGrid->addRandomShape();
-	//	shapesGrid->addRandomShape();
-	//}
-
 	//Change the title
 	pWind->ChangeTitle("- - - - - - - - - - SHAPE HUNT Team 1 - - - - - - - - - -");
 	toolbarItem clickedItem=ITM_CNT;
@@ -439,25 +486,26 @@ void game::run()
 		//printMessage("Ready...");
 		//1- Get user click
 		//if (startacting) {
-		shapesGrid->addRandomShape();
-			pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
+		/*int numofShapes = (2 * level) - 1;
+		for (int i = 0; i < numofShapes; i++) {
+			shapesGrid->addRandomShape();
+		}*/
+		pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
 			
-			//2-Explain the user click
-			//If user clicks on the Toolbar, ask toolbar which item is clicked
-			if (y >= 0 && y < config.toolBarHeight)
-			{
-				clickedItem = gameToolbar->getItemClicked(x);
+		//2-Explain the user click
+		//If user clicks on the Toolbar, ask toolbar which item is clicked
+		if (y >= 0 && y < config.toolBarHeight && isThinking == false)
+		{
+			clickedItem = gameToolbar->getItemClicked(x);
 
-				//3-create the approp operation accordin to item clicked by the user
-				operation* op = createRequiredOperation(clickedItem);
-				if (op)
-					op->Act();
+			//3-create the approp operation accordin to item clicked by the user
+			operation* op = createRequiredOperation(clickedItem);
+			if (op)
+				op->Act();
 
-				//4-Redraw the grid after each action
-				shapesGrid->draw();
-				
-
-			}
+			//4-Redraw the grid after each action
+			shapesGrid->draw();
+		}
 		
 	} while (clickedItem!=ITM_EXIT);
 

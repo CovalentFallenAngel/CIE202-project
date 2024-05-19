@@ -14,7 +14,8 @@ struct point
 
 public:
 	friend bool operator==(const point& lhs, const point& rhs) {
-		return (abs(lhs.x - rhs.x) <= 15 && abs(lhs.y - rhs.y) <= 15);
+		const int TOLERANCE = 15;
+		return (abs(lhs.x - rhs.x) <= TOLERANCE && abs(lhs.y - rhs.y) <= TOLERANCE);
 	}
 };
 
@@ -42,8 +43,7 @@ protected:
 	color borderColor;	//shape border color
 	int rotation_angle;
 	bool isComposite;
-	int rotations = 0;
-	int flips = 0;
+	bool isFlipped;
 	int resizes;
 public:
     shape(game* r_pGame, point ref, bool isComposite = false);
@@ -64,6 +64,8 @@ public:
 	virtual void move(char c) = 0;
 	virtual void flip();
 	virtual void saveOrnaments(ofstream& file);
+	void addResizes(int resizes);
+	void switchFlip();
 };
 
 

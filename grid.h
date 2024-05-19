@@ -33,7 +33,8 @@ public:
 	char getKey();
 
 	point randomPoint();
-	int randomSize();
+	void randomSize(int resize_times, shape* &newShape);
+	void randomrotate (int rotate_times, shape* newshape);
 	void addRandomShape();
 	shape* getActiveShape();
 	void Delete();

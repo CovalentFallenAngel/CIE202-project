@@ -11,6 +11,7 @@ shape::shape(game* r_pGame, point ref, bool isComposite)
 	RefPoint = ref;
 	pGame = r_pGame;
 	this->isComposite = isComposite;
+	isFlipped = false;
 	fillColor = config.fillColor;
 	borderColor = config.penColor;
 	rotation_angle = 0;
@@ -83,4 +84,17 @@ double shape::getRadius() {
 
 string shape::getID() {
 	return "";
+}
+
+void shape::addResizes(int resize_num) {
+	resizes += resize_num;
+}
+
+void shape::switchFlip() {
+	if (isFlipped == true) {
+		isFlipped = false;
+	}
+	else {
+		isFlipped = true;
+	}
 }

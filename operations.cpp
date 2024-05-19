@@ -168,9 +168,9 @@ void operAddRocket::Act()
 
 	//take the aligned point as the Rocket shape ref point
 	point RocketShapeRef = { xGrid,yGrid };
-	int size = 1;
+	double size = 1;
 	//create a Rocket shape
-	shape* shape = new Rocket(pGame, RocketShapeRef,size);
+	shape* shape = new Rocket(pGame, RocketShapeRef);
 
 	//Add the shape to the grid
 	pGrid->setActiveShape(shape);
@@ -229,6 +229,7 @@ void operRotate::Act()
 	if (shape != nullptr) {
 		point p = shape->getPosition();
 		shape->rotate(p);
+		shape->draw(1);
 	}
 }
 
@@ -255,6 +256,10 @@ void operDelete::Act()
 
 operHint::operHint(game* r_pGame) :operation(r_pGame)
 {
+	shape* myShape = pGame->getGrid()->getActiveShape();
+	myShape->setcolor(RED);
+	Sleep(200);
+	myShape->setcolor(BLACK);
 }
 void operHint::Act()
 {
@@ -293,8 +298,81 @@ operLoad::operLoad(game* r_pGame) :operation(r_pGame)
 {
 }
 
+void reconstruct_shape(shape* newShape, int rot_angle, int resizes, bool isFlipped) {
+	newShape->setRotationAngle(rot_angle);
+	int rot_num = newShape->getRotationAngle() / 90;
+
+	for (int j = 0; j < rot_num; j++) {
+		newShape->rotate(newShape->getPosition());
+	}
+
+	if (isFlipped) {
+		newShape->flip();
+	}
+
+	if (resizes < 0) {
+
+		for (int k = 0; k < abs(resizes); k++) {
+			newShape->resize(0.9, newShape->getPosition());
+		}
+	}
+
+	else if (resizes >= 0) {
+
+		for (int k = 0; k < resizes; k++) {
+			newShape->resize(1.1, newShape->getPosition());
+		}
+	}
+}
+
 void operLoad::Act()
 {
+	ifstream file("saved_data.txt");
+	vector<string>retrieved_data;
+	string data;
+	while (file >> data) {
+		retrieved_data.push_back(data);
+	}
+
+	pGame->score = stoi(retrieved_data[0]);
+	pGame->level = stoi(retrieved_data[1]);
+	pGame->lives = stoi(retrieved_data[2]);
+
+	grid* old_grid = pGame->getGrid();
+	delete old_grid;
+	pGame->createGrid();
+
+	for (int i = 3; i < retrieved_data.size(); i += 12) {
+		shape* newShape = nullptr;
+		string shape_name = retrieved_data[i];
+		point RPoint{ stoi(retrieved_data[i + 1]), stoi(retrieved_data[i + 2]) };
+		int rot_angle = stoi(retrieved_data[i + 3]);
+		int resizes = stoi(retrieved_data[i + 4]);
+		bool isFlipped = stoi(retrieved_data[i + 5]);
+
+		if (shape_name == "Car") {
+			newShape = new Car(pGame, RPoint);
+		}
+		else if (shape_name == "Home") {
+			newShape = new Home(pGame, RPoint);
+		}
+		else if (shape_name == "Rocket") {
+			newShape = new Rocket(pGame, RPoint);
+		}
+		else if (shape_name == "Ice-Cream") {
+			newShape = new ice_cream(pGame, RPoint);
+		}
+		else if (shape_name == "Person") {
+			newShape = new Person(pGame, RPoint);
+		}
+		else if (shape_name == "Tree") {
+			newShape = new Tree(pGame, RPoint);
+		}
+		reconstruct_shape(newShape, rot_angle, resizes, isFlipped);
+		pGame->getGrid()->addShape(newShape);
+	}
+
+	file.close();
 }
 
 
@@ -306,7 +384,9 @@ operRef::operRef(game* r_pGame) : operation(r_pGame)
 void operRef::Act() 
 {
 	grid* pGrid = pGame->getGrid();
-	pGrid->clearGridArea();
+	delete pGrid;
+	pGame->createGrid();
+	pGrid = pGame->getGrid();
 	int lev = pGame->getLevel();
 	int l = pGame->getLives();
 	int x;
