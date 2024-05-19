@@ -83,9 +83,11 @@ void grid::clearGridArea() const
 	pWind->DrawRectangle(uprLeft.x, uprLeft.y, uprLeft.x + width, uprLeft.y + height);
 }
 
+//////////////////////////////Generate Random Points///////////////////////////
+
 point grid::randomPoint() {
-	int x = 120+ rand() %(200-120+1) ;
-	int y = 100+ rand() % (470-100+1);
+	int x = 120+ rand() %(240-120+1) ;
+	int y = 160+ rand() % (470-160+1);
 	x -= x % config.gridSpacing;
 	y -= y % config.gridSpacing;
 	return point{ x, y };
@@ -109,6 +111,7 @@ void grid::setActiveShape(shape* actShape)
 	activeShape = actShape;
 }
 
+//////////////////////////////Generate Random Size///////////////////////////
 void grid:: randomSize(int reize_times, shape* &newshape ) {
 	for (int i = 0; i < abs(reize_times); i++) {
 		if (reize_times > 0) {
@@ -120,6 +123,15 @@ void grid:: randomSize(int reize_times, shape* &newshape ) {
 	}
 }
 
+//////////////////////////////Generate Random Flip///////////////////////////
+void grid::randomFlip(int Flip_times, shape*& newshape)
+{
+	for (int i = 0; i < Flip_times; i++) {
+		newshape->flip();
+	}
+}
+
+//////////////////////////////Generate Random Rotate///////////////////////////
 void grid::randomrotate(int rotate_times, shape* newshape)
 {
 	for (int i = 0; i < rotate_times; i++) {
@@ -127,13 +139,18 @@ void grid::randomrotate(int rotate_times, shape* newshape)
 	}
 }
 
+
 void grid::addRandomShape()
 {
 	// Generate a random shape type
-	int shapeType = rand() % 6; // Generate a random number between 0 and 6 (inclusive)
+	int shapeType = rand() % 7; // Generate a random number between 0 and 6 (inclusive)
 
-	// Generate a random point and size
+	// Generate a random point 
 	point p = randomPoint();
+	//Generate a random number for rotate,flip and size
+	int s = -2+ rand() %(2-(-2)+1) ;
+	int r = rand() % 4 ;
+	int f = rand() % 4 ;
 	// Create a random shape based on the generated type, point
 	shape* newShape =nullptr;
 	switch (shapeType) {
@@ -156,8 +173,9 @@ void grid::addRandomShape()
 		newShape = new Tree(pGame, p);
 		break;
 	}
-	randomSize(2, newShape);
-	randomrotate(3, newShape);
+	randomSize(s, newShape);
+	randomFlip(f, newShape);
+	randomrotate(r, newShape);
 	addShape(newShape);
 }
 

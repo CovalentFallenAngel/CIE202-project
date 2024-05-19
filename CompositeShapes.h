@@ -33,6 +33,7 @@ class Sign :public shape
 	point baseRef;
 public:
 	Sign(game* r_pGame, point ref);
+	~Sign();
 	virtual void draw(int x = 5) const;
 	virtual void move(char c) override;
 	virtual void resize(double factor, point composite_reference) override;
@@ -86,6 +87,7 @@ class Person : public shape {
 	point rightLegRef;
 public:
 	Person(game* r_pGame, point ref);
+	~Person();
 	virtual void draw(int x = 5) const;
 	virtual void move(char c) override;
 	virtual void resize(double factor, point composite_reference) override;
@@ -108,6 +110,7 @@ class ice_cream :public shape {
 	point coneRef;
 public:
 	ice_cream(game* r_pgame, point ref);
+	~ice_cream();
 	virtual void draw(int x = 0) const;
 	virtual void move(char c) override;
 	virtual void resize(double factor, point composite_reference) override;
@@ -134,6 +137,7 @@ class Tree :public shape {
 	point bodyRef;
 public:
 	Tree(game* r_pgame, point ref);
+	~Tree();
 	virtual void draw(int x = 5) const;
 	virtual void move(char c) override;
 	virtual void resize(double factor, point composite_reference) override;

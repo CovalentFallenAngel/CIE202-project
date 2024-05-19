@@ -34,6 +34,7 @@ public:
 
 	point randomPoint();
 	void randomSize(int resize_times, shape* &newShape);
+	void randomFlip(int Flip_times, shape*& newshape);
 	void randomrotate (int rotate_times, shape* newshape);
 	void addRandomShape();
 	shape* getActiveShape();
