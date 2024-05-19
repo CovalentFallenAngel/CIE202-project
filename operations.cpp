@@ -383,7 +383,7 @@ operRef::operRef(game* r_pGame) : operation(r_pGame)
 }
 
 
-void operRef::Act() 
+void operRef::Act()
 {
 	grid* pGrid = pGame->getGrid();
 	delete pGrid;
@@ -398,6 +398,20 @@ void operRef::Act()
 			pGrid->addRandomShape();
 		}
 		pGame->decrement_lives();
+	}
+	if (l == 0) {
+		pGame->getWind()->SetPen(config.bkGrndColor);
+		pGame->getWind()->SetBrush(config.bkGrndColor);
+		pGame->getWind()->DrawRectangle(config.toolbarItemWidth * 17 + 65, 0, 1190, 20);
+		pGame->getWind()->SetPen(BLACK);
+		pGame->getWind()->DrawString(config.toolbarItemWidth * 17 + 65, 0, "Game Over");
+		//pGame->getWind()->SetPen(WHITE);
+		//pGame->getWind()->SetBrush(WHITE);
+		//pGame->getWind()->DrawRectangle(550, 200, 700, 300);
+		//pGame->getWind()->SetPen(BLACK, 5);
+		//pGame->getWind()->SetFont(20, BOLD, MODERN, "Arial");
+		//pGame->getWind()->DrawString(650, 300, "Game Over");
+		pGame->setThink(1);
 	}
 }
 
@@ -420,7 +434,6 @@ void operMove::Act() {
 		as->move(key);
 
 		pGame->increment_steps(); // count the steps
-		pGame->decrement_xsteps();
 		//pGame->levelup(pGame);
 		pGrid->draw();
 		
