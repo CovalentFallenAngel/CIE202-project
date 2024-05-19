@@ -192,11 +192,6 @@ void game::actTimer(int xInteger){
 		decrement_lives();
 		decrement_score();
 	}
-
-	/*else if (act > 0 && wasMatched == true) {
-			score += 2;
-			lives++;
-		}*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -405,36 +400,39 @@ grid* game::getGrid() const
 }
 
 void game::matching_proxy() {
-	shape** shape_array = this->getGrid()->getShapeList();
+	shape* shape_array = this->getGrid()->getShapeList();
+	shape* matchedShape = nullptr;
 	int scount = this->getGrid()->getShapeCount();
 	int isMatched = 0;
 	for (int i = 0; i < scount; i++) {
-		if (shape_array[i] != nullptr) {
-			if ((*shape_array)[i].getID() == this->getGrid()->getActiveShape()->getID() && 
-				shape_array[i] != this->getGrid()->getActiveShape()) {
-				bool check = (*shape_array)[i].matching_detection(this, this->getGrid()->getActiveShape());
+		if ((shape_array + i) != nullptr) {
+			if ((shape_array + i)->getID() == (this->getGrid()->getActiveShape())->getID() &&
+				(shape_array + i) != this->getGrid()->getActiveShape()) {
+				bool check = (shape_array + i)->matching_detection(this, this->getGrid()->getActiveShape());
 				// ^^^ replace active shape with the array of random shapes ^^^
 
-			if (check == true) {
-				isMatched++;
-				num_matched++;
+				if (check == true) {
+					isMatched++;
+					num_matched++;
+					matchedShape = (shape_array + i);
+				}
 			}
 		}
-	}
 
-	if (isMatched != 0) {
-		increment_score();
-		increment_level();
-		getGrid()->Delete();
-	}
-	else {
-		decrement_score();
-	}
+		if (isMatched != 0) {
+			increment_score();
+			increment_level();
+			delete matchedShape;
+		}
+		else {
+			decrement_score();
+		}
 
-	toolbar* tb = getToolBar();
-	delete tb;
-	createToolBar();
-	
+		toolbar* tb = getToolBar();
+		delete tb;
+		createToolBar();
+
+	}
 }
 
 void game::thread_hub() {
@@ -462,8 +460,6 @@ void game::thread_hub() {
 	}
 }
 
-
-////////////////////////////////////////////////////////////////////////
 void game::run() 
 {
 	//This function reads the position where the user clicks to determine the desired operation

@@ -165,8 +165,8 @@ shape* grid::getActiveShape() {
 	return activeShape;
 }
 
-shape** grid::getShapeList() {
-	return &shapeList[0];
+shape* grid::getShapeList() {
+	return shapeList[0];
 }
 
 int grid::getShapeCount() {
