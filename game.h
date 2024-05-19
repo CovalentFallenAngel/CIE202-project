@@ -22,6 +22,8 @@ class game
 	/*int level, lives, steps;*/
 
 	thread hub_thread;
+	bool isThinking;
+	int num_matched;
 protected:
 	int level, lives, steps, score, sec, act, xsteps;
 

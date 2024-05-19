@@ -15,6 +15,7 @@ game::game()
 	sec = 11;
 	act = 16;
 	xsteps = 80;
+	isThinking = false;
 
 	//Create the main window
 	createWind(config.windWidth, config.windHeight, config.wx, config.wy);
@@ -94,9 +95,12 @@ void game::decrement_lives() {
 	lives -= 1;
 	pWind->SetPen(config.bkGrndColor);
 	pWind->SetBrush(config.bkGrndColor);
-	pWind->DrawRectangle(xInteger, 0, 1180, 20);
+	pWind->DrawRectangle(xInteger, 0, 1150, 20);
 	pWind->SetPen(BLACK);
 	pWind->DrawInteger(xInteger, 0, lives);
+	toolbar* tb = getToolBar();
+	delete tb;
+	createToolBar();
 }
 
 void game::increment_level() {
@@ -107,6 +111,9 @@ void game::increment_level() {
 	pWind->DrawRectangle(xInteger, 20, 1250, 40);
 	pWind->SetPen(BLACK);
 	pWind->DrawInteger(xInteger, 20, level);
+	toolbar* tb = getToolBar();
+	delete tb;
+	createToolBar();
 }
 
 void game::increment_score() {
@@ -117,6 +124,9 @@ void game::increment_score() {
 	pWind->DrawRectangle(xInteger, 40, 1260, 60);
 	pWind->SetPen(BLACK);
 	pWind->DrawInteger(xInteger, 40, score);
+	toolbar* tb = getToolBar();
+	delete tb;
+	createToolBar();
 }
 
 void game::decrement_score() {
@@ -127,6 +137,9 @@ void game::decrement_score() {
 	pWind->DrawRectangle(xInteger, 40, 1260, 60);
 	pWind->SetPen(BLACK);
 	pWind->DrawInteger(xInteger, 40, score);
+	toolbar* tb = getToolBar();
+	delete tb;
+	createToolBar();
 }
 
 void game::setsec(int s) { sec = s; }
@@ -153,7 +166,9 @@ void game::thinkTimer(game* pGame)
 			pWind->SetPen(BLACK);
 			pWind->DrawInteger(xInteger + 94, 20, sec);
 		}
-		actTimer(xInteger);
+		isThinking = false;
+		thread actThread(&game::actTimer, this, xInteger);
+		actThread.detach();
 	}
 
 	//else if (k == 2 || k == 4 || k == 6 || k == 8) {
@@ -173,6 +188,7 @@ void game::thinkTimer(game* pGame)
 //}
 
 void game::actTimer(int xInteger){
+	int n_matched = num_matched;
 	while (act > 0) {
 		clock_t stop = clock() + CLOCKS_PER_SEC;
 		while (clock() < stop) {}
@@ -184,15 +200,17 @@ void game::actTimer(int xInteger){
 		pWind->DrawInteger(xInteger + 94, 20, act);
 	}
 
-	//if (act == 0 && sh->matching_detection(pGame, ) == false) {
-	//	score--;
-	//	lives--;
-	//}
+	bool wasMatched = (num_matched - n_matched > 0);
 
-	//else if (act > 0 && sh->matching_detection(pGame, ) == true) {
-	//	score += 2;
-	//	lives ++;
-	//}
+	if (act == 0 && wasMatched == false) {
+		decrement_lives();
+		decrement_score();
+	}
+
+	/*else if (act > 0 && wasMatched == true) {
+			score += 2;
+			lives++;
+		}*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -380,6 +398,7 @@ void game::matching_proxy() {
 
 			if (check == true) {
 				isMatched++;
+				num_matched++;
 			}
 		}
 	}
@@ -410,9 +429,10 @@ void game::thread_hub() {
 		kin = pWind->WaitKeyPress(c);
 		pGrid->setKey(c);
 		if (c == '1') {
+			isThinking = true;
 			thinkTimer(this);
 		}
-		else if (kin == ARROW) {
+		else if (kin == ARROW && isThinking == false) {
 			operMove* p1 = new operMove(this);
 			p1->Act();
 		}
@@ -456,24 +476,24 @@ void game::run()
 		//1- Get user click
 		//if (startacting) {
 		shapesGrid->addRandomShape();
-			pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
+		pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
 			
-			//2-Explain the user click
-			//If user clicks on the Toolbar, ask toolbar which item is clicked
-			if (y >= 0 && y < config.toolBarHeight)
-			{
-				clickedItem = gameToolbar->getItemClicked(x);
+		//2-Explain the user click
+		//If user clicks on the Toolbar, ask toolbar which item is clicked
+		if (y >= 0 && y < config.toolBarHeight && isThinking == false)
+		{
+			clickedItem = gameToolbar->getItemClicked(x);
 
-				//3-create the approp operation accordin to item clicked by the user
-				operation* op = createRequiredOperation(clickedItem);
-				if (op)
-					op->Act();
+			//3-create the approp operation accordin to item clicked by the user
+			operation* op = createRequiredOperation(clickedItem);
+			if (op)
+				op->Act();
 
-				//4-Redraw the grid after each action
-				shapesGrid->draw();
+			//4-Redraw the grid after each action
+			shapesGrid->draw();
 				
 
-			}
+		}
 		
 	} while (clickedItem!=ITM_EXIT);
 

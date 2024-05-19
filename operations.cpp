@@ -379,7 +379,9 @@ operRef::operRef(game* r_pGame) : operation(r_pGame)
 void operRef::Act() 
 {
 	grid* pGrid = pGame->getGrid();
-	pGrid->clearGridArea();
+	delete pGrid;
+	pGame->createGrid();
+	pGrid = pGame->getGrid();
 	int lev = pGame->getLevel();
 	int l = pGame->getLives();
 	int x;
