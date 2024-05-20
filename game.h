@@ -28,7 +28,7 @@ class game
 	int powerUpX, powerUpY;
 	int powerUpDuration;
 protected:
-	int level, lives, steps, score, sec, act, Matched;
+	int level, lives, steps, score, sec, act;
 
 
 public:
