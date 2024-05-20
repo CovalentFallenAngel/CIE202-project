@@ -205,20 +205,30 @@ void operAddCar::Act()
 }
 
 
-operResize::operResize(game* r_pGame) :operation(r_pGame)
+operResizeUp::operResizeUp(game* r_pGame) :operation(r_pGame)
 {
 
 }
 
-void operResize::Act() {}
+void operResizeUp::Act() {
+	grid* pGrid = pGame->getGrid();
+	shape* shape = pGrid->getActiveShape();
+	shape->resize(1.1, shape->getPosition());
+	pGrid->clearGridArea();
+	pGrid->setActiveShape(shape);
+}
 
-void operResize::Actmain(double factor)
+operResizeDown::operResizeDown(game* r_pGame) :operation(r_pGame)
 {
-	 grid* pGrid = pGame->getGrid();
-	 shape* shape = pGrid->getActiveShape();
-	 shape->resize(factor, shape->getPosition());
-	 pGrid->clearGridArea(); 
-	 pGrid->setActiveShape(shape);
+
+}
+
+void operResizeDown::Act() {
+	grid* pGrid = pGame->getGrid();
+	shape* shape = pGrid->getActiveShape();
+	shape->resize(0.9, shape->getPosition());
+	pGrid->clearGridArea();
+	pGrid->setActiveShape(shape);
 }
 
 operRotate::operRotate(game* r_pGame) :operation(r_pGame) {}
