@@ -40,7 +40,9 @@ game::game()
 game::~game()
 {
 	delete pWind;
-	delete shapesGrid;
+	if (shapesGrid != nullptr) {
+		delete shapesGrid;
+	}
 }
 
 int game::getLevel() const {
@@ -342,37 +344,30 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 	case ITM_SIGN:
 		op = new operAddSign(this);
 		printMessage("You clicked on the Sign shape!");
-		increment_steps();
 		break;
 	case ITM_ICE:
 		printMessage("You clicked on the Icecream shape!");
 		op = new operAddice(this);
-		increment_steps();
 		break;
 	case ITM_CAR:
 		printMessage("You clicked on the Car shape!");
 		op = new operAddCar(this);
-		increment_steps();
 		break;
 	case ITM_Person:
 		printMessage("You clicked on the Person shape!");
 		op = new operAddPerson(this);
-		increment_steps();
 		break;
 	case ITM_Home:
 		printMessage("You clicked on the Home shape!");
 		op = new operAddHome(this);
-		increment_steps();
 		break;
 	case ITM_Rocket:
 		printMessage("You clicked on the Rocket shape");
 		op = new operAddRocket(this);
-		increment_steps();
 		break;
 	case ITM_Tree:
 		printMessage("You clicked on the Tree shape!");
 		op = new operAddTree(this);
-		increment_steps();
 		break;
 	case ITM_Inc:
 		printMessage("You clicked on Upscale!");
@@ -405,7 +400,6 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		}
 		else {
 			op = new operHint(this);
-			printMessage("A hint was given!");
 			increment_steps();
 		}
 		break;

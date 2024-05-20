@@ -278,6 +278,7 @@ operHint::operHint(game* r_pGame) :operation(r_pGame)
 			sh->setcolor(BLACK);
 			sh->draw(1);
 			x++;
+			pGame->printMessage("You were given a hint!");
 		}
 	}
 	if (x == 0) {pGame->printMessage("Your Shape is not one of the shapes that needs to be matched!");}
