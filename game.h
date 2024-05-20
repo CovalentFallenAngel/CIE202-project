@@ -64,7 +64,8 @@ public:
 	void decrement_score();
 	int getMatched();
 	void increment_match();
-	void game::setThink(int i);
+	void setThink(int i);
+	void lost();
 	
 	//void levelup(game* pGame);
 	/*void showPowerUp();

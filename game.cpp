@@ -76,17 +76,22 @@ void game::setLevel(int lev) { level = lev; }
 
 void game::increment_steps() { 
 	int xInteger = config.toolbarItemWidth * 18 + 65;
-	steps += 1;
-	pWind->SetFont(20, BOLD, MODERN, "Arial");
-	pWind->SetPen(config.bkGrndColor);
-	pWind->SetBrush(config.bkGrndColor);
-	pWind->DrawRectangle(xInteger + 100, 0, 1370, 20);
-	pWind->SetPen(BLACK);
-	pWind->DrawInteger(xInteger + 100, 0, steps);
-	toolbar* tb = getToolBar();
-	delete tb;
-	tb = nullptr;
-	createToolBar();
+	if (steps != 80) {
+		steps += 1;
+		pWind->SetFont(20, BOLD, MODERN, "Arial");
+		pWind->SetPen(config.bkGrndColor);
+		pWind->SetBrush(config.bkGrndColor);
+		pWind->DrawRectangle(xInteger + 100, 0, 1370, 20);
+		pWind->SetPen(BLACK);
+		pWind->DrawInteger(xInteger + 100, 0, steps);
+		toolbar* tb = getToolBar();
+		delete tb;
+		tb = nullptr;
+		createToolBar();
+	}
+
+	else if (steps == 80)
+		lost();
 }
 
 
@@ -164,6 +169,20 @@ void game::increment_match() {
 	createToolBar();
 }
 
+void game::lost() {
+	getWind()->SetPen(config.bkGrndColor);
+	getWind()->SetBrush(config.bkGrndColor);
+	getWind()->DrawRectangle(config.toolbarItemWidth * 17 + 65, 0, 1366, 60);
+	getWind()->SetFont(40, BOLD, MODERN, "Arial");
+	getWind()->SetPen(BLACK);
+	getWind()->DrawString(config.toolbarItemWidth * 17 + 65, 0, "Game Over");
+	setThink(1);
+	Sleep(3000);
+	delete pWind;
+	delete shapesGrid;
+	
+}
+
 void game::setsec(int s) { sec = s; }
 
 void game::setact(int a) { act = a; }
@@ -219,6 +238,10 @@ void game::actTimer(int xInteger){
 	if (/*act == 0 && */wasMatched == false) {
 		decrement_lives();
 		decrement_score();
+	}
+
+	if (lives == 0) {
+		lost();
 	}
 	// Hide power-up if visible
 	/*if (powerUpVisible) {
