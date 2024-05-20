@@ -594,7 +594,7 @@ double RightTriangle::getRadius() {
 }
 
 vector<point> RightTriangle::getCorners() {
-	return vector<point>();
+	return vector<point>(); 
 }
 
 bool RightTriangle::matching_detection(game* pGame, shape* predicate) {
