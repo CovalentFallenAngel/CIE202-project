@@ -605,9 +605,9 @@ vector<point> RightTriangle::getPoints() {
 
 vector<point> RightTriangle::getRevertedPoints() {
 	vector<point> points;
-	points.push_back(reflect_coordinates(point1, composite_reference));
-	points.push_back(reflect_coordinates(point2, composite_reference));
-	points.push_back(reflect_coordinates(point3, composite_reference));
+	points.push_back(reflect_coordinates(point1, point1));
+	points.push_back(reflect_coordinates(point2, point1));
+	points.push_back(reflect_coordinates(point3, point1));
 	return points;
 }
 

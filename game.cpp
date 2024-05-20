@@ -517,6 +517,7 @@ void game::thread_hub() {
 		pWind->FlushKeyQueue();
 		pWind->FlushMouseQueue();
 		kin = pWind->WaitKeyPress(c);
+		pGrid = this->getGrid();
 		pGrid->setKey(c);
 		if (c == '1') {
 			isThinking = true;
