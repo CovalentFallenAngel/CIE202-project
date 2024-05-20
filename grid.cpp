@@ -18,9 +18,6 @@ grid::grid(point r_uprleft, int wdth, int hght, game* pG)
 	srand(time(nullptr));
 	key = NULL;
 
-	/*for (int i = 0; i < MaxShapeCount; i++)
-		shapeList[i] = nullptr;*/
-
 	activeShape = nullptr;
 
 }
