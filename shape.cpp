@@ -34,7 +34,7 @@ void shape::setRotationAngle(int increment) {
 	}
 }
 
-int shape::getRotationAngle() {
+int shape::getRotationAngle() const{
 	return rotation_angle;
 }
 
@@ -44,11 +44,10 @@ void shape::setRefPoint(point p)
 }
 void shape::setcolor(color c) {
 	fillColor = c;
-}
-
-void shape::setbordercolor(color c)
-{
 	borderColor = c;
+}
+color shape::getColor() const {
+	return fillColor;
 }
 
 point shape::getPosition() const

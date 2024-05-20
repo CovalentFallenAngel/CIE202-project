@@ -107,6 +107,8 @@ void Sign::setcolor(color c) {
 	top->setcolor(c);
 }
 
+color Sign::getColor() const { return base->getColor(); }
+
 Home::Home(game* r_pGame, point ref) :shape(r_pGame, ref, true) {
 	topRef = ref;
 	baseRef = { ref.x,ref.y + config.Homeshape.side_length / 30 + config.Homeshape.basehght / 2 };
@@ -209,6 +211,9 @@ void Home::setcolor(color c) {
 	base->setcolor(c);
 	top->setcolor(c);
 }
+
+color Home::getColor() const { return base->getColor(); }
+
 
 Person::Person(game* r_pGame, point ref) : shape(r_pGame, ref, true)
 {
@@ -378,6 +383,9 @@ void Person::setcolor(color c) {
 	Rleg->setcolor(c);
 }
 
+color Person::getColor() const { return body->getColor(); }
+
+
 ice_cream::ice_cream(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
 	scoopRef = { ref.x,ref.y };
 	coneRef = { ref.x + config.ice_cream.side_lenght - 50 ,ref.y + 8 };
@@ -483,6 +491,9 @@ void ice_cream::setcolor(color c) {
 	cone->setcolor(c);
 	scoop->setcolor(c);
 }
+
+color ice_cream::getColor() const { return cone->getColor(); }
+
 
 Tree::Tree(game* r_pGame, point ref) : shape(r_pGame, ref, true) { 
 	T1Ref = { ref.x + config.Tree.side_length - 50,ref.y };
@@ -612,6 +623,9 @@ void Tree::setcolor(color c) {
 	T2->setcolor(c);
 	T3->setcolor(c);
 }
+
+color Tree::getColor() const { return T1->getColor(); }
+
 
 Rocket::Rocket(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
 	T1Ref = { (ref.x + config.Rocket.side_length - 70),(ref.y - 10) };
@@ -744,6 +758,9 @@ void Rocket::setcolor(color c) {
 	T2->setcolor(c);
 	T3->setcolor(c);
 }
+
+color Rocket::getColor() const { return body->getColor(); }
+
 
 Car::Car(game* r_pGame, point ref) :shape(r_pGame, ref, true)
 {
@@ -911,3 +928,5 @@ void Car::setcolor(color c) {
 	R1->setcolor(c);
 	R2->setcolor(c);
 }
+
+color Car::getColor() const { return T1->getColor(); }

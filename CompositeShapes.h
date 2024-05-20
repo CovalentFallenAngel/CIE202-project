@@ -39,6 +39,7 @@ public:
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void setcolor(color c) override;
+	virtual color getColor()const override;
 	virtual std::string getID() override;
 	virtual void flip();
 	virtual vector<point> getRevertedPoints() override;
@@ -47,6 +48,7 @@ public:
 	virtual double getRadius() override;
 	virtual void saveOrnaments(ofstream& file) override;
 	bool matching_detection(game* pGame, shape* predicate) override;
+
 
 };
 
@@ -72,6 +74,8 @@ public:
 	virtual void saveOrnaments(ofstream& file) override;
 	bool matching_detection(game* pGame, shape* predicate) override;
 	virtual void setcolor(color c) override;
+	virtual color getColor()const override;
+
 };
 
 class Person : public shape {
@@ -104,6 +108,8 @@ public:
 	virtual void saveOrnaments(ofstream& file) override;
 	bool matching_detection(game* pGame, shape* predicate) override;
 	virtual void setcolor(color c) override;
+	virtual color getColor()const override;
+
 };
 
 class ice_cream :public shape {
@@ -128,7 +134,7 @@ public:
 	virtual void saveOrnaments(ofstream& file) override;
 	bool matching_detection(game* pGame, shape* predicate) override;
 	virtual void setcolor(color c) override;
-
+	virtual color getColor()const override;
 };
 
 class Tree :public shape {
@@ -158,6 +164,8 @@ public:
 	virtual void saveOrnaments(ofstream& file) override;
 	bool matching_detection(game* pGame, shape* predicate) override;
 	virtual void setcolor(color c) override;
+	virtual color getColor()const override;
+
 };
 
 class Rocket :public shape {
@@ -182,6 +190,8 @@ public:
 	virtual void saveOrnaments(ofstream& file) override;
 	bool matching_detection(game* pGame, shape* predicate) override;
 	virtual void setcolor(color c) override;
+	virtual color getColor()const override;
+
 };
 
 class Car : public shape {
@@ -211,4 +221,5 @@ public:
 	virtual void saveOrnaments(ofstream& file) override;
 	bool matching_detection(game* pGame, shape* predicate) override;
 	virtual void setcolor(color c) override;
+	virtual color getColor()const override;
 }; 

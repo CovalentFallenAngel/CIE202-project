@@ -36,6 +36,7 @@ public:
 	virtual vector<point> getCorners() override;
 	virtual double getRadius() override;
 	virtual void setcolor(color c) override;
+	virtual color getColor()const override;
 	//virtual void saveOrnaments(ofstream& file) override;
 	bool matching_detection(game* pGame, shape* predicate) override;
 
@@ -82,6 +83,8 @@ public:
 	virtual vector<point> getCorners() override;
 	virtual double getRadius() override;
 	virtual void setcolor(color c);
+	virtual color getColor()const override;
+
 	//virtual void saveOrnaments(ofstream& file) override;
 	bool matching_detection(game* pGame, shape* predicate);
 
@@ -105,6 +108,8 @@ public:
 	virtual vector<point> getCorners() override;
 	virtual double getRadius() override;
 	virtual void setcolor(color c);
+	virtual color getColor()const override;
+
 
 private:
 	double side_length;
@@ -128,6 +133,7 @@ public:
 	vector<point> getCorners() override;
 	double getRadius() override;
 	virtual void setcolor(color c);
+	virtual color getColor()const override;
 	//virtual void saveOrnaments(ofstream& file) override;
 	bool matching_detection(game* pGame, shape* predicate) override;
 

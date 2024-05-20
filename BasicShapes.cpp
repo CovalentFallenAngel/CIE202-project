@@ -199,7 +199,9 @@ void RectangleTransform::flip(point flip_reference) {
 
 void Rect::setcolor(color c) {
 	fillColor = c;
+	borderColor = c;
 }
+color Rect::getColor() const { return fillColor; }
 
 ////////////////////////////////////////////////////  class circle  ///////////////////////////////////////
 //TODO: Add implementation for class circle here
@@ -277,7 +279,11 @@ bool circle::matching_detection(game* pGame, shape* predicate) {
 
 void circle::setcolor(color c) {
 	fillColor = c;
+	borderColor = c;
 }
+
+color circle::getColor() const { return fillColor; }
+
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -451,7 +457,11 @@ bool EqTriangle::matching_detection(game* pGame, shape* predicate) {
 
 void EqTriangle::setcolor(color c) {
 	fillColor = c;
+	borderColor = c;
 }
+
+color EqTriangle::getColor() const { return fillColor; }
+
 
 ////////////////////////////////////////////////////  class RightTriangle  ///////////////////////////////////////
 
@@ -711,4 +721,7 @@ void TriangleTransform::reflect(point reference) {
 
 void RightTriangle::setcolor(color c) {
 	fillColor = c;
+	borderColor = c;
 }
+
+color RightTriangle::getColor() const { return fillColor; }
