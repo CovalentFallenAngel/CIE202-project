@@ -316,7 +316,7 @@ void game::createGrid()
 operation* game::createRequiredOperation(toolbarItem clickedItem)
 {
 	operation* op=nullptr;
-	/*if (op != nullptr) { delete op; }*/
+	if (op != nullptr) { delete op; }
 	switch (clickedItem)
 	{
 	case ITM_SIGN:
@@ -384,13 +384,13 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		increment_steps();
 		break;
 	case ITM_Hint:
-		if (level > 3) {
+		if (level < 3) {
+			printMessage("Hints are only given after level 3!");
+		}
+		else {
 			op = new operHint(this);
 			printMessage("A hint was given!");
 			increment_steps();
-		}
-		else {
-			printMessage("Hints are only given after level 3!");
 		}
 		break;
 	case ITM_del:
@@ -567,7 +567,7 @@ void game::run()
 				shapesGrid->addRandomShape();
 			}
 			shapesGrid->draw();
-			current_level++;
+			current_level = level;
 		}
 		pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
 		

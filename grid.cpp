@@ -27,8 +27,8 @@ grid::grid(point r_uprleft, int wdth, int hght, game* pG)
 
 grid::~grid()
 {
-	/*for (int i = 0; i < shapeCount; i++)
-		delete[] shapeList[i];*/
+	for (int i = 0; i < shapeCount; i++)
+		delete[] shapeList[i];
 }
 
 void grid::draw() const
@@ -140,6 +140,46 @@ void grid::randomrotate(int rotate_times, shape* newshape, point RPoint)
 	}
 }
 
+/////////////////////////////Generate random color/////////////////////
+void grid::randomizecolor(int cn, shape* newshape) {
+	switch (cn)
+	{
+	case 0:
+		newshape->setcolor(BLUE);
+		break;
+	case 1:
+		newshape->setcolor(DARKGOLDENROD);
+		break;
+	case 2:
+		newshape->setcolor(CYAN);
+		break;
+	case 3:
+		newshape->setcolor(BROWN);
+		break;
+	case 4:
+		newshape->setcolor(FORESTGREEN);
+		break;
+	case 5:
+		newshape->setcolor(VIOLET);
+		break;
+	case 6:
+		newshape->setcolor(LIGHTGOLDENRODYELLOW);
+		break;
+	case 7:
+		newshape->setcolor(SADDLEBROWN);
+		break;
+	case 8:
+		newshape->setcolor(GOLD);
+		break;
+	case 9:
+		newshape->setcolor(LAVENDERBLUSH);
+		break;
+	case 10:
+		newshape->setcolor(DARKTURQUOISE);
+			break;
+	}
+}
+
 
 void grid::addRandomShape()
 {
@@ -152,6 +192,7 @@ void grid::addRandomShape()
 	int s = -2 + rand() % (2 - (-2) + 1);
 	int r = rand() % 4;
 	int f = rand() % 4;
+	int cn = rand() % 11;
 	// Create a random shape based on the generated type, point
 	shape* newShape = nullptr;
 	switch (shapeType) {
@@ -177,6 +218,12 @@ void grid::addRandomShape()
 	randomSize(s, newShape, p);
 	randomFlip(f, newShape);
 	randomrotate(r, newShape, p);
+	if (pGame->getLevel() < 3) {
+		randomizecolor(cn, newShape);
+	}
+	else {
+		newShape->setcolor(BLACK);
+	}
 	addShape(newShape);
 }
 

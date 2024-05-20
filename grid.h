@@ -33,11 +33,11 @@ public:
 	void setShapeCount(int count);
 	void setKey(char key);
 	char getKey();
-
 	point randomPoint();
 	void randomSize(int resize_times, shape* newShape, point RPoint);
 	void randomFlip(int Flip_times, shape* newshape);
 	void randomrotate(int rotate_times, shape* newshape, point RPoint);
+	void randomizecolor(int cn, shape* newshape);
 	void addRandomShape();
 	shape* getActiveShape();
 	void Delete();

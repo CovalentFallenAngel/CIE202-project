@@ -257,14 +257,20 @@ void operDelete::Act()
 
 operHint::operHint(game* r_pGame) :operation(r_pGame)
 {
-	shape* myShape = pGame->getGrid()->getActiveShape();
-	if (myShape != nullptr) {
-		myShape->setcolor(GREEN);
-		myShape->draw(1);
-		Sleep(200);
-		myShape->setcolor(BLACK);
-		myShape->draw(1);
+	shape* activeShape = pGame->getGrid()->getActiveShape();
+	vector<shape*> RandomShapes = pGame->getGrid()->getShapeList();
+	int x = 0;
+	for (shape* sh : RandomShapes) {
+		if (sh != nullptr && activeShape != nullptr && sh->getID() == activeShape->getID()) {
+			sh->setcolor(GREEN);
+			sh->draw(1);
+			Sleep(200);
+			sh->setcolor(BLACK);
+			sh->draw(1);
+			x++;
+		}
 	}
+	if (x == 0) {pGame->printMessage("Your Shape is not one of the shapes that needs to be matched!");}
 }
 void operHint::Act()
 {
@@ -275,12 +281,12 @@ operSGL::operSGL(game* r_pGame) :operation(r_pGame)
 }
 void operSGL::Act()
 {
-	
 	int level = stoi(pGame->getString());
-	pGame->setLevel(level);
-	toolbar* tb = pGame->getToolBar();
-	delete tb;
-	pGame->createToolBar();
+		pGame->setLevel(level);
+		delete pGame->getToolBar();
+		pGame->createToolBar();
+		delete pGame->getGrid();
+		pGame->createGrid();
 }
 
 operSave::operSave(game* r_pGame) :operation(r_pGame)
