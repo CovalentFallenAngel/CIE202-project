@@ -192,6 +192,14 @@ void game::thinkTimer(game* pGame)
 		isThinking = false;
 		thread actThread(&game::actTimer, this, xInteger);
 		actThread.detach();
+		// Show power-up if matched
+		/*if (powerUpVisible) {
+			thread actThread(&game::actTimer, this, xInteger);
+			actThread.detach();
+		}
+		else {
+			showPowerUp();
+		}*/
 	}
 }
 
@@ -215,6 +223,10 @@ void game::actTimer(int xInteger){
 		decrement_lives();
 		decrement_score();
 	}
+	// Hide power-up if visible
+	/*if (powerUpVisible) {
+		hidePowerUp();
+	}*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -253,6 +265,53 @@ void game::createGrid()
 	//create the grid
 	shapesGrid = new grid(gridUpperLeftPoint, config.windWidth, gridHeight, this);
 }
+////////////////////////////////////////power up//////////////////////////
+//void game::showPowerUp()
+//{
+//	powerUpX = rand() % config.windWidth;
+//	powerUpY = rand() % (config.windHeight - config.toolBarHeight);
+//	powerUpVisible = true;
+//	powerUpDuration = 5;
+//
+//	// Draw power-up on screen
+//	pWind->SetPen(BLUE);
+//	pWind->SetBrush(BLUE);
+//	pWind->DrawCircle(powerUpX, powerUpY, 20);
+//
+//	// Start timer to hide power-up after 5 seconds
+//	thread powerUpThread(&game::powerUpTimer, this);
+//	powerUpThread.detach();
+//}
+//
+//void game::hidePowerUp()
+//{
+//	powerUpVisible = false;
+//	// Clear power-up from screen
+//	pWind->SetPen(config.bkGrndColor);
+//	pWind->SetBrush(config.bkGrndColor);
+//	pWind->DrawCircle(powerUpX, powerUpY, 20);
+//}
+//
+//void game::powerUpTimer()
+//{
+//	while (powerUpDuration > 0) {
+//		clock_t stop = clock() + CLOCKS_PER_SEC;
+//		while (clock() < stop) {}
+//		powerUpDuration--;
+//	}
+//	hidePowerUp();
+//}
+//
+//void game::handlePowerUpClick(int x, int y)
+//{
+//	if (powerUpVisible && (x - powerUpX) * (x - powerUpX) + (y - powerUpY) * (y - powerUpY) <= 400) { // Radius = 20
+//		powerUpVisible = false;
+//		hidePowerUp();
+//
+//		// Remove one smaller shape
+//		shapesGrid->removeRandomShape();
+//	}
+//}
 
 operation* game::createRequiredOperation(toolbarItem clickedItem)
 {
@@ -511,7 +570,10 @@ void game::run()
 			current_level++;
 		}
 		pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
-			
+		
+		/*if (powerUpVisible) {
+			handlePowerUpClick(x, y);
+		}*/
 		//2-Explain the user click
 		//If user clicks on the Toolbar, ask toolbar which item is clicked
 		if (y >= 0 && y < config.toolBarHeight && isThinking == false)

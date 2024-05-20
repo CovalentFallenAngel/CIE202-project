@@ -24,6 +24,9 @@ class game
 	thread hub_thread;
 	bool isThinking;
 	int num_matched;
+	bool powerUpVisible;
+	int powerUpX, powerUpY;
+	int powerUpDuration;
 protected:
 	int level, lives, steps, score, sec, act, Matched;
 
@@ -62,7 +65,12 @@ public:
 	int getMatched();
 	void increment_match();
 	void game::setThink(int i);
+	
 	//void levelup(game* pGame);
+	/*void showPowerUp();
+	void hidePowerUp();
+	void powerUpTimer();
+	void handlePowerUpClick(int x, int y);*/
 
 	//creates an operation according to the toolbar item clicked
 	operation* createRequiredOperation(toolbarItem clickedItem);

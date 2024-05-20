@@ -13,10 +13,9 @@ class grid
 	point uprLeft;	//upper left point of the grid
 
 	//ShapeList should hold the RANDOMLY generated shapes
-	vector<shape*>shapeList;	//2D array of shape pointers
+	shape* shapeList[MaxShapeCount];	//2D array of shape pointers
 
 	shape* activeShape;	//The shape that the user works on to match to the ranom shapes
-	int rnd;
 	int shapeCount;		//current number of shapes in the list
 	game* pGame;
 	char key;
@@ -27,17 +26,16 @@ public:
 	void clearGridArea() const;
 	bool addShape(shape* newShape);
 	void setActiveShape(shape* actShape);
-	vector<shape*> getShapeList();
-	void setShapeList(vector<shape*> new_list);
+	shape* getShapeList();
 	int getShapeCount();
-	void setShapeCount(int count);
 	void setKey(char key);
 	char getKey();
 
 	point randomPoint();
-	void randomSize(int resize_times, shape* newShape, point RPoint);
-	void randomFlip(int Flip_times, shape* newshape);
-	void randomrotate (int rotate_times, shape* newshape, point RPoint);
+	void randomSize(int resize_times, shape* &newShape);
+	void randomFlip(int Flip_times, shape*& newshape);
+	void randomrotate (int rotate_times, shape* newshape);
+	void randomizecolor(int rnd,shape* newshape);
 	void addRandomShape();
 	shape* getActiveShape();
 	void Delete();
