@@ -213,9 +213,11 @@ operResizeUp::operResizeUp(game* r_pGame) :operation(r_pGame)
 void operResizeUp::Act() {
 	grid* pGrid = pGame->getGrid();
 	shape* shape = pGrid->getActiveShape();
-	shape->resize(1.1, shape->getPosition());
-	pGrid->clearGridArea();
-	pGrid->setActiveShape(shape);
+	if (shape != nullptr) {
+		shape->resize(1.1, shape->getPosition());
+		pGrid->clearGridArea();
+		pGrid->setActiveShape(shape);
+	}
 }
 
 operResizeDown::operResizeDown(game* r_pGame) :operation(r_pGame)
@@ -226,9 +228,11 @@ operResizeDown::operResizeDown(game* r_pGame) :operation(r_pGame)
 void operResizeDown::Act() {
 	grid* pGrid = pGame->getGrid();
 	shape* shape = pGrid->getActiveShape();
-	shape->resize(0.9, shape->getPosition());
-	pGrid->clearGridArea();
-	pGrid->setActiveShape(shape);
+	if (shape != nullptr) {
+		shape->resize(0.9, shape->getPosition());
+		pGrid->clearGridArea();
+		pGrid->setActiveShape(shape);
+	}
 }
 
 operRotate::operRotate(game* r_pGame) :operation(r_pGame) {}

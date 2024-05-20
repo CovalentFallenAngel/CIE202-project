@@ -392,7 +392,6 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 	case ITM_Ref:
 		printMessage("You clicked on Refresh!");
 		op = new operRef(this);
-		increment_steps();
 		break;
 	case ITM_Hint:
 		if (level < 3) {
