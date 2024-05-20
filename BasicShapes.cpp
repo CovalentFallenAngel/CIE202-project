@@ -583,8 +583,8 @@ vector<point> RightTriangle::getPoints() {
 
 vector<point> RightTriangle::getRevertedPoints() {
 	vector<point> points;
-	points.push_back(point2);
 	points.push_back(point1);
+	points.push_back(point2);
 	points.push_back(point3);
 	return points;
 }
@@ -599,7 +599,7 @@ vector<point> RightTriangle::getCorners() {
 
 bool RightTriangle::matching_detection(game* pGame, shape* predicate) {
 	bool cond = (getPoints() == dynamic_cast<RightTriangle*>(predicate)->getPoints() || 
-		getRevertedPoints() == dynamic_cast<RightTriangle*>(predicate)->getRevertedPoints());
+		getPoints() == dynamic_cast<RightTriangle*>(predicate)->getRevertedPoints());
 	
 	return cond;
 }

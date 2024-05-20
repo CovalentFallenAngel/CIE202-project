@@ -86,10 +86,10 @@ void grid::clearGridArea() const
 //////////////////////////////Generate Random Points///////////////////////////
 
 point grid::randomPoint() {
-	int x = 120+ rand() %(240-120+1) ;
-	int y = 160+ rand() % (470-160+1);
-	x -= x % config.gridSpacing;
-	y -= y % config.gridSpacing;
+	int x = rand() % (10) + 5;
+	int y = rand() % (10) + 5;
+	x *= config.gridSpacing;
+	y *= config.gridSpacing;
 	return point{ x, y };
 }
 
