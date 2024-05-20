@@ -361,6 +361,13 @@ void operLoad::Act()
 		int rot_angle = stoi(retrieved_data[i + 3]);
 		int resizes = stoi(retrieved_data[i + 4]);
 		bool isFlipped = stoi(retrieved_data[i + 5]);
+		color fillColor, borderColor;
+		fillColor.ucRed = stoi(retrieved_data[i + 6]);
+		fillColor.ucBlue = stoi(retrieved_data[i + 7]);
+		fillColor.ucGreen = stoi(retrieved_data[i + 8]);
+		borderColor.ucRed = stoi(retrieved_data[i + 9]);
+		borderColor.ucGreen = stoi(retrieved_data[i + 10]);
+		borderColor.ucBlue = stoi(retrieved_data[i + 11]);
 
 		if (shape_name == "Car") {
 			newShape = new Car(pGame, RPoint);
@@ -382,6 +389,7 @@ void operLoad::Act()
 		}
 		reconstruct_shape(newShape, rot_angle, resizes, isFlipped);
 		pGame->getGrid()->addShape(newShape);
+		newShape->setcolor(color(fillColor));
 	}
 
 	file.close();

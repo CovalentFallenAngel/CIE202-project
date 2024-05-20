@@ -730,22 +730,68 @@ vector<point> Rocket::getRevertedPoints() {
 }
 
 bool Rocket::matching_detection(game* pGame, shape* predicate) {
+	bool T2Check, T3Check;
 	bool cond = (T1->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->T1) && 
-		(T2->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->T2) ||
-			T2->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->T3)) && 
-		(T3->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->T3) ||
-			T3->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->T2)) &&
 		body->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->body));
 
+	if (cond) {
+		T2Check = (T2->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->T2));
+		if (!T2Check) {
+			int rot_angle = dynamic_cast<Rocket*>(predicate)->getRotationAngle();
+			while (dynamic_cast<Rocket*>(predicate)->getRotationAngle() != 0) {
+				dynamic_cast<Rocket*>(predicate)->rotate(dynamic_cast<Rocket*>(predicate)->getPosition());
+			}
+			dynamic_cast<Rocket*>(predicate)->flip();
+			
+			while (dynamic_cast<Rocket*>(predicate)->getRotationAngle() != rot_angle) {
+				dynamic_cast<Rocket*>(predicate)->rotate(dynamic_cast<Rocket*>(predicate)->getPosition());
+			}
+
+			T2Check = (T2->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->T2));
+
+			while (dynamic_cast<Rocket*>(predicate)->getRotationAngle() != 0) {
+				dynamic_cast<Rocket*>(predicate)->rotate(dynamic_cast<Rocket*>(predicate)->getPosition());
+			}
+			dynamic_cast<Rocket*>(predicate)->flip();
+
+			while (dynamic_cast<Rocket*>(predicate)->getRotationAngle() != rot_angle) {
+				dynamic_cast<Rocket*>(predicate)->rotate(dynamic_cast<Rocket*>(predicate)->getPosition());
+			}
+		}
+		T3Check = (T3->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->T3));
+		if (!T3Check) {
+			int rot_angle = dynamic_cast<Rocket*>(predicate)->getRotationAngle();
+			while (dynamic_cast<Rocket*>(predicate)->getRotationAngle() != 0) {
+				dynamic_cast<Rocket*>(predicate)->rotate(dynamic_cast<Rocket*>(predicate)->getPosition());
+			}
+			dynamic_cast<Rocket*>(predicate)->flip();
+
+			while (dynamic_cast<Rocket*>(predicate)->getRotationAngle() != rot_angle) {
+				dynamic_cast<Rocket*>(predicate)->rotate(dynamic_cast<Rocket*>(predicate)->getPosition());
+			}
+
+			T3Check = (T3->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->T3));
+
+			while (dynamic_cast<Rocket*>(predicate)->getRotationAngle() != 0) {
+				dynamic_cast<Rocket*>(predicate)->rotate(dynamic_cast<Rocket*>(predicate)->getPosition());
+			}
+			dynamic_cast<Rocket*>(predicate)->flip();
+
+			while (dynamic_cast<Rocket*>(predicate)->getRotationAngle() != rot_angle) {
+				dynamic_cast<Rocket*>(predicate)->rotate(dynamic_cast<Rocket*>(predicate)->getPosition());
+			}
+		}
+	}
+
 	
-	return cond;
+	return (cond && T2Check && T3Check);
 }
 
 void Rocket::saveOrnaments(ofstream& file) {
 	file << "Rocket" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
 	file << rotation_angle << " " << resizes << " " << isFlipped << " ";
-	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(getColor().ucRed) << " " << static_cast<int>(getColor().ucGreen) << " " << static_cast<int>(getColor().ucBlue) << " ";
 	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 

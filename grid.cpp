@@ -28,7 +28,7 @@ grid::grid(point r_uprleft, int wdth, int hght, game* pG)
 grid::~grid()
 {
 	for (int i = 0; i < shapeCount; i++)
-		delete[] shapeList[i];
+		delete shapeList[i];
 }
 
 void grid::draw() const
