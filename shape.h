@@ -14,8 +14,8 @@ struct point
 
 public:
 	friend bool operator==(const point& lhs, const point& rhs) {
-		const int TOLERANCE = 15;
-		return (abs(lhs.x - rhs.x) <= TOLERANCE && abs(lhs.y - rhs.y) <= TOLERANCE);
+		const int TOLERANCE = 30;
+		return (abs(lhs.x - rhs.x) < TOLERANCE && abs(lhs.y - rhs.y) < TOLERANCE);
 	}
 };
 
@@ -54,6 +54,7 @@ public:
 	int getRotationAngle();
 	point getPosition() const;
 	virtual vector<point> getPoints();
+	virtual vector<point> getRevertedPoints();
 	virtual vector<point> getCorners();
 	virtual double getRadius();
 	virtual string getID();

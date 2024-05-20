@@ -74,6 +74,10 @@ vector<point> shape::getPoints() {
 	return vector<point>();
 }
 
+vector<point> shape::getRevertedPoints() {
+	return vector<point>();
+}
+
 vector<point> shape::getCorners() {
 	return vector<point>();
 }

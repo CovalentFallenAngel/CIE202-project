@@ -122,6 +122,10 @@ vector<point> Rect::getPoints() {
 	return vector<point>();
 }
 
+vector<point> Rect::getRevertedPoints() {
+	return vector<point>();
+}
+
 double Rect::getRadius() {
 	return NULL;
 }
@@ -260,8 +264,12 @@ vector<point> circle::getPoints() {
 	return vector<point>();
 }
 
+vector<point> circle::getRevertedPoints() {
+	return vector<point>();
+}
+
 bool circle::matching_detection(game* pGame, shape* predicate) {
-	bool cond = (rad == dynamic_cast<circle*>(predicate)->getRadius() && 
+	bool cond = (rad - dynamic_cast<circle*>(predicate)->getRadius() <= 5 && 
 		RefPoint == dynamic_cast<circle*>(predicate)->getPosition());
 	
 	return cond;
@@ -329,8 +337,6 @@ void EqTriangle::flip(point reference)
 		this->point3 = new_coords[2];
 
 		calculate_reference();
-
-		this->draw(1);
 	}
 }
 
@@ -420,6 +426,14 @@ vector<point> EqTriangle::getPoints() {
 	return points;
 }
 
+vector<point> EqTriangle::getRevertedPoints() {
+	vector<point> points;
+	points.push_back(point2);
+	points.push_back(point1);
+	points.push_back(point3);
+	return points;
+}
+
 double EqTriangle::getRadius() {
 	return NULL;
 }
@@ -429,7 +443,8 @@ vector<point> EqTriangle::getCorners() {
 }
 
 bool EqTriangle::matching_detection(game* pGame, shape* predicate) { 
-	bool cond = (getPoints() == dynamic_cast<EqTriangle*>(predicate)->getPoints());
+	bool cond = (getPoints() == dynamic_cast<EqTriangle*>(predicate)->getPoints() || (
+		getPoints()) == dynamic_cast<EqTriangle*>(predicate)->getRevertedPoints());
 	
 	return cond;
 }
@@ -578,16 +593,25 @@ vector<point> RightTriangle::getPoints() {
 	return points;
 }
 
+vector<point> RightTriangle::getRevertedPoints() {
+	vector<point> points;
+	points.push_back(point1);
+	points.push_back(point2);
+	points.push_back(point3);
+	return points;
+}
+
 double RightTriangle::getRadius() {
 	return NULL;
 }
 
 vector<point> RightTriangle::getCorners() {
-	return vector<point>();
+	return vector<point>(); 
 }
 
 bool RightTriangle::matching_detection(game* pGame, shape* predicate) {
-	bool cond = (getPoints() == dynamic_cast<RightTriangle*>(predicate)->getPoints());
+	bool cond = (getPoints() == dynamic_cast<RightTriangle*>(predicate)->getPoints() || 
+		getPoints() == dynamic_cast<RightTriangle*>(predicate)->getRevertedPoints());
 	
 	return cond;
 }
