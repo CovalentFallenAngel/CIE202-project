@@ -353,16 +353,12 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		break;
 	case ITM_Inc:
 		printMessage("You clicked on Upscale!");
-		operResize* Sizeup;
-		Sizeup = new operResize(this);
-		Sizeup->Actmain(1.1);
+		op = new operResizeUp(this);
 		increment_steps();
 		break;
 	case ITM_Dec:
 		printMessage("You clicked on Downscale!");
-		operResize* Sizedown;
-		Sizedown = new operResize(this);
-		Sizedown->Actmain(0.9);
+		op = new operResizeDown(this);
 		increment_steps();
 		break;
 	case ITM_Rotate:

@@ -91,16 +91,22 @@ public:
 
 
 
-//////////////////////////////// class operResize //////////////////
+//////////////////////////////// class operResizeUp //////////////////
 //Responsible for changing the size of a shape
-class operResize :public operation
+class operResizeUp :public operation
 {
 public:
-	operResize(game* r_pGame);
+	operResizeUp(game* r_pGame);
 	virtual void Act();
-	virtual void Actmain(double factor);
+};
 
+//////////////////////////////// class operResizeDown //////////////////
 
+class operResizeDown :public operation
+{
+public:
+	operResizeDown(game* r_pGame);
+	virtual void Act();
 };
 
 //////////////////////////////// class operRotate //////////////////
