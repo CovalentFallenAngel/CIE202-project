@@ -101,6 +101,9 @@ bool grid::addShape(shape* newShape)
 	// 2- check shape count doesn't exceed maximum count
 	// return false if any of the checks fail
 
+	if (shapeCount >= MaxShapeCount) {
+		return false;
+	}
 	//Here we assume that the above checks are passed
 	shapeList.push_back(newShape);
 	shapeCount = shapeList.size();
