@@ -29,6 +29,8 @@ grid::~grid()
 {
 	for (int i = 0; i < shapeCount; i++)
 		delete[] shapeList[i];
+	delete activeShape;
+	activeShape = nullptr;
 }
 
 void grid::draw() const
