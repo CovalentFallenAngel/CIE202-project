@@ -18,6 +18,12 @@ Sign::Sign(game* r_pGame, point ref) :shape(r_pGame, ref, true)
 	base = new Rect(pGame, baseRef, config.sighShape.baseHeight, config.sighShape.baseWdth);
 }
 
+Sign::~Sign()
+{
+	delete top;
+	delete base;
+}
+
 void Sign::draw(int x) const
 {
 	base->draw(1);
@@ -154,6 +160,12 @@ Home::Home(game* r_pGame, point ref) :shape(r_pGame, ref, true) {
 	this->RefPoint = baseRef;
 	top = new EqTriangle(pGame, topRef, config.Homeshape.side_length, 1);
 	base = new Rect(pGame, baseRef, config.Homeshape.basehght, config.Homeshape.basewdth);
+}
+
+Home::~Home()
+{
+	delete top;
+	delete base;
 }
 
 void Home::draw(int x) const {
@@ -312,6 +324,16 @@ Person::Person(game* r_pGame, point ref) : shape(r_pGame, ref, true)
 	Rarm = new Rect(r_pGame, rightArmRef, config.Person.armLength, config.Person.armWidth);
 	Lleg = new Rect(r_pGame, leftLegRef, config.Person.legLength, config.Person.legWidth);
 	Rleg = new Rect(r_pGame, rightLegRef, config.Person.legLength, config.Person.legWidth);
+}
+
+Person::~Person()
+{
+	delete head;
+	delete body;
+	delete Larm;
+	delete Rarm;
+	delete Lleg;
+	delete Rleg;
 }
 
 void Person::draw(int x) const
@@ -526,6 +548,12 @@ ice_cream::ice_cream(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
 	cone = new EqTriangle(r_pGame, coneRef, config.ice_cream.side_lenght, 0);
 }
 
+ice_cream::~ice_cream()
+{
+	delete scoop;
+	delete cone;
+}
+
 void ice_cream::draw(int x) const
 {
 	scoop->draw(1);
@@ -675,6 +703,14 @@ Tree::Tree(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
 	T2 = new EqTriangle(r_pGame, T2Ref, config.Tree.side_length, 1);
 	T3 = new EqTriangle(r_pGame, T3Ref, config.Tree.side_length, 1);
 	body = new Rect(r_pGame, bodyRef, config.Tree.basehght, config.Tree.basewdth);
+}
+
+Tree::~Tree()
+{
+	delete T1;
+	delete T2;
+	delete T3;
+	delete body;
 }
 
 void Tree::draw(int x) const {
@@ -855,6 +891,14 @@ Rocket::Rocket(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
 	T2 = new RightTriangle(r_pGame, T2Ref, config.Rocket.Rbase_length, config.Rocket.Rhght, 2);
 	T3 = new RightTriangle(r_pGame, T3Ref, config.Rocket.Lbase_length, config.Rocket.Lhght, 1);
 	body = new Rect(r_pGame, bodyRef, config.Rocket.basehght, config.Rocket.basewdth);
+}
+
+Rocket::~Rocket()
+{
+	delete T1;
+	delete T2;
+	delete T3;
+	delete body;
 }
 
 void Rocket::draw(int x) const
@@ -1086,6 +1130,15 @@ Car::Car(game* r_pGame, point ref) :shape(r_pGame, ref, true)
 	R2 = new Rect(r_pGame, R2Ref, config.Car.R2hght, config.Car.R2wdth);
 	C1 = new circle(r_pGame, C1Ref, config.Car.Radius);
 	C2 = new circle(r_pGame, C2Ref, config.Car.Radius);
+}
+
+Car::~Car()
+{
+	delete T1;
+	delete R1;
+	delete R2;
+	delete C1;
+	delete C2;
 }
 
 void Car::draw(int x) const
