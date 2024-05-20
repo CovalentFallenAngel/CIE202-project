@@ -57,7 +57,7 @@ int game::getScore() const {
 }
 
 int game::getMatched() {
-	return Matched;
+	return num_matched;
 }
 
 void game::setThink(int i) {
@@ -153,7 +153,7 @@ void game::decrement_score() {
 
 void game::increment_match() {
 	int xInteger = config.toolbarItemWidth * 18 + 65;
-	Matched += 1;
+	num_matched++;
 	pWind->SetFont(20, BOLD, MODERN, "Arial");
 	pWind->SetPen(config.bkGrndColor);
 	pWind->SetBrush(config.bkGrndColor);
@@ -485,7 +485,7 @@ void game::matching_proxy() {
 
 				if (check == true) {
 					isMatched++;
-					num_matched++;
+					increment_match();
 					increment_score();
 					if (num_matched >= level * level) {
 						increment_level();
