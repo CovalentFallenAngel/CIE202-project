@@ -78,6 +78,10 @@ vector<point> Sign::getPoints() {
 	return vector<point>();
 }
 
+vector<point> Sign::getRevertedPoints() {
+	return vector<point>();
+}
+
 bool Sign::matching_detection(game* pGame, shape* predicate) {
 	bool cond = (base->matching_detection(pGame, dynamic_cast<Sign*>(predicate)->base) &&
 		top->matching_detection(pGame, dynamic_cast<Sign*>(predicate)->top));
@@ -178,6 +182,10 @@ vector<point> Home::getCorners() {
 }
 
 vector<point> Home::getPoints() {
+	return vector<point>();
+}
+
+vector<point> Home::getRevertedPoints() {
 	return vector<point>();
 }
 
@@ -332,13 +340,21 @@ vector<point> Person::getPoints() {
 	return vector<point>();
 }
 
+vector<point> Person::getRevertedPoints() {
+	return vector<point>();
+}
+
 bool Person::matching_detection(game* pGame, shape* predicate) {
 	bool cond = (head->matching_detection(pGame, dynamic_cast<Person*>(predicate)->head) &&
 		body->matching_detection(pGame, dynamic_cast<Person*>(predicate)->body) &&
-		Larm->matching_detection(pGame, dynamic_cast<Person*>(predicate)->Larm) &&
-		Rarm->matching_detection(pGame, dynamic_cast<Person*>(predicate)->Rarm) &&
-		Lleg->matching_detection(pGame, dynamic_cast<Person*>(predicate)->Lleg) &&
-		Rleg->matching_detection(pGame, dynamic_cast<Person*>(predicate)->Rleg));
+		(Larm->matching_detection(pGame, dynamic_cast<Person*>(predicate)->Larm) || 
+			Larm->matching_detection(pGame, dynamic_cast<Person*>(predicate)->Rarm)) &&
+		(Rarm->matching_detection(pGame, dynamic_cast<Person*>(predicate)->Rarm) || 
+			Rarm->matching_detection(pGame, dynamic_cast<Person*>(predicate)->Larm)) &&
+		(Lleg->matching_detection(pGame, dynamic_cast<Person*>(predicate)->Lleg) ||
+			Lleg->matching_detection(pGame, dynamic_cast<Person*>(predicate)->Rleg)) &&
+		(Rleg->matching_detection(pGame, dynamic_cast<Person*>(predicate)->Rleg) || 
+			Rleg->matching_detection(pGame, dynamic_cast<Person*>(predicate)->Lleg)));
 
 	
 	return cond;
@@ -439,6 +455,10 @@ vector<point> ice_cream::getCorners() {
 }
 
 vector<point> ice_cream::getPoints() {
+	return vector<point>();
+}
+
+vector<point> ice_cream::getRevertedPoints() {
 	return vector<point>();
 }
 
@@ -570,6 +590,10 @@ vector<point> Tree::getCorners() {
 }
 
 vector<point> Tree::getPoints() {
+	return vector<point>();
+}
+
+vector<point> Tree::getRevertedPoints() {
 	return vector<point>();
 }
 
@@ -710,11 +734,17 @@ vector<point> Rocket::getPoints() {
 	return vector<point>();
 }
 
+vector<point> Rocket::getRevertedPoints() {
+	return vector<point>();
+}
+
 bool Rocket::matching_detection(game* pGame, shape* predicate) {
-	bool cond = (T1->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->T1) &&
-		T2->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->T2) &&
-		T3->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->T3) &&
-		body->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->body));;
+	bool cond = (T1->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->T1) && 
+		(T2->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->T2) ||
+			T2->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->T3)) && 
+		(T3->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->T3) ||
+			T3->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->T2)) &&
+		body->matching_detection(pGame, dynamic_cast<Rocket*>(predicate)->body));
 
 	
 	return cond;
@@ -861,12 +891,18 @@ vector<point> Car::getPoints() {
 	return vector<point>();
 }
 
+vector<point> Car::getRevertedPoints() {
+	return vector<point>();
+}
+
 bool Car::matching_detection(game* pGame, shape* predicate) {
 	bool cond = (T1->matching_detection(pGame, dynamic_cast<Car*>(predicate)->T1) &&
 		R1->matching_detection(pGame, dynamic_cast<Car*>(predicate)->R1) &&
 		R2->matching_detection(pGame, dynamic_cast<Car*>(predicate)->R2) &&
-		C1->matching_detection(pGame, dynamic_cast<Car*>(predicate)->C1) &&
-		C2->matching_detection(pGame, dynamic_cast<Car*>(predicate)->C2));
+		(C1->matching_detection(pGame, dynamic_cast<Car*>(predicate)->C1) ||
+			C1->matching_detection(pGame, dynamic_cast<Car*>(predicate)->C2)) &&
+		(C2->matching_detection(pGame, dynamic_cast<Car*>(predicate)->C2) ||
+			C2->matching_detection(pGame, dynamic_cast<Car*>(predicate)->C2)));
 
 	
 	return cond;

@@ -18,8 +18,8 @@ grid::grid(point r_uprleft, int wdth, int hght, game* pG)
 	srand(time(nullptr));
 	key = NULL;
 
-	for (int i = 0; i < MaxShapeCount; i++)
-		shapeList[i] = nullptr;
+	/*for (int i = 0; i < MaxShapeCount; i++)
+		shapeList[i] = nullptr;*/
 
 	activeShape = nullptr;
 
@@ -27,8 +27,8 @@ grid::grid(point r_uprleft, int wdth, int hght, game* pG)
 
 grid::~grid()
 {
-	for (int i = 0; i < shapeCount; i++)
-		delete shapeList[i];
+	/*for (int i = 0; i < shapeCount; i++)
+		delete[] shapeList[i];*/
 }
 
 void grid::draw() const
@@ -47,11 +47,11 @@ void grid::draw() const
 
 	//Draw ALL shapes
 	for (int i = 0; i < shapeCount; i++)
-			if (shapeList[i])
+			if (shapeList[i] != nullptr)
 				shapeList[i]->draw(1);	//draw each shape
 
 	//Draw the active shape
-	if(activeShape)
+	if(activeShape != nullptr)
 		activeShape->draw(1);
 }
 
@@ -86,10 +86,10 @@ void grid::clearGridArea() const
 //////////////////////////////Generate Random Points///////////////////////////
 
 point grid::randomPoint() {
-	int x = 120+ rand() %(240-120+1) ;
-	int y = 160+ rand() % (470-160+1);
-	x -= x % config.gridSpacing;
-	y -= y % config.gridSpacing;
+	int x = rand() % (10) + 5;
+	int y = rand() % (10) + 5;
+	x *= config.gridSpacing;
+	y *= config.gridSpacing;
 	return point{ x, y };
 }
 
@@ -102,7 +102,8 @@ bool grid::addShape(shape* newShape)
 	// return false if any of the checks fail
 	
 	//Here we assume that the above checks are passed
-	shapeList[shapeCount++] = newShape;
+	shapeList.push_back(newShape);
+	shapeCount = shapeList.size();
 	return true;
 }
 
@@ -112,19 +113,19 @@ void grid::setActiveShape(shape* actShape)
 }
 
 //////////////////////////////Generate Random Size///////////////////////////
-void grid:: randomSize(int reize_times, shape* &newshape ) {
-	for (int i = 0; i < abs(reize_times); i++) {
-		if (reize_times > 0) {
-			newshape->resize(1.1, newshape->getPosition());
+void grid:: randomSize(int resize_times, shape* newshape, point RPoint) {
+	for (int i = 0; i < abs(resize_times); i++) {
+		if (resize_times > 0) {
+			newshape->resize(1.1, RPoint);
 		}
 		else {
-			newshape->resize(0.9, newshape->getPosition());
+			newshape->resize(0.9, RPoint);
 		}
 	}
 }
 
 //////////////////////////////Generate Random Flip///////////////////////////
-void grid::randomFlip(int Flip_times, shape*& newshape)
+void grid::randomFlip(int Flip_times, shape* newshape)
 {
 	for (int i = 0; i < Flip_times; i++) {
 		newshape->flip();
@@ -132,10 +133,10 @@ void grid::randomFlip(int Flip_times, shape*& newshape)
 }
 
 //////////////////////////////Generate Random Rotate///////////////////////////
-void grid::randomrotate(int rotate_times, shape* newshape)
+void grid::randomrotate(int rotate_times, shape* newshape, point RPoint)
 {
 	for (int i = 0; i < rotate_times; i++) {
-		newshape->rotate(newshape->getPosition());
+		newshape->rotate(RPoint);
 	}
 }
 
@@ -143,7 +144,7 @@ void grid::randomrotate(int rotate_times, shape* newshape)
 void grid::addRandomShape()
 {
 	// Generate a random shape type
-	int shapeType = rand() % 7; // Generate a random number between 0 and 6 (inclusive)
+	int shapeType = rand() % 6 + 1; // Generate a random number between 0 and 6 (inclusive)
 
 	// Generate a random point 
 	point p = randomPoint();
@@ -173,9 +174,9 @@ void grid::addRandomShape()
 		newShape = new Tree(pGame, p);
 		break;
 	}
-	randomSize(s, newShape);
+	randomSize(s, newShape, p);
 	randomFlip(f, newShape);
-	randomrotate(r, newShape);
+	randomrotate(r, newShape, p);
 	addShape(newShape);
 }
 
@@ -183,12 +184,20 @@ shape* grid::getActiveShape() {
 	return activeShape;
 }
 
-shape* grid::getShapeList() {
-	return shapeList[0];
+vector<shape*> grid::getShapeList() {
+	return shapeList;
+}
+
+void grid::setShapeList(vector<shape*> new_list) {
+	shapeList = new_list;
 }
 
 int grid::getShapeCount() {
 	return shapeCount;
+}
+
+void grid::setShapeCount(int count) {
+	shapeCount = count;
 }
 
 

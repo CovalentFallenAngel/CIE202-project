@@ -29,8 +29,8 @@ void operAddSign::Act()
 		return; // Exit the function if there is already an active shape
 	}
 	//align reference point to the nearest grid point
-	int xGrid = config.RefX - config.RefX % config.gridSpacing;
-	int yGrid = config.RefY - config.RefX % config.gridSpacing;
+	int xGrid = (config.RefX / config.gridSpacing) * config.gridSpacing;
+	int yGrid = (config.RefY / config.gridSpacing) * config.gridSpacing;
 
 
 	//take the aligned point as the sign shape ref point
@@ -58,8 +58,8 @@ void operAddHome::Act()
 	}
 
 	//align reference point to the nearest grid point
-	int xGrid = config.RefX - config.RefX % config.gridSpacing;
-	int yGrid = config.RefY - config.RefX % config.gridSpacing;
+	int xGrid = (config.RefX / config.gridSpacing) * config.gridSpacing;
+	int yGrid = (config.RefY / config.gridSpacing) * config.gridSpacing;
 
 	//take the aligned point as the sign shape ref point
 	point homeShapeRef = { xGrid,yGrid };
@@ -85,8 +85,8 @@ void operAddPerson::Act()
 	}
 
 	//align reference point to the nearest grid point
-	int xGrid = config.RefX - config.RefX % config.gridSpacing;
-	int yGrid = config.RefY - config.RefX % config.gridSpacing;
+	int xGrid = (config.RefX / config.gridSpacing) * config.gridSpacing;
+	int yGrid = (config.RefY / config.gridSpacing) * config.gridSpacing;
 
 	//take the aligned point as the Person shape ref point
 	point PearsonShapeRef = { xGrid,yGrid };
@@ -111,8 +111,8 @@ void operAddice::Act()
 		return; // Exit the function if there is already an active shape
 	}
 	//align reference point to the nearest grid point
-	int xGrid = config.RefX - config.RefX % config.gridSpacing;
-	int yGrid = config.RefY - config.RefX % config.gridSpacing;
+	int xGrid = (config.RefX / config.gridSpacing) * config.gridSpacing;
+	int yGrid = (config.RefY / config.gridSpacing) * config.gridSpacing;
 
 	//take the aligned point as the  Ice-cream shape ref point
 	point iceShapeRef = { xGrid,yGrid };
@@ -137,8 +137,8 @@ void operAddTree::Act()
 		return; // Exit the function if there is already an active shape
 	}
 	//align reference point to the nearest grid point
-	int xGrid = config.RefX - config.RefX % config.gridSpacing;
-	int yGrid = config.RefY - config.RefX % config.gridSpacing;
+	int xGrid = (config.RefX / config.gridSpacing) * config.gridSpacing;
+	int yGrid = (config.RefY / config.gridSpacing) * config.gridSpacing;
 
 	//take the aligned point as the Tree shape ref point
 	point TreeShapeRef = { xGrid,yGrid };
@@ -163,8 +163,8 @@ void operAddRocket::Act()
 		return; // Exit the function if there is already an active shape
 	}
 	//align reference point to the nearest grid point
-	int xGrid = config.RefX - config.RefX % config.gridSpacing;
-	int yGrid = config.RefY - config.RefX % config.gridSpacing;
+	int xGrid = (config.RefX / config.gridSpacing) * config.gridSpacing;
+	int yGrid = (config.RefY / config.gridSpacing) * config.gridSpacing;
 
 	//take the aligned point as the Rocket shape ref point
 	point RocketShapeRef = { xGrid,yGrid };
@@ -190,8 +190,8 @@ void operAddCar::Act()
 		return; // Exit the function if there is already an active shape
 	}
 	//align reference point to the nearest grid point
-	int xGrid = config.RefX - config.RefX % config.gridSpacing;
-	int yGrid = config.RefY - config.RefX % config.gridSpacing;
+	int xGrid = (config.RefX / config.gridSpacing) * config.gridSpacing;
+	int yGrid = (config.RefY / config.gridSpacing) * config.gridSpacing;
 
 	//take the aligned point as the sign shape ref point
 	point signShapeRef = { xGrid,yGrid };
