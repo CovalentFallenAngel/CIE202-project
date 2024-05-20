@@ -27,8 +27,11 @@ grid::grid(point r_uprleft, int wdth, int hght, game* pG)
 
 grid::~grid()
 {
-	for (int i = 0; i < shapeCount; i++)
-		delete shapeList[i];
+	for (int i = 0; i < shapeCount; i++) {
+		if (shapeList[i] != nullptr) {
+			delete[] shapeList[i];
+		}
+	}
 }
 
 void grid::draw() const
@@ -86,10 +89,19 @@ void grid::clearGridArea() const
 //////////////////////////////Generate Random Points///////////////////////////
 
 point grid::randomPoint() {
-	int x = 5 + rand() % (10);
-	int y = 5 + rand() % (10);
-	x *= config.gridSpacing;
-	y *= config.gridSpacing;
+	int x, y;
+	if (pGame->getLevel() < 3) {
+		x = 4 + rand() % (14 - 4 + 1);
+		y = 4 + rand() % (14 - 4 + 1);
+		 x *= config.gridSpacing;
+		 y *= config.gridSpacing;
+	}
+	else {
+		x = 7 + rand() % (11 - 7 + 1);
+		 y = 5 + rand() % (11 - 5 + 1);
+		 x *= config.gridSpacing;
+		 y *= config.gridSpacing;
+	}
 	return point{ x, y };
 }
 
@@ -166,7 +178,7 @@ void grid::randomizecolor(int cn, shape* newshape) {
 		newshape->setcolor(VIOLET);
 		break;
 	case 6:
-		newshape->setcolor(LIGHTGOLDENRODYELLOW);
+		newshape->setcolor(SANDYBROWN);
 		break;
 	case 7:
 		newshape->setcolor(SADDLEBROWN);
@@ -175,7 +187,7 @@ void grid::randomizecolor(int cn, shape* newshape) {
 		newshape->setcolor(GOLD);
 		break;
 	case 9:
-		newshape->setcolor(LAVENDERBLUSH);
+		newshape->setcolor(FIREBRICK);
 		break;
 	case 10:
 		newshape->setcolor(DARKTURQUOISE);

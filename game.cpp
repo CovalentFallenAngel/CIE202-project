@@ -40,7 +40,9 @@ game::game()
 game::~game()
 {
 	delete pWind;
-	delete shapesGrid;
+	if (shapesGrid != nullptr) {
+		delete shapesGrid;
+	}
 }
 
 int game::getLevel() const {
@@ -76,17 +78,22 @@ void game::setLevel(int lev) { level = lev; }
 
 void game::increment_steps() { 
 	int xInteger = config.toolbarItemWidth * 18 + 65;
-	steps += 1;
-	pWind->SetFont(20, BOLD, MODERN, "Arial");
-	pWind->SetPen(config.bkGrndColor);
-	pWind->SetBrush(config.bkGrndColor);
-	pWind->DrawRectangle(xInteger + 100, 0, 1370, 20);
-	pWind->SetPen(BLACK);
-	pWind->DrawInteger(xInteger + 100, 0, steps);
-	toolbar* tb = getToolBar();
-	delete tb;
-	tb = nullptr;
-	createToolBar();
+	if (steps != 80) {
+		steps += 1;
+		pWind->SetFont(20, BOLD, MODERN, "Arial");
+		pWind->SetPen(config.bkGrndColor);
+		pWind->SetBrush(config.bkGrndColor);
+		pWind->DrawRectangle(xInteger + 100, 0, 1370, 20);
+		pWind->SetPen(BLACK);
+		pWind->DrawInteger(xInteger + 100, 0, steps);
+		toolbar* tb = getToolBar();
+		delete tb;
+		tb = nullptr;
+		createToolBar();
+	}
+
+	else if (steps == 80)
+		lost();
 }
 
 
@@ -164,6 +171,20 @@ void game::increment_match() {
 	createToolBar();
 }
 
+void game::lost() {
+	getWind()->SetPen(config.bkGrndColor);
+	getWind()->SetBrush(config.bkGrndColor);
+	getWind()->DrawRectangle(config.toolbarItemWidth * 17 + 65, 0, 1366, 60);
+	getWind()->SetFont(40, BOLD, MODERN, "Arial");
+	getWind()->SetPen(BLACK);
+	getWind()->DrawString(config.toolbarItemWidth * 17 + 65, 0, "Game Over");
+	setThink(1);
+	Sleep(3000);
+	delete pWind;
+	delete shapesGrid;
+	
+}
+
 void game::setsec(int s) { sec = s; }
 
 void game::setact(int a) { act = a; }
@@ -219,6 +240,10 @@ void game::actTimer(int xInteger){
 	if (/*act == 0 && */wasMatched == false) {
 		decrement_lives();
 		decrement_score();
+	}
+
+	if (lives == 0) {
+		lost();
 	}
 	// Hide power-up if visible
 	/*if (powerUpVisible) {
@@ -319,37 +344,30 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 	case ITM_SIGN:
 		op = new operAddSign(this);
 		printMessage("You clicked on the Sign shape!");
-		increment_steps();
 		break;
 	case ITM_ICE:
 		printMessage("You clicked on the Icecream shape!");
 		op = new operAddice(this);
-		increment_steps();
 		break;
 	case ITM_CAR:
 		printMessage("You clicked on the Car shape!");
 		op = new operAddCar(this);
-		increment_steps();
 		break;
 	case ITM_Person:
 		printMessage("You clicked on the Person shape!");
 		op = new operAddPerson(this);
-		increment_steps();
 		break;
 	case ITM_Home:
 		printMessage("You clicked on the Home shape!");
 		op = new operAddHome(this);
-		increment_steps();
 		break;
 	case ITM_Rocket:
 		printMessage("You clicked on the Rocket shape");
 		op = new operAddRocket(this);
-		increment_steps();
 		break;
 	case ITM_Tree:
 		printMessage("You clicked on the Tree shape!");
 		op = new operAddTree(this);
-		increment_steps();
 		break;
 	case ITM_Inc:
 		printMessage("You clicked on Upscale!");
@@ -382,7 +400,6 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		}
 		else {
 			op = new operHint(this);
-			printMessage("A hint was given!");
 			increment_steps();
 		}
 		break;

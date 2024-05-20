@@ -278,6 +278,7 @@ operHint::operHint(game* r_pGame) :operation(r_pGame)
 			sh->setcolor(BLACK);
 			sh->draw(1);
 			x++;
+			pGame->printMessage("You were given a hint!");
 		}
 	}
 	if (x == 0) {pGame->printMessage("Your Shape is not one of the shapes that needs to be matched!");}
@@ -428,18 +429,7 @@ void operRef::Act()
 		pGame->decrement_lives();
 	}
 	if (l == 0) {
-		pGame->getWind()->SetPen(config.bkGrndColor);
-		pGame->getWind()->SetBrush(config.bkGrndColor);
-		pGame->getWind()->DrawRectangle(config.toolbarItemWidth * 17 + 65, 0, 1190, 20);
-		pGame->getWind()->SetPen(BLACK);
-		pGame->getWind()->DrawString(config.toolbarItemWidth * 17 + 65, 0, "Game Over");
-		//pGame->getWind()->SetPen(WHITE);
-		//pGame->getWind()->SetBrush(WHITE);
-		//pGame->getWind()->DrawRectangle(550, 200, 700, 300);
-		//pGame->getWind()->SetPen(BLACK, 5);
-		//pGame->getWind()->SetFont(20, BOLD, MODERN, "Arial");
-		//pGame->getWind()->DrawString(650, 300, "Game Over");
-		pGame->setThink(1);
+		pGame->lost();
 	}
 }
 
@@ -480,9 +470,11 @@ void operExit::Act() {
 	char c;
 	kin = pGame->getWind()->WaitKeyPress(c);
 	if (c == 'y') {
-		//operSave(pGame);
+		operation* op = nullptr;
+		op = new operSave(pGame);
 		pGame->~game();
 	}
+
 	else if (c == 'n') {
 		pGame->~game();
 	}
