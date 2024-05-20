@@ -205,20 +205,30 @@ void operAddCar::Act()
 }
 
 
-operResize::operResize(game* r_pGame) :operation(r_pGame)
+operResizeUp::operResizeUp(game* r_pGame) :operation(r_pGame)
 {
 
 }
 
-void operResize::Act() {}
+void operResizeUp::Act() {
+	grid* pGrid = pGame->getGrid();
+	shape* shape = pGrid->getActiveShape();
+	shape->resize(1.1, shape->getPosition());
+	pGrid->clearGridArea();
+	pGrid->setActiveShape(shape);
+}
 
-void operResize::Actmain(double factor)
+operResizeDown::operResizeDown(game* r_pGame) :operation(r_pGame)
 {
-	 grid* pGrid = pGame->getGrid();
-	 shape* shape = pGrid->getActiveShape();
-	 shape->resize(factor, shape->getPosition());
-	 pGrid->clearGridArea(); 
-	 pGrid->setActiveShape(shape);
+
+}
+
+void operResizeDown::Act() {
+	grid* pGrid = pGame->getGrid();
+	shape* shape = pGrid->getActiveShape();
+	shape->resize(0.9, shape->getPosition());
+	pGrid->clearGridArea();
+	pGrid->setActiveShape(shape);
 }
 
 operRotate::operRotate(game* r_pGame) :operation(r_pGame) {}
@@ -455,5 +465,25 @@ void operMove::Act() {
 		//pGame->levelup(pGame);
 		pGrid->draw();
 		
+	}
+}
+
+
+operExit::operExit(game* r_pGame) : operation(r_pGame)
+{
+}
+
+void operExit::Act() {
+	grid* pGrid = pGame->getGrid();
+	window* pWind = pGame->getWind();
+	keytype kin;
+	char c;
+	kin = pGame->getWind()->WaitKeyPress(c);
+	if (c == 'y') {
+		//operSave(pGame);
+		pGame->~game();
+	}
+	else if (c == 'n') {
+		pGame->~game();
 	}
 }
