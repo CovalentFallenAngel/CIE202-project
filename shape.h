@@ -55,6 +55,7 @@ public:
 	int getRotationAngle();
 	point getPosition() const;
 	virtual vector<point> getPoints();
+	virtual vector<point> getRevertedPoints();
 	virtual vector<point> getCorners();
 	virtual double getRadius();
 	virtual string getID();

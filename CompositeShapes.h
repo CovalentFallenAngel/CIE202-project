@@ -40,6 +40,7 @@ public:
 	virtual void rotate(point reference);
 	virtual std::string getID() override;
 	virtual void flip();
+	virtual vector<point> getRevertedPoints() override;
 	virtual vector<point> getPoints() override;
 	virtual vector<point> getCorners() override;
 	virtual double getRadius() override;
@@ -63,6 +64,7 @@ public:
 	virtual void rotate(point reference);
 	virtual std::string getID() override;
 	virtual void flip();
+	virtual vector<point> getRevertedPoints() override;
 	virtual vector<point> getPoints() override;
 	virtual vector<point> getCorners() override;
 	virtual double getRadius() override;
@@ -94,6 +96,7 @@ public:
 	virtual void rotate(point reference);
 	virtual std::string getID() override;
 	virtual void flip();
+	virtual vector<point> getRevertedPoints() override;
 	virtual vector<point> getPoints() override;
 	virtual vector<point> getCorners() override;
 	virtual double getRadius() override;
@@ -117,6 +120,7 @@ public:
 	virtual void rotate(point reference);
 	virtual std::string getID() override;
 	virtual void flip();
+	virtual vector<point> getRevertedPoints() override;
 	virtual vector<point> getPoints() override;
 	virtual vector<point> getCorners() override;
 	virtual double getRadius() override;
@@ -144,6 +148,7 @@ public:
 	virtual void rotate(point reference);
 	virtual void flip();
 	virtual std::string getID() override;
+	virtual vector<point> getRevertedPoints() override;
 	virtual vector<point> getPoints() override;
 	virtual vector<point> getCorners() override;
 	virtual double getRadius() override;
@@ -166,6 +171,7 @@ public:
 	virtual void rotate(point reference);
 	virtual std::string getID() override;
 	virtual void flip();
+	virtual vector<point> getRevertedPoints() override;
 	virtual vector<point> getPoints() override;
 	virtual vector<point> getCorners() override;
 	virtual double getRadius() override;
@@ -193,6 +199,7 @@ public:
 	virtual void rotate(point reference);
 	virtual std::string getID() override;
 	virtual void flip();
+	virtual vector<point> getRevertedPoints() override;
 	virtual vector<point> getPoints() override;
 	virtual vector<point> getCorners() override;
 	virtual double getRadius() override;

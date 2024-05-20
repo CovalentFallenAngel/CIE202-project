@@ -18,8 +18,8 @@ grid::grid(point r_uprleft, int wdth, int hght, game* pG)
 	srand(time(nullptr));
 	key = NULL;
 
-	for (int i = 0; i < MaxShapeCount; i++)
-		shapeList[i] = nullptr;
+	/*for (int i = 0; i < MaxShapeCount; i++)
+		shapeList[i] = nullptr;*/
 
 	activeShape = nullptr;
 
@@ -27,8 +27,8 @@ grid::grid(point r_uprleft, int wdth, int hght, game* pG)
 
 grid::~grid()
 {
-	for (int i = 0; i < shapeCount; i++)
-		delete[] shapeList[i];
+	/*for (int i = 0; i < shapeCount; i++)
+		delete[] shapeList[i];*/
 }
 
 void grid::draw() const
@@ -102,7 +102,8 @@ bool grid::addShape(shape* newShape)
 	// return false if any of the checks fail
 	
 	//Here we assume that the above checks are passed
-	shapeList[shapeCount++] = newShape;
+	shapeList.push_back(newShape);
+	shapeCount = shapeList.size();
 	return true;
 }
 
@@ -183,12 +184,20 @@ shape* grid::getActiveShape() {
 	return activeShape;
 }
 
-shape** grid::getShapeList() {
-	return &shapeList[0];
+vector<shape*> grid::getShapeList() {
+	return shapeList;
+}
+
+void grid::setShapeList(vector<shape*> new_list) {
+	shapeList = new_list;
 }
 
 int grid::getShapeCount() {
 	return shapeCount;
+}
+
+void grid::setShapeCount(int count) {
+	shapeCount = count;
 }
 
 

@@ -31,6 +31,7 @@ public:
 	virtual void set_dims(vector<double> dims);
 	virtual void calculate_points();
 	virtual void calculate_reference();
+	virtual vector<point> getRevertedPoints() override;
 	virtual vector<point> getPoints() override;
 	virtual vector<point> getCorners() override;
 	virtual double getRadius() override;
@@ -75,6 +76,7 @@ public:
 	virtual void resize(double factor, point composite_reference) override;
 	virtual void rotate(point reference);
 	virtual void flip(point reference);
+	virtual vector<point> getRevertedPoints() override;
 	virtual vector<point> getPoints() override;
 	virtual vector<point> getCorners() override;
 	virtual double getRadius() override;
@@ -97,6 +99,7 @@ public:
 	//virtual void saveOrnaments(ofstream& file) override;
 	bool matching_detection(game* pGame, shape* predicate) override;
 	virtual vector<point> getPoints() override;
+	virtual vector<point> getRevertedPoints() override;
 	virtual vector<point> getCorners() override;
 	virtual double getRadius() override;
 
@@ -117,6 +120,7 @@ public:
 	virtual void rotate(point reference);
 	virtual void flip(point reference);
 	virtual void calculate_reference();
+	virtual vector<point> getRevertedPoints() override;
 	vector<point> getPoints() override;
 	vector<point> getCorners() override;
 	double getRadius() override;

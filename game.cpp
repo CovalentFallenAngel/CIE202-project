@@ -16,6 +16,7 @@ game::game()
 	act = 16;
 	xsteps = 80;
 	isThinking = false;
+	num_matched = 0;
 
 
 	//Create the main window
@@ -75,6 +76,7 @@ void game::increment_steps() {
 	pWind->DrawInteger(xInteger + 100, 0, steps);
 	toolbar* tb = getToolBar();
 	delete tb;
+	tb = nullptr;
 	createToolBar();
 }
 
@@ -88,6 +90,7 @@ void game::decrement_xsteps() {
 	pWind->DrawInteger(xInteger + 100, 40, xsteps);
 	toolbar* tb = getToolBar();
 	delete tb;
+	tb = nullptr;
 	createToolBar();
 }
 
@@ -101,6 +104,7 @@ void game::decrement_lives() {
 	pWind->DrawInteger(xInteger, 0, lives);
 	toolbar* tb = getToolBar();
 	delete tb;
+	tb = nullptr;
 	createToolBar();
 }
 
@@ -114,6 +118,7 @@ void game::increment_level() {
 	pWind->DrawInteger(xInteger, 20, level);
 	toolbar* tb = getToolBar();
 	delete tb;
+	tb = nullptr;
 	createToolBar();
 }
 
@@ -127,6 +132,7 @@ void game::increment_score() {
 	pWind->DrawInteger(xInteger, 40, score);
 	toolbar* tb = getToolBar();
 	delete tb;
+	tb = nullptr;
 	createToolBar();
 }
 
@@ -140,6 +146,7 @@ void game::decrement_score() {
 	pWind->DrawInteger(xInteger, 40, score);
 	toolbar* tb = getToolBar();
 	delete tb;
+	tb = nullptr;
 	createToolBar();
 }
 
@@ -234,7 +241,7 @@ void game::createGrid()
 operation* game::createRequiredOperation(toolbarItem clickedItem)
 {
 	operation* op=nullptr;
-	if (op != nullptr) { delete op; }
+	/*if (op != nullptr) { delete op; }*/
 	switch (clickedItem)
 	{
 	case ITM_SIGN:
@@ -400,12 +407,11 @@ grid* game::getGrid() const
 }
 
 void game::matching_proxy() {
-	shape** shape_array = this->getGrid()->getShapeList();
+	vector<shape*> shape_array = this->getGrid()->getShapeList();
 	shape* ashape = nullptr;
 	shape* matchedShape = nullptr;
-	int scount = this->getGrid()->getShapeCount();
 	int isMatched = 0;
-	for (int i = 0; i < scount; i++) {
+	for (int i = 0; i < this->getGrid()->getShapeCount(); i++) {
 
 		shape_array = this->getGrid()->getShapeList();
 		if (shape_array[i] != nullptr) {
@@ -419,22 +425,28 @@ void game::matching_proxy() {
 					isMatched++;
 					num_matched++;
 					increment_score();
-					increment_level();
+					if (num_matched >= level * level) {
+						increment_level();
+					}
 					delete shape_array[i];
-					shape_array[i] = nullptr;
+					shape_array.erase(std::next(shape_array.begin(), i));
+					this->getGrid()->setShapeCount(shape_array.size());
+					this->getGrid()->setShapeList(shape_array);
 					this->getGrid()->Delete();
+					break;
 				}
 			}
 		}
 
-		else {
-			decrement_score();
-		}
-
 		toolbar* tb = getToolBar();
 		delete tb;
+		tb = nullptr;
 		createToolBar();
 
+	}
+
+	if (isMatched == 0) {
+		decrement_score();
 	}
 }
 
