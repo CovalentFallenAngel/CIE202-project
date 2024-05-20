@@ -113,9 +113,6 @@ Home::Home(game* r_pGame, point ref) :shape(r_pGame, ref, true) {
 
 void Home::draw(int x) const {
 	base->draw(1);
-	base->setbordercolor(BLACK);
-	top->setcolor(BLUE);
-	top->setbordercolor(BLUE);
 	top->draw(1);
 }
 
@@ -359,6 +356,10 @@ string Person::getID() {
 void Person::setcolor(color c) {
 	body->setcolor(c);
 	head->setcolor(c);
+	Larm->setcolor(c);
+	Rarm->setcolor(c);
+	Lleg->setcolor(c);
+	Rleg->setcolor(c);
 }
 
 ice_cream::ice_cream(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
@@ -371,11 +372,7 @@ ice_cream::ice_cream(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
 
 void ice_cream::draw(int x) const
 {
-	scoop->setcolor(ORANGE);
-	scoop->setbordercolor(ORANGE);
 	scoop->draw(1);
-	cone->setcolor(WHITE);
-	cone->setbordercolor(BLACK);
 	cone->draw(0);
 }
 
@@ -480,20 +477,10 @@ Tree::Tree(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
 }
 
 void Tree::draw(int x) const {
-	T1->setcolor(LIMEGREEN);
-	T1->setbordercolor(LIMEGREEN);
 	T1->draw(1);
-	T2->setcolor(LIMEGREEN);
-	T2->setbordercolor(LIMEGREEN);
 	T2->draw(1);
-	T3->setcolor(LIMEGREEN);
-	T3->setbordercolor(LIMEGREEN);
 	T3->draw(1);
-	body->setcolor(config.fillColor = SANDYBROWN);
-	body->setbordercolor(config.penColor = SANDYBROWN);
 	body->draw(1);
-	config.fillColor = RED;
-	config.penColor = RED;
 }
 
 void Tree::move(char c)
@@ -616,20 +603,10 @@ Rocket::Rocket(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
 
 void Rocket::draw(int x) const
 {
-	T1->setcolor(PURPLE);
-	T1->setbordercolor(PURPLE);
 	T1->draw(5);
-	T2->setcolor(RED);
-	T2->setbordercolor(RED);
 	T2->draw(2);
-	T3->setcolor(RED);
-	T3->setbordercolor(RED);
 	T3->draw(1);
-	body->setcolor(config.fillColor = BLUE);
-	body->setbordercolor(config.penColor = BLUE);
 	body->draw(1);
-	config.fillColor = RED;
-	config.penColor = RED;
 }
 
 void Rocket::resize(double factor, point composite_reference)
@@ -755,20 +732,12 @@ Car::Car(game* r_pGame, point ref) :shape(r_pGame, ref, true)
 
 void Car::draw(int x) const
 {
-	T1->setcolor(BLUE);
-	T1->setbordercolor(BLACK);
+	
 	T1->draw(3);
-	R1->setcolor(config.fillColor = CYAN);
-	R1->setbordercolor(config.penColor = CYAN);
+	
 	R1->draw(3);
 	R2->draw(3);
-	config.fillColor = RED;
-	config.penColor = RED;
-	C1->setcolor(BLACK);
-	C1->setbordercolor(BLACK);
 	C1->draw(3);
-	C2->setcolor(BLACK);
-	C2->setbordercolor(BLACK);
 	C2->draw(3);
 }
 

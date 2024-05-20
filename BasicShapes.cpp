@@ -39,8 +39,8 @@ void Rect::set_dims(vector<double> dims) {
 void Rect::draw(int x = 1) const
 {
 	window* pW = pGame->getWind();	//get interface window
-	pW->SetPen(config.penColor, config.penWidth);
-	pW->SetBrush(config.fillColor);
+	pW->SetPen(borderColor, config.penWidth);
+	pW->SetBrush(fillColor);
 
 	pW->DrawRectangle(upperLeft.x, upperLeft.y, lowerBottom.x, lowerBottom.y, FILLED);
 }

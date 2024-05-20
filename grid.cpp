@@ -100,6 +100,7 @@ bool grid::addShape(shape* newShape)
 	// 1- Check that the shape can be drawn witout being clipped by grid boundaries
 	// 2- check shape count doesn't exceed maximum count
 	// return false if any of the checks fail
+
 	
 	//Here we assume that the above checks are passed
 	shapeList[shapeCount++] = newShape;
@@ -151,6 +152,7 @@ void grid::addRandomShape()
 	int s = -2+ rand() %(2-(-2)+1) ;
 	int r = rand() % 4 ;
 	int f = rand() % 4 ;
+	int rnd = 1 + rand() % (10 - 1 + 1);
 	// Create a random shape based on the generated type, point
 	shape* newShape =nullptr;
 	switch (shapeType) {
@@ -176,7 +178,60 @@ void grid::addRandomShape()
 	randomSize(s, newShape);
 	randomFlip(f, newShape);
 	randomrotate(r, newShape);
+	if (pGame->getLevel() < 3) {
+		randomizecolor(rnd, newShape);
+	}
+	else {
+		newShape->setcolor(BLACK);
+		window* pw = pGame->getWind();
+	}
 	addShape(newShape);
+}
+
+void grid::randomizecolor(int rnd,shape* newshape) {
+	switch (rnd)
+	{
+	case 1:
+		newshape->setbordercolor(ORANGE);
+		newshape->setcolor(ORANGE);
+		break;
+	case 2:
+		newshape->setbordercolor(GREY);
+		newshape->setcolor(GREY);
+		break;
+	case 3:
+		newshape->setbordercolor(BLUE);
+		newshape->setcolor(BLUE);
+		break;
+	case 4:
+		newshape->setbordercolor(VIOLET);
+		newshape->setcolor(VIOLET);
+		break;
+	case 5:
+		newshape->setbordercolor(BROWN);
+		newshape->setcolor(BROWN);
+		break;
+	case 6:
+		newshape->setbordercolor(GREEN);
+		newshape->setcolor(GREEN);
+		break;
+	case 7:
+		newshape->setbordercolor(DARKGOLDENROD);
+		newshape->setcolor(DARKGOLDENROD);
+		break;
+	case 8:
+		newshape->setbordercolor(DARKMAGENTA);
+		newshape->setcolor(DARKMAGENTA);
+		break;
+	case 9:
+		newshape->setbordercolor(WHITESMOKE);
+		newshape->setcolor(WHITESMOKE);
+		break;
+	case 10:
+		newshape->setbordercolor(CYAN);
+		newshape->setcolor(CYAN);
+		break;
+	}
 }
 
 shape* grid::getActiveShape() {
