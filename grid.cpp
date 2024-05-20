@@ -143,7 +143,7 @@ void grid::randomrotate(int rotate_times, shape* newshape, point RPoint)
 void grid::addRandomShape()
 {
 	// Generate a random shape type
-	int shapeType = rand() % 7; // Generate a random number between 0 and 6 (inclusive)
+	int shapeType = rand() % 6 + 1; // Generate a random number between 0 and 6 (inclusive)
 
 	// Generate a random point 
 	point p = randomPoint();
