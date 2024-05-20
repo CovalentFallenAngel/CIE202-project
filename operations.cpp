@@ -457,3 +457,23 @@ void operMove::Act() {
 		
 	}
 }
+
+
+operExit::operExit(game* r_pGame) : operation(r_pGame)
+{
+}
+
+void operExit::Act() {
+	grid* pGrid = pGame->getGrid();
+	window* pWind = pGame->getWind();
+	keytype kin;
+	char c;
+	kin = pGame->getWind()->WaitKeyPress(c);
+	if (c == 'y') {
+		//operSave(pGame);
+		pGame->~game();
+	}
+	else if (c == 'n') {
+		pGame->~game();
+	}
+}
