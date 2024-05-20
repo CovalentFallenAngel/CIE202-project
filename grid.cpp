@@ -89,7 +89,7 @@ point grid::randomPoint() {
 	int x = 120+ rand() %(240-120+1) ;
 	int y = 160+ rand() % (470-160+1);
 	x -= x % config.gridSpacing;
-	y -= y % config.gridSpacing;
+	y -= y % config.gridSpacing+6;
 	return point{ x, y };
 }
 
@@ -143,7 +143,7 @@ void grid::randomrotate(int rotate_times, shape* newshape)
 void grid::addRandomShape()
 {
 	// Generate a random shape type
-	int shapeType = rand() % 7; // Generate a random number between 0 and 6 (inclusive)
+	int shapeType = 1+ rand() % (6-1+1); // Generate a random number between 1 and 6 (inclusive)
 
 	// Generate a random point 
 	point p = randomPoint();
