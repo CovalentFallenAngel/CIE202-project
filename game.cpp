@@ -473,7 +473,10 @@ void game::run()
 	p1 = new operMove(this);
 	thread new_thread(&operMove::Act, p1);
 	new_thread.detach();*/
-	
+	int numofShapes = (2 * level) - 1;
+	for (int i = 0; i < numofShapes; i++) {
+		shapesGrid->addRandomShape();
+	}
 	//Change the title
 	pWind->ChangeTitle("- - - - - - - - - - SHAPE HUNT Team 1 - - - - - - - - - -");
 	toolbarItem clickedItem=ITM_CNT;
@@ -483,10 +486,7 @@ void game::run()
 		//printMessage("Ready...");
 		//1- Get user click
 		//if (startacting) {
-		int numofShapes = (2 * level) - 1;
-		for (int i = 0; i < numofShapes; i++) {
-			shapesGrid->addRandomShape();
-		}
+		
 		pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
 			
 		//2-Explain the user click
