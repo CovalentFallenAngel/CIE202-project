@@ -18,8 +18,8 @@ grid::grid(point r_uprleft, int wdth, int hght, game* pG)
 	srand(time(nullptr));
 	key = NULL;
 
-	for (int i = 0; i < MaxShapeCount; i++)
-		shapeList[i] = nullptr;
+	/*for (int i = 0; i < MaxShapeCount; i++)
+		shapeList[i] = nullptr;*/
 
 	activeShape = nullptr;
 
@@ -27,31 +27,31 @@ grid::grid(point r_uprleft, int wdth, int hght, game* pG)
 
 grid::~grid()
 {
-	for (int i = 0; i < shapeCount; i++)
-		delete shapeList[i];
+	/*for (int i = 0; i < shapeCount; i++)
+		delete[] shapeList[i];*/
 }
 
 void grid::draw() const
 {
 	clearGridArea();
 	window* pWind = pGame->getWind();
-	
-	pWind->SetPen(config.gridDotsColor,1);
+
+	pWind->SetPen(config.gridDotsColor, 1);
 	pWind->SetBrush(config.gridDotsColor);
 
 	//draw dots showing the grid reference points
 	for (int r = 1; r < rows; r++)
 		for (int c = 0; c < cols; c++)
 			pWind->DrawCircle(c * config.gridSpacing, r * config.gridSpacing + uprLeft.y, 1);
-			//pWind->DrawPixel(c * config.gridSpacing, r * config.gridSpacing + uprLeft.y);
+	//pWind->DrawPixel(c * config.gridSpacing, r * config.gridSpacing + uprLeft.y);
 
-	//Draw ALL shapes
+//Draw ALL shapes
 	for (int i = 0; i < shapeCount; i++)
-			if (shapeList[i])
-				shapeList[i]->draw(1);	//draw each shape
+		if (shapeList[i] != nullptr)
+			shapeList[i]->draw(1);	//draw each shape
 
 	//Draw the active shape
-	if(activeShape)
+	if (activeShape != nullptr)
 		activeShape->draw(1);
 }
 
@@ -61,7 +61,7 @@ void grid::Delete()
 	activeShape = nullptr;
 	clearGridArea();
 	window* pWind = pGame->getWind();
-	
+
 
 	pWind->SetPen(config.gridDotsColor, 1);
 	pWind->SetBrush(config.gridDotsColor);
@@ -77,7 +77,7 @@ void grid::Delete()
 
 void grid::clearGridArea() const
 {
-	window* pWind = pGame->getWind();	
+	window* pWind = pGame->getWind();
 	pWind->SetPen(config.bkGrndColor, 1);
 	pWind->SetBrush(config.bkGrndColor);
 	pWind->DrawRectangle(uprLeft.x, uprLeft.y, uprLeft.x + width, uprLeft.y + height);
@@ -86,10 +86,10 @@ void grid::clearGridArea() const
 //////////////////////////////Generate Random Points///////////////////////////
 
 point grid::randomPoint() {
-	int x = 120+ rand() %(240-120+1) ;
-	int y = 160+ rand() % (470-160+1);
-	x -= x % config.gridSpacing;
-	y -= y % config.gridSpacing+6;
+	int x = 5 + rand() % (15);
+	int y = 5 + rand() % (10);
+	x *= config.gridSpacing;
+	y *= config.gridSpacing;
 	return point{ x, y };
 }
 
@@ -101,9 +101,9 @@ bool grid::addShape(shape* newShape)
 	// 2- check shape count doesn't exceed maximum count
 	// return false if any of the checks fail
 
-	
 	//Here we assume that the above checks are passed
-	shapeList[shapeCount++] = newShape;
+	shapeList.push_back(newShape);
+	shapeCount = shapeList.size();
 	return true;
 }
 
@@ -113,19 +113,19 @@ void grid::setActiveShape(shape* actShape)
 }
 
 //////////////////////////////Generate Random Size///////////////////////////
-void grid:: randomSize(int reize_times, shape* &newshape ) {
-	for (int i = 0; i < abs(reize_times); i++) {
-		if (reize_times > 0) {
-			newshape->resize(1.1, newshape->getPosition());
+void grid::randomSize(int resize_times, shape* newshape, point RPoint) {
+	for (int i = 0; i < abs(resize_times); i++) {
+		if (resize_times > 0) {
+			newshape->resize(1.1, RPoint);
 		}
 		else {
-			newshape->resize(0.9, newshape->getPosition());
+			newshape->resize(0.9, RPoint);
 		}
 	}
 }
 
 //////////////////////////////Generate Random Flip///////////////////////////
-void grid::randomFlip(int Flip_times, shape*& newshape)
+void grid::randomFlip(int Flip_times, shape* newshape)
 {
 	for (int i = 0; i < Flip_times; i++) {
 		newshape->flip();
@@ -133,10 +133,10 @@ void grid::randomFlip(int Flip_times, shape*& newshape)
 }
 
 //////////////////////////////Generate Random Rotate///////////////////////////
-void grid::randomrotate(int rotate_times, shape* newshape)
+void grid::randomrotate(int rotate_times, shape* newshape, point RPoint)
 {
 	for (int i = 0; i < rotate_times; i++) {
-		newshape->rotate(newshape->getPosition());
+		newshape->rotate(RPoint);
 	}
 }
 
@@ -144,17 +144,16 @@ void grid::randomrotate(int rotate_times, shape* newshape)
 void grid::addRandomShape()
 {
 	// Generate a random shape type
-	int shapeType = 1+ rand() % (6-1+1); // Generate a random number between 1 and 6 (inclusive)
+	int shapeType = rand() % 6 + 1; // Generate a random number between 0 and 6 (inclusive)
 
 	// Generate a random point 
 	point p = randomPoint();
 	//Generate a random number for rotate,flip and size
-	int s = -2+ rand() %(2-(-2)+1) ;
-	int r = rand() % 4 ;
-	int f = rand() % 4 ;
-	int rnd = 1 + rand() % (10 - 1 + 1);
+	int s = -2 + rand() % (2 - (-2) + 1);
+	int r = rand() % 4;
+	int f = rand() % 4;
 	// Create a random shape based on the generated type, point
-	shape* newShape =nullptr;
+	shape* newShape = nullptr;
 	switch (shapeType) {
 	case 1:
 		newShape = new Car(pGame, p);
@@ -175,75 +174,30 @@ void grid::addRandomShape()
 		newShape = new Tree(pGame, p);
 		break;
 	}
-	randomSize(s, newShape);
+	randomSize(s, newShape, p);
 	randomFlip(f, newShape);
-	randomrotate(r, newShape);
-	if (pGame->getLevel() < 3) {
-		randomizecolor(rnd, newShape);
-	}
-	else {
-		newShape->setcolor(BLACK);
-		window* pw = pGame->getWind();
-	}
+	randomrotate(r, newShape, p);
 	addShape(newShape);
-}
-
-void grid::randomizecolor(int rnd,shape* newshape) {
-	switch (rnd)
-	{
-	case 1:
-		newshape->setbordercolor(ORANGE);
-		newshape->setcolor(ORANGE);
-		break;
-	case 2:
-		newshape->setbordercolor(GREY);
-		newshape->setcolor(GREY);
-		break;
-	case 3:
-		newshape->setbordercolor(BLUE);
-		newshape->setcolor(BLUE);
-		break;
-	case 4:
-		newshape->setbordercolor(VIOLET);
-		newshape->setcolor(VIOLET);
-		break;
-	case 5:
-		newshape->setbordercolor(BROWN);
-		newshape->setcolor(BROWN);
-		break;
-	case 6:
-		newshape->setbordercolor(GREEN);
-		newshape->setcolor(GREEN);
-		break;
-	case 7:
-		newshape->setbordercolor(DARKGOLDENROD);
-		newshape->setcolor(DARKGOLDENROD);
-		break;
-	case 8:
-		newshape->setbordercolor(DARKMAGENTA);
-		newshape->setcolor(DARKMAGENTA);
-		break;
-	case 9:
-		newshape->setbordercolor(WHITESMOKE);
-		newshape->setcolor(WHITESMOKE);
-		break;
-	case 10:
-		newshape->setbordercolor(CYAN);
-		newshape->setcolor(CYAN);
-		break;
-	}
 }
 
 shape* grid::getActiveShape() {
 	return activeShape;
 }
 
-shape* grid::getShapeList() {
-	return shapeList[0];
+vector<shape*> grid::getShapeList() {
+	return shapeList;
+}
+
+void grid::setShapeList(vector<shape*> new_list) {
+	shapeList = new_list;
 }
 
 int grid::getShapeCount() {
 	return shapeCount;
+}
+
+void grid::setShapeCount(int count) {
+	shapeCount = count;
 }
 
 
