@@ -228,7 +228,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Saved_Data.TXT">
-      <Filter>Saved Data</Filter>
+      <Filter>Operations</Filter>
     </Text>
   </ItemGroup>
 </Project>

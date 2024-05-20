@@ -176,7 +176,6 @@ void game::setact(int a) { act = a; }
 void game::thinkTimer(game* pGame)
 {
 	int xInteger = config.toolbarItemWidth * 18 + 65;
-
 	if (shapesGrid->getActiveShape() != nullptr) {
 		while (sec > 0) {
 			clock_t stop = clock() + CLOCKS_PER_SEC;

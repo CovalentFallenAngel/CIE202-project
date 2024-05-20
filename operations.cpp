@@ -302,7 +302,8 @@ operLoad::operLoad(game* r_pGame) :operation(r_pGame)
 
 void reconstruct_shape(shape* newShape, int rot_angle, int resizes, bool isFlipped) {
 	newShape->setRotationAngle(rot_angle);
-	int rot_num = newShape->getRotationAngle() / 90;
+	rot_angle -= 360;
+	int rot_num = abs(rot_angle) / 90;
 
 	for (int j = 0; j < rot_num; j++) {
 		newShape->rotate(newShape->getPosition());
