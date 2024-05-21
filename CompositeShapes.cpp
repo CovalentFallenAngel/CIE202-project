@@ -181,7 +181,6 @@ void Home::resize(double factor, point composite_reference)
 	base->resize(factor, RefPoint);
 
 	topRef = top->getPosition();
-	pGame->increment_steps();
 	if (factor < 1) {
 		addResizes(-1);
 	}
