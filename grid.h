@@ -41,7 +41,6 @@ public:
 	void addRandomShape();
 	shape* getActiveShape() const;
 	void removeRandomShape();
-	
 	void Delete();
 	friend void operSave::Act();
 };
