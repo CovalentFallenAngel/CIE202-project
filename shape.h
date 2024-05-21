@@ -67,6 +67,7 @@ public:
 	virtual void saveOrnaments(ofstream& file);
 	void addResizes(int resizes);
 	void switchFlip();
+	int getResizes() const;
 };
 
 

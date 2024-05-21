@@ -49,15 +49,16 @@ toolbar::toolbar(game* pG)
 	pWind->DrawString(xString, 0, "   Lives");
 	pWind->DrawString(xString, 20, "Level =  ");
 	pWind->DrawString(xString, 40, "Score =  ");
-	pWind->DrawString(xString + 100, 0, "Steps =     / 80");
-	pWind->DrawString(xString + 100, 20, "Timer = ");
+	pWind->DrawString(xString + 100, 0, "Steps =      / ");
+	pWind->DrawString(xString + 100, 20, "Timer (1) = ");
 	pWind->DrawString(xString + 100, 40, "Matched = ");
 
 	int xInteger = (xString + 65);
 	pWind->DrawInteger(xString + 3, 0, pGame->getLives());
 	pWind->DrawInteger(xInteger, 20, pGame->getLevel());
 	pWind->DrawInteger(xInteger, 40, pGame->getScore());
-	pWind->DrawInteger(xInteger + 100, 0, pGame->get_steps());
+	pWind->DrawInteger(xInteger + 96, 0, pGame->get_steps());
+	pWind->DrawInteger(xInteger + 130, 0, pGame->get_step1());
 	pWind->DrawInteger(xInteger + 120, 40, pGame->getMatched());
 
 

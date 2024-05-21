@@ -101,3 +101,7 @@ void shape::switchFlip() {
 		isFlipped = true;
 	}
 }
+
+int shape::getResizes() const {
+	return resizes;
+}

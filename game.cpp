@@ -61,6 +61,14 @@ int game::getMatched() {
 	return num_matched;
 }
 
+int game::get_step1() {
+	return step1;
+}
+
+void game::set_step1(int i) {
+	step1 = i;
+}
+
 void game::setThink(int i) {
 	if (i == 0)
 		isThinking = false;
@@ -78,22 +86,58 @@ void game::setLevel(int lev) { level = lev; }
 
 void game::increment_steps() { 
 	int xInteger = config.toolbarItemWidth * 18 + 65;
-	if (steps != 80) {
+	int clevel = level - 1;
+	if (steps != 80 && level < 3) {
+		set_step1(80);
 		steps += 1;
 		pWind->SetFont(20, BOLD, MODERN, "Arial");
 		pWind->SetPen(config.bkGrndColor);
 		pWind->SetBrush(config.bkGrndColor);
-		pWind->DrawRectangle(xInteger + 100, 0, 1370, 20);
+		pWind->DrawRectangle(xInteger + 96, 0, 1350, 20);
 		pWind->SetPen(BLACK);
-		pWind->DrawInteger(xInteger + 100, 0, steps);
+		pWind->DrawInteger(xInteger + 96, 0, steps);
 		toolbar* tb = getToolBar();
 		delete tb;
 		tb = nullptr;
 		createToolBar();
+		
+		if (steps == 80) {
+			lives -= 1;
+			steps = 0;
+		}
+
+		if (lives == 0)
+			lost();
 	}
 
-	else if (steps == 80)
-		lost();
+	if (good == true) {
+		steps = 0;
+		good = false;
+	}
+
+	if (steps != 120 && level > 2) {
+		set_step1(120);
+		steps += 1;
+		pWind->SetFont(20, BOLD, MODERN, "Arial");
+		pWind->SetPen(config.bkGrndColor);
+		pWind->SetBrush(config.bkGrndColor);
+		pWind->DrawRectangle(xInteger + 96, 0, 1350, 20);
+		pWind->SetPen(BLACK);
+		pWind->DrawInteger(xInteger + 96, 0, steps);
+		toolbar* tb = getToolBar();
+		delete tb;
+		tb = nullptr;
+		createToolBar();
+		
+		if (steps == 120) {
+			lives -= 1;
+			steps = 0;
+		}
+
+		if (lives == 0)
+			lost();
+	}
+
 }
 
 
@@ -203,9 +247,9 @@ void game::thinkTimer(game* pGame)
 
 		pWind->SetPen(config.bkGrndColor);
 		pWind->SetBrush(config.bkGrndColor);
-		pWind->DrawRectangle(xInteger + 94, 20, 1366, 40);
+		pWind->DrawRectangle(xInteger + 122, 20, 1366, 40);
 		pWind->SetPen(BLACK);
-		pWind->DrawInteger(xInteger + 94, 20, sec);
+		pWind->DrawInteger(xInteger + 122, 20, sec);
 	}
 	sec = 21;
 	isThinking = false;
@@ -229,9 +273,9 @@ void game::actTimer(int xInteger){
 		act--;
 		pWind->SetPen(config.bkGrndColor);
 		pWind->SetBrush(config.bkGrndColor);
-		pWind->DrawRectangle(xInteger + 94, 20, 1366, 40);
+		pWind->DrawRectangle(xInteger + 122, 20, 1366, 40);
 		pWind->SetPen(BLACK);
-		pWind->DrawInteger(xInteger + 94, 20, act);
+		pWind->DrawInteger(xInteger + 122, 20, act);
 	}
 	act = 31;
 
@@ -502,6 +546,7 @@ void game::matching_proxy() {
 					increment_score();
 					if (num_matched >= level * level) {
 						increment_level();
+						good = true;
 					}
 					delete shape_array[i];
 					shape_array.erase(std::next(shape_array.begin(), i));

@@ -27,9 +27,10 @@ class game
 	bool powerUpVisible;
 	int powerUpX, powerUpY;
 	int powerUpDuration;
+	bool good = false;
 protected:
 	int level, lives, steps, score, sec, act;
-
+	int step1 = 80;
 
 public:
 	game();
@@ -66,6 +67,8 @@ public:
 	void increment_match();
 	void setThink(int i);
 	void lost();
+	int get_step1();
+	void set_step1(int i);
 	
 	//void levelup(game* pGame);
 	/*void showPowerUp();
