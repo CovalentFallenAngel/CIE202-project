@@ -69,23 +69,23 @@ void shape::saveOrnaments(ofstream& file) {
 
 }
 
-vector<point> shape::getPoints() {
+vector<point> shape::getPoints() const {
 	return vector<point>();
 }
 
-vector<point> shape::getRevertedPoints() {
+vector<point> shape::getRevertedPoints() const {
 	return vector<point>();
 }
 
-vector<point> shape::getCorners() {
+vector<point> shape::getCorners() const{
 	return vector<point>();
 }
 
-double shape::getRadius() {
+double shape::getRadius() const {
 	return NULL;
 }
 
-string shape::getID() {
+string shape::getID() const {
 	return "";
 }
 

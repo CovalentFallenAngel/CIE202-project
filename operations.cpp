@@ -213,9 +213,11 @@ operResizeUp::operResizeUp(game* r_pGame) :operation(r_pGame)
 void operResizeUp::Act() {
 	grid* pGrid = pGame->getGrid();
 	shape* shape = pGrid->getActiveShape();
-	shape->resize(1.1, shape->getPosition());
-	pGrid->clearGridArea();
-	pGrid->setActiveShape(shape);
+	if (shape != nullptr) {
+		shape->resize(1.1, shape->getPosition());
+		pGrid->clearGridArea();
+		pGrid->setActiveShape(shape);
+	}
 }
 
 operResizeDown::operResizeDown(game* r_pGame) :operation(r_pGame)
@@ -226,9 +228,11 @@ operResizeDown::operResizeDown(game* r_pGame) :operation(r_pGame)
 void operResizeDown::Act() {
 	grid* pGrid = pGame->getGrid();
 	shape* shape = pGrid->getActiveShape();
-	shape->resize(0.9, shape->getPosition());
-	pGrid->clearGridArea();
-	pGrid->setActiveShape(shape);
+	if (shape != nullptr) {
+		shape->resize(0.9, shape->getPosition());
+		pGrid->clearGridArea();
+		pGrid->setActiveShape(shape);
+	}
 }
 
 operRotate::operRotate(game* r_pGame) :operation(r_pGame) {}
@@ -292,12 +296,13 @@ operSGL::operSGL(game* r_pGame) :operation(r_pGame)
 }
 void operSGL::Act()
 {
+	pGame->setIsLevelingUp(true);
 	int level = stoi(pGame->getString());
-		pGame->setLevel(level);
-		delete pGame->getToolBar();
-		pGame->createToolBar();
-		delete pGame->getGrid();
-		pGame->createGrid();
+	pGame->setLevel(level);
+	delete pGame->getToolBar();
+	pGame->createToolBar();
+	delete pGame->getGrid();
+	pGame->createGrid();
 }
 
 operSave::operSave(game* r_pGame) :operation(r_pGame)
@@ -350,6 +355,7 @@ void reconstruct_shape(shape* newShape, int rot_angle, int resizes, bool isFlipp
 
 void operLoad::Act()
 {
+	pGame->setIsLevelingUp(false);
 	ifstream file("saved_data.txt");
 	vector<string>retrieved_data;
 	string data;
@@ -374,8 +380,8 @@ void operLoad::Act()
 		bool isFlipped = stoi(retrieved_data[i + 5]);
 		color fillColor, borderColor;
 		fillColor.ucRed = stoi(retrieved_data[i + 6]);
-		fillColor.ucBlue = stoi(retrieved_data[i + 7]);
-		fillColor.ucGreen = stoi(retrieved_data[i + 8]);
+		fillColor.ucGreen = stoi(retrieved_data[i + 7]);
+		fillColor.ucBlue = stoi(retrieved_data[i + 8]);
 		borderColor.ucRed = stoi(retrieved_data[i + 9]);
 		borderColor.ucGreen = stoi(retrieved_data[i + 10]);
 		borderColor.ucBlue = stoi(retrieved_data[i + 11]);
@@ -399,8 +405,8 @@ void operLoad::Act()
 			newShape = new Tree(pGame, RPoint);
 		}
 		reconstruct_shape(newShape, rot_angle, resizes, isFlipped);
-		pGame->getGrid()->addShape(newShape);
 		newShape->setcolor(color(fillColor));
+		pGame->getGrid()->addShape(newShape);
 	}
 
 	file.close();

@@ -24,15 +24,19 @@ class game
 	thread hub_thread;
 	bool isThinking;
 	int num_matched;
+	int num_matched_lvl;
+	int powerUpX;
+	int powerUpY;
 	bool powerUpVisible;
-	int powerUpX, powerUpY;
 	int powerUpDuration;
 	bool good = false;
+	bool isLevelingUp;
 protected:
 	int level, lives, steps, score, sec, act;
 	int step1 = 80;
 
 public:
+	
 	game();
 	~game();
 
@@ -51,6 +55,7 @@ public:
 	void setLives(int live);
 	void setsec(int s);
 	void setact(int a);
+	void setIsLevelingUp(bool);
 	void actTimer(int xInteger);
 	void thinkTimer(game* pGame);
 	void matching_proxy();
@@ -63,18 +68,19 @@ public:
 	void increment_level();
 	void increment_score();
 	void decrement_score();
-	int getMatched();
+	int getMatched() const;
 	void increment_match();
 	void setThink(int i);
 	void lost();
+	void showPowerUp();
 	int get_step1();
 	void set_step1(int i);
 	
-	//void levelup(game* pGame);
-	/*void showPowerUp();
+	void levelup(game* pGame);
 	void hidePowerUp();
 	void powerUpTimer();
-	void handlePowerUpClick(int x, int y);*/
+	void handlePowerUpClick(int x, int y);
+
 
 	//creates an operation according to the toolbar item clicked
 	operation* createRequiredOperation(toolbarItem clickedItem);

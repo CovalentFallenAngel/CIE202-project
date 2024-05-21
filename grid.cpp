@@ -28,9 +28,8 @@ grid::grid(point r_uprleft, int wdth, int hght, game* pG)
 grid::~grid()
 {
 	for (int i = 0; i < shapeCount; i++) {
-		if (shapeList[i] != nullptr) {
-			delete[] shapeList[i];
-		}
+		delete shapeList[i];
+		shapeList.erase(std::next(shapeList.begin(), i));
 	}
 }
 
@@ -89,19 +88,10 @@ void grid::clearGridArea() const
 //////////////////////////////Generate Random Points///////////////////////////
 
 point grid::randomPoint() {
-	int x, y;
-	if (pGame->getLevel() < 3) {
-		x = 4 + rand() % (14 - 4 + 1);
-		y = 4 + rand() % (14 - 4 + 1);
-		 x *= config.gridSpacing;
-		 y *= config.gridSpacing;
-	}
-	else {
-		x = 7 + rand() % (11 - 7 + 1);
-		 y = 5 + rand() % (11 - 5 + 1);
-		 x *= config.gridSpacing;
-		 y *= config.gridSpacing;
-	}
+	int x = 7 + rand() % (10);
+	int y = 5 + rand() % (10);
+	x *= config.gridSpacing;
+	y *= config.gridSpacing;
 	return point{ x, y };
 }
 
@@ -195,6 +185,23 @@ void grid::randomizecolor(int cn, shape* newshape) {
 	}
 }
 
+////////////////////////////////////RemoveRandomshape////////////////////////////////////
+void grid::removeRandomShape() {
+	if (shapeCount == 0) return;
+
+	int index = rand() % shapeCount; // Generate a random index within the range of the shape list
+
+	// Delete the shape at the randomly selected index
+	delete shapeList[index];
+	shapeList.erase(shapeList.begin() + index);
+
+	// Update the shape count
+	shapeCount--;
+
+	// Redraw the grid without the removed shape
+	clearGridArea();
+	draw();
+}
 
 void grid::addRandomShape()
 {
@@ -242,11 +249,11 @@ void grid::addRandomShape()
 	addShape(newShape);
 }
 
-shape* grid::getActiveShape() {
+shape* grid::getActiveShape() const{
 	return activeShape;
 }
 
-vector<shape*> grid::getShapeList() {
+vector<shape*> grid::getShapeList() const{
 	return shapeList;
 }
 
@@ -254,7 +261,7 @@ void grid::setShapeList(vector<shape*> new_list) {
 	shapeList = new_list;
 }
 
-int grid::getShapeCount() {
+int grid::getShapeCount()const {
 	return shapeCount;
 }
 
@@ -263,7 +270,7 @@ void grid::setShapeCount(int count) {
 }
 
 
-char grid::getKey() {
+char grid::getKey() const {
 	return key;
 }
 
