@@ -221,7 +221,7 @@ void game::thinkTimer(game* pGame)
 }
 
 void game::actTimer(int xInteger){
-	auto startTime = chrono::steady_clock::now();
+	
 	int n_matched = num_matched;
 	while (act > 0) {
 		clock_t stop = clock() + CLOCKS_PER_SEC;
@@ -245,14 +245,7 @@ void game::actTimer(int xInteger){
 	if (lives == 0) {
 		lost();
 	}
-	// End the timer
-	auto endTime = chrono::steady_clock::now();
-	auto elapsedTimeInSeconds = chrono::duration_cast<chrono::seconds>(endTime - startTime).count();
-
-	// Show power-up if a match was made within 10 seconds
-	if (elapsedTimeInSeconds <= 10 && wasMatched) {
-		showPowerUp();
-	}
+	
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -482,6 +475,7 @@ grid* game::getGrid() const
 }
 
 void game::matching_proxy() {
+	auto startTime = chrono::steady_clock::now();
 	vector<shape*> shape_array = this->getGrid()->getShapeList();
 	shape* ashape = nullptr;
 	shape* matchedShape = nullptr;
@@ -522,7 +516,13 @@ void game::matching_proxy() {
 		createToolBar();
 
 	}
-	
+	auto endTime = chrono::steady_clock::now();
+	auto elapsedTime = chrono::duration_cast<chrono::seconds>(endTime - startTime);
+
+	// Show power-up if a match was made within 10 seconds
+	if (elapsedTime.count() <= 10 && isMatched > 0) {
+		showPowerUp();
+	}
 	
 	if (isMatched == 0) {
 		decrement_score();

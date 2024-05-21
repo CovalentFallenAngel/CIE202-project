@@ -25,8 +25,9 @@ class game
 	bool isThinking;
 	int num_matched;
 	int num_matched_lvl;
+	int powerUpX;
+	int powerUpY;
 	bool powerUpVisible;
-	int powerUpX, powerUpY;
 	int powerUpDuration;
 	bool isLevelingUp;
 protected:
@@ -70,12 +71,11 @@ public:
 	void increment_match();
 	void setThink(int i);
 	void lost();
-	
-	//void levelup(game* pGame);
-	/*void showPowerUp();
+	void showPowerUp();
 	void hidePowerUp();
 	void powerUpTimer();
-	void handlePowerUpClick(int x, int y);*/
+	void handlePowerUpClick(int x, int y);
+	void removeRandomShape();
 
 	//creates an operation according to the toolbar item clicked
 	operation* createRequiredOperation(toolbarItem clickedItem);
