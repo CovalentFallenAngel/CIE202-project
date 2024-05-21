@@ -60,7 +60,7 @@ int game::getScore() const {
 	return score;
 }
 
-int game::getMatched() {
+int game::getMatched() const {
 	return num_matched;
 }
 

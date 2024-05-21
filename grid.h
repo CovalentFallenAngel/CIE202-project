@@ -27,23 +27,20 @@ public:
 	void clearGridArea() const;
 	bool addShape(shape* newShape);
 	void setActiveShape(shape* actShape);
-	vector<shape*> getShapeList();
+	vector<shape*> getShapeList() const;
 	void setShapeList(vector<shape*> new_list);
-	int getShapeCount();
+	int getShapeCount()const;
 	void setShapeCount(int count);
 	void setKey(char key);
-	char getKey();
+	char getKey() const;
 	point randomPoint();
 	void randomSize(int resize_times, shape* newShape, point RPoint);
 	void randomFlip(int Flip_times, shape* newshape);
 	void randomrotate(int rotate_times, shape* newshape, point RPoint);
 	void randomizecolor(int cn, shape* newshape);
 	void addRandomShape();
-	shape* getActiveShape();
-	void removeRandomShape();
+	
 	void Delete();
-
-
 	friend void operSave::Act();
 };
 
