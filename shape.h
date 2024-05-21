@@ -52,11 +52,11 @@ public:
 	void setRotationAngle(int increment);
 	int getRotationAngle() const;
 	point getPosition() const;
-	virtual vector<point> getPoints();
-	virtual vector<point> getRevertedPoints();
-	virtual vector<point> getCorners();
-	virtual double getRadius();
-	virtual string getID();
+	virtual vector<point> getPoints() const;
+	virtual vector<point> getRevertedPoints() const;
+	virtual vector<point> getCorners() const;
+	virtual double getRadius() const;
+	virtual string getID() const;
 	virtual void setcolor(color c);
 	virtual color getColor() const;
 	virtual void rotate(point reference);
