@@ -94,7 +94,7 @@ void Sign::saveOrnaments(ofstream& file) {
 	file << "Sign" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
 	file << rotation_angle << " " << resizes << " " << isFlipped << " ";
-	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(getColor().ucRed) << " " << static_cast<int>(getColor().ucGreen) << " " << static_cast<int>(getColor().ucBlue) << " ";
 	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
@@ -200,7 +200,7 @@ void Home::saveOrnaments(ofstream& file) {
 	file << "Home" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
 	file << rotation_angle << " " << resizes << " " << isFlipped << " ";
-	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(getColor().ucRed) << " " << static_cast<int>(getColor().ucGreen) << " " << static_cast<int>(getColor().ucBlue) << " ";
 	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
@@ -367,7 +367,7 @@ void Person::saveOrnaments(ofstream& file) {
 	file << "Person" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
 	file << rotation_angle << " " << resizes << " " << isFlipped << " ";
-	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(getColor().ucRed) << " " << static_cast<int>(getColor().ucGreen) << " " << static_cast<int>(getColor().ucBlue) << " ";
 	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
@@ -471,7 +471,7 @@ void ice_cream::saveOrnaments(ofstream& file) {
 	file << "Ice-Cream" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
 	file << rotation_angle << " " << resizes << " " << isFlipped << " ";
-	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(getColor().ucRed) << " " << static_cast<int>(getColor().ucGreen) << " " << static_cast<int>(getColor().ucBlue) << " ";
 	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
@@ -613,7 +613,7 @@ void Tree::saveOrnaments(ofstream& file) {
 	file << "Tree" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
 	file << rotation_angle << " " << resizes << " " << isFlipped << " ";
-	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(getColor().ucRed) << " " << static_cast<int>(getColor().ucGreen) << " " << static_cast<int>(getColor().ucBlue) << " ";
 	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
@@ -944,7 +944,7 @@ void Car::saveOrnaments(ofstream& file) {
 	file << "Car" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
 	file << rotation_angle << " " << resizes << " " << isFlipped << " ";
-	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(getColor().ucRed) << " " << static_cast<int>(getColor().ucGreen) << " " << static_cast<int>(getColor().ucBlue) << " ";
 	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 

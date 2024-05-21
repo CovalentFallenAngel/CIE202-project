@@ -24,14 +24,17 @@ class game
 	thread hub_thread;
 	bool isThinking;
 	int num_matched;
+	int num_matched_lvl;
 	bool powerUpVisible;
 	int powerUpX, powerUpY;
 	int powerUpDuration;
+	bool isLevelingUp;
 protected:
 	int level, lives, steps, score, sec, act, Matched;
 
 
 public:
+	
 	game();
 	~game();
 
@@ -50,6 +53,7 @@ public:
 	void setLives(int live);
 	void setsec(int s);
 	void setact(int a);
+	void setIsLevelingUp(bool);
 	void actTimer(int xInteger);
 	void thinkTimer(game* pGame);
 	void matching_proxy();

@@ -14,7 +14,7 @@ struct point
 
 public:
 	friend bool operator==(const point& lhs, const point& rhs) {
-		const int TOLERANCE = 15;
+		const int TOLERANCE = 25;
 		return (abs(lhs.x - rhs.x) < TOLERANCE && abs(lhs.y - rhs.y) < TOLERANCE);
 	}
 };

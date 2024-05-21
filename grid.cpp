@@ -27,8 +27,10 @@ grid::grid(point r_uprleft, int wdth, int hght, game* pG)
 
 grid::~grid()
 {
-	for (int i = 0; i < shapeCount; i++)
+	for (int i = 0; i < shapeCount; i++) {
 		delete shapeList[i];
+		shapeList.erase(std::next(shapeList.begin(), i));
+	}
 }
 
 void grid::draw() const
@@ -86,7 +88,7 @@ void grid::clearGridArea() const
 //////////////////////////////Generate Random Points///////////////////////////
 
 point grid::randomPoint() {
-	int x = 5 + rand() % (10);
+	int x = 7 + rand() % (10);
 	int y = 5 + rand() % (10);
 	x *= config.gridSpacing;
 	y *= config.gridSpacing;
