@@ -88,10 +88,19 @@ void grid::clearGridArea() const
 //////////////////////////////Generate Random Points///////////////////////////
 
 point grid::randomPoint() {
-	int x = 7 + rand() % (10);
-	int y = 5 + rand() % (10);
-	x *= config.gridSpacing;
-	y *= config.gridSpacing;
+	int x, y;
+	if (pGame->getLevel() < 3) {
+		 x = 7 + rand() % (10);
+		 y = 5 + rand() % (10);
+		x *= config.gridSpacing;
+		y *= config.gridSpacing;
+	}
+	else {
+		x = 8 + rand() % (14 - 8 + 1);
+		y = 6 + rand() % (12 - 8 + 1);
+		x *= config.gridSpacing;
+		y *= config.gridSpacing;
+	}
 	return point{ x, y };
 }
 
