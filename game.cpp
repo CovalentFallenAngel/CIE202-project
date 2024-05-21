@@ -118,8 +118,8 @@ void game::increment_steps() {
 		good = false;
 	}
 
-	if (steps != 120 && level > 2) {
-		set_step1(120);
+	if (steps != 200 && level > 2) {
+		set_step1(200);
 		steps += 1;
 		pWind->SetFont(20, BOLD, MODERN, "Arial");
 		pWind->SetPen(config.bkGrndColor);
@@ -132,7 +132,7 @@ void game::increment_steps() {
 		tb = nullptr;
 		createToolBar();
 		
-		if (steps == 120) {
+		if (steps == 200) {
 			lives -= 1;
 			steps = 0;
 		}
