@@ -103,6 +103,9 @@ bool grid::addShape(shape* newShape)
 	// 2- check shape count doesn't exceed maximum count
 	// return false if any of the checks fail
 
+	if (shapeCount >= MaxShapeCount) {
+		return false;
+	}
 	//Here we assume that the above checks are passed
 	shapeList.push_back(newShape);
 	shapeCount = shapeList.size();
@@ -165,7 +168,7 @@ void grid::randomizecolor(int cn, shape* newshape) {
 		newshape->setcolor(VIOLET);
 		break;
 	case 6:
-		newshape->setcolor(LIGHTGOLDENRODYELLOW);
+		newshape->setcolor(SANDYBROWN);
 		break;
 	case 7:
 		newshape->setcolor(SADDLEBROWN);
@@ -174,7 +177,7 @@ void grid::randomizecolor(int cn, shape* newshape) {
 		newshape->setcolor(GOLD);
 		break;
 	case 9:
-		newshape->setcolor(LAVENDERBLUSH);
+		newshape->setcolor(FIREBRICK);
 		break;
 	case 10:
 		newshape->setcolor(DARKTURQUOISE);

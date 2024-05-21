@@ -61,6 +61,7 @@ class Home : public shape {
 	point baseRef;
 public:
 	Home(game* r_pGame, point ref);
+	~Home();
 	virtual void draw(int x = 5)const ;
 	virtual void move(char c) override;
 	virtual void resize(double factor, point composite_reference) override;
@@ -177,6 +178,7 @@ class Rocket :public shape {
 	point T1Ref, T2Ref, T3Ref, bodyRef;
 public:
 	Rocket(game* r_pgame, point ref);
+	~Rocket();
 	virtual void draw(int x =5) const;
 	virtual void move(char c) override;
 	virtual void resize(double factor, point composite_reference) override;
@@ -208,6 +210,7 @@ class Car : public shape {
 	point R2Ref;
 public:
 	Car(game* r_pGame, point ref);
+	~Car();
 	virtual void draw(int x = 5) const;
 	virtual void move(char c) override;
 	virtual void resize(double factor, point composite_reference) override;

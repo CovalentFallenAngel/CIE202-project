@@ -30,7 +30,7 @@ class game
 	int powerUpDuration;
 	bool isLevelingUp;
 protected:
-	int level, lives, steps, score, sec, act, Matched;
+	int level, lives, steps, score, sec, act;
 
 
 public:
@@ -68,7 +68,8 @@ public:
 	void decrement_score();
 	int getMatched();
 	void increment_match();
-	void game::setThink(int i);
+	void setThink(int i);
+	void lost();
 	
 	//void levelup(game* pGame);
 	/*void showPowerUp();

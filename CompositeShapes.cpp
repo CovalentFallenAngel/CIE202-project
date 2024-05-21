@@ -18,6 +18,12 @@ Sign::Sign(game* r_pGame, point ref) :shape(r_pGame, ref, true)
 	base = new Rect(pGame, baseRef, config.sighShape.baseHeight, config.sighShape.baseWdth);
 }
 
+Sign::~Sign()
+{
+	delete top;
+	delete base;
+}
+
 void Sign::draw(int x) const
 {
 	base->draw(1);
@@ -26,8 +32,47 @@ void Sign::draw(int x) const
 
 void Sign::move(char c)
 {
-	base->move(c);
-	top->move(c);
+	if (RefPoint.x >= 100 && RefPoint.y >= 200 && RefPoint.x <= 1200 && RefPoint.y <= 480) {
+		base->move(c);
+		top->move(c);
+	}
+
+	else if (RefPoint.y >= 480){
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 2) {
+			base->move(c);
+			top->move(c);
+		}
+	}
+
+	else if (RefPoint.y <= 200) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 8) {
+			base->move(c);
+			top->move(c);
+		}
+	}
+
+	else if (RefPoint.x <= 100) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 4) {
+			base->move(c);
+			top->move(c);
+		}
+	}
+
+	else if (RefPoint.x >= 1200) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 6) {
+			base->move(c);
+			top->move(c);
+		}
+	}
+
 	RefPoint = base->getPosition();
 	baseRef = base->getPosition();
 	topRef = top->getPosition();
@@ -117,6 +162,12 @@ Home::Home(game* r_pGame, point ref) :shape(r_pGame, ref, true) {
 	base = new Rect(pGame, baseRef, config.Homeshape.basehght, config.Homeshape.basewdth);
 }
 
+Home::~Home()
+{
+	delete top;
+	delete base;
+}
+
 void Home::draw(int x) const {
 	base->draw(1);
 	top->draw(1);
@@ -142,8 +193,46 @@ void Home::resize(double factor, point composite_reference)
 
 void Home::move(char c)
 {
-	base->move(c);
-	top->move(c);
+	if (RefPoint.x >= 80 && RefPoint.y >= 180 && RefPoint.x <= 1280 && RefPoint.y <= 480) {
+		base->move(c);
+		top->move(c);
+	}
+
+	else if (RefPoint.y >= 480) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 2) {
+			base->move(c);
+			top->move(c);
+		}
+	}
+
+	else if (RefPoint.y <= 180) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 8) {
+			base->move(c);
+			top->move(c);
+		}
+	}
+
+	else if (RefPoint.x <= 80) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 4) {
+			base->move(c);
+			top->move(c);
+		}
+	}
+
+	else if (RefPoint.x >= 1280) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 6) {
+			base->move(c);
+			top->move(c);
+		}
+	}
 
 	this->RefPoint = base->getPosition();
 
@@ -237,6 +326,16 @@ Person::Person(game* r_pGame, point ref) : shape(r_pGame, ref, true)
 	Rleg = new Rect(r_pGame, rightLegRef, config.Person.legLength, config.Person.legWidth);
 }
 
+Person::~Person()
+{
+	delete head;
+	delete body;
+	delete Larm;
+	delete Rarm;
+	delete Lleg;
+	delete Rleg;
+}
+
 void Person::draw(int x) const
 {
 
@@ -312,12 +411,67 @@ void Person::resize(double factor, point composite_reference)
 
 void Person::move(char c)
 {
-	head->move(c);
-	body->move(c);
-	Larm->move(c);
-	Rarm->move(c);
-	Lleg->move(c);
-	Rleg->move(c);
+
+	if (RefPoint.x >= 100 && RefPoint.y >= 180 && RefPoint.x <= 1250 && RefPoint.y <= 460) {
+		head->move(c);
+		body->move(c);
+		Larm->move(c);
+		Rarm->move(c);
+		Lleg->move(c);
+		Rleg->move(c);
+	}
+
+	else if (RefPoint.y >= 460) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 2) {
+			head->move(c);
+			body->move(c);
+			Larm->move(c);
+			Rarm->move(c);
+			Lleg->move(c);
+			Rleg->move(c);
+		}
+	}
+
+	else if (RefPoint.y <= 180) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 8) {
+			head->move(c);
+			body->move(c);
+			Larm->move(c);
+			Rarm->move(c);
+			Lleg->move(c);
+			Rleg->move(c);
+		}
+	}
+
+	else if (RefPoint.x <= 100) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 4) {
+			head->move(c);
+			body->move(c);
+			Larm->move(c);
+			Rarm->move(c);
+			Lleg->move(c);
+			Rleg->move(c);
+		}
+	}
+
+	else if (RefPoint.x >= 1250) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 6) {
+			head->move(c);
+			body->move(c);
+			Larm->move(c);
+			Rarm->move(c);
+			Lleg->move(c);
+			Rleg->move(c);
+		}
+	}
 
 	RefPoint = body->getPosition();
 
@@ -394,6 +548,12 @@ ice_cream::ice_cream(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
 	cone = new EqTriangle(r_pGame, coneRef, config.ice_cream.side_lenght, 0);
 }
 
+ice_cream::~ice_cream()
+{
+	delete scoop;
+	delete cone;
+}
+
 void ice_cream::draw(int x) const
 {
 	scoop->draw(1);
@@ -402,8 +562,46 @@ void ice_cream::draw(int x) const
 
 void ice_cream::move(char c)
 {
-	cone->move(c);
-	scoop->move(c);
+	if (RefPoint.x >= 80 && RefPoint.y >= 140 && RefPoint.x <= 1280 && RefPoint.y <= 450) {
+		cone->move(c);
+		scoop->move(c);
+	}
+
+	else if (RefPoint.y >= 450) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 2) {
+			cone->move(c);
+			scoop->move(c);
+		}
+	}
+
+	else if (RefPoint.y <= 140) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 8) {
+			cone->move(c);
+			scoop->move(c);
+		}
+	}
+
+	else if (RefPoint.x <= 80) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 4) {
+			cone->move(c);
+			scoop->move(c);
+		}
+	}
+
+	else if (RefPoint.x >= 1280) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 6) {
+			cone->move(c);
+			scoop->move(c);
+		}
+	}
 
 	this->RefPoint = scoop->getPosition();
 
@@ -507,6 +705,14 @@ Tree::Tree(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
 	body = new Rect(r_pGame, bodyRef, config.Tree.basehght, config.Tree.basewdth);
 }
 
+Tree::~Tree()
+{
+	delete T1;
+	delete T2;
+	delete T3;
+	delete body;
+}
+
 void Tree::draw(int x) const {
 	T1->draw(1);
 	T2->draw(1);
@@ -516,10 +722,58 @@ void Tree::draw(int x) const {
 
 void Tree::move(char c)
 {
-	T1->move(c);
-	T2->move(c);
-	T3->move(c);
-	body->move(c);
+
+
+	if (RefPoint.x >= 80 && RefPoint.y >= 180 && RefPoint.x <= 1280 && RefPoint.y <= 480) {
+		T1->move(c);
+		T2->move(c);
+		T3->move(c);
+		body->move(c);
+	}
+
+	else if (RefPoint.y >= 480) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 2) {
+			T1->move(c);
+			T2->move(c);
+			T3->move(c);
+			body->move(c);
+		}
+	}
+
+	else if (RefPoint.y <= 180) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 8) {
+			T1->move(c);
+			T2->move(c);
+			T3->move(c);
+			body->move(c);
+		}
+	}
+
+	else if (RefPoint.x <= 80) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 4) {
+			T1->move(c);
+			T2->move(c);
+			T3->move(c);
+			body->move(c);
+		}
+	}
+
+	else if (RefPoint.x >= 1280) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 6) {
+			T1->move(c);
+			T2->move(c);
+			T3->move(c);
+			body->move(c);
+		}
+	}
 
 	RefPoint = body->getPosition();
 
@@ -639,6 +893,14 @@ Rocket::Rocket(game* r_pGame, point ref) : shape(r_pGame, ref, true) {
 	body = new Rect(r_pGame, bodyRef, config.Rocket.basehght, config.Rocket.basewdth);
 }
 
+Rocket::~Rocket()
+{
+	delete T1;
+	delete T2;
+	delete T3;
+	delete body;
+}
+
 void Rocket::draw(int x) const
 {
 	T1->draw(5);
@@ -674,10 +936,57 @@ void Rocket::resize(double factor, point composite_reference)
 
 void Rocket::move(char c)
 {
-	T1->move(c);
-	T3->move(c);
-	T2->move(c);
-	body->move(c);
+
+	if (RefPoint.x >= 100 && RefPoint.y >= 150 && RefPoint.x <= 1250 && RefPoint.y <= 460) {
+		T1->move(c);
+		T2->move(c);
+		T3->move(c);
+		body->move(c);
+	}
+
+	else if (RefPoint.y >= 460) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 2) {
+			T1->move(c);
+			T2->move(c);
+			T3->move(c);
+			body->move(c);
+		}
+	}
+
+	else if (RefPoint.y <= 150) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 8) {
+			T1->move(c);
+			T2->move(c);
+			T3->move(c);
+			body->move(c);
+		}
+	}
+
+	else if (RefPoint.x <= 100) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 4) {
+			T1->move(c);
+			T2->move(c);
+			T3->move(c);
+			body->move(c);
+		}
+	}
+
+	else if (RefPoint.x >= 1250) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 6) {
+			T1->move(c);
+			T2->move(c);
+			T3->move(c);
+			body->move(c);
+		}
+	}
 
 	RefPoint = body->getPosition();
 
@@ -823,6 +1132,15 @@ Car::Car(game* r_pGame, point ref) :shape(r_pGame, ref, true)
 	C2 = new circle(r_pGame, C2Ref, config.Car.Radius);
 }
 
+Car::~Car()
+{
+	delete T1;
+	delete R1;
+	delete R2;
+	delete C1;
+	delete C2;
+}
+
 void Car::draw(int x) const
 {
 	
@@ -836,11 +1154,62 @@ void Car::draw(int x) const
 
 void Car::move(char c)
 {
-	T1->move(c);
-	R1->move(c);
-	R2->move(c);
-	C1->move(c);
-	C2->move(c);
+
+	if (RefPoint.x >= 100 && RefPoint.y >= 150 && RefPoint.x <= 1250 && RefPoint.y <= 460) {
+		T1->move(c);
+		R1->move(c);
+		R2->move(c);
+		C1->move(c);
+		C2->move(c);
+	}
+
+	else if (RefPoint.y >= 460) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 2) {
+			T1->move(c);
+			R1->move(c);
+			R2->move(c);
+			C1->move(c);
+			C2->move(c);
+		}
+	}
+
+	else if (RefPoint.y <= 150) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 8) {
+			T1->move(c);
+			R1->move(c);
+			R2->move(c);
+			C1->move(c);
+			C2->move(c);
+		}
+	}
+
+	else if (RefPoint.x <= 100) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 4) {
+			T1->move(c);
+			R1->move(c);
+			R2->move(c);
+			C1->move(c);
+			C2->move(c);
+		}
+	}
+
+	else if (RefPoint.x >= 1250) {
+		keytype kin;
+		kin = pGame->getWind()->WaitKeyPress(c);
+		if (c != 6) {
+			T1->move(c);
+			R1->move(c);
+			R2->move(c);
+			C1->move(c);
+			C2->move(c);
+		}
+	}
 
 	RefPoint = R1->getPosition();
 

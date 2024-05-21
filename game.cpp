@@ -12,9 +12,8 @@ game::game()
 	score = 0;
 	lives = 5;
 	steps = 0;
-	sec = 11;
-	act = 16;
-	Matched = 0;
+	sec = 21;
+	act = 31;
 	isThinking = false;
 	isLevelingUp = true;
 	num_matched = 0;
@@ -43,7 +42,9 @@ game::game()
 game::~game()
 {
 	delete pWind;
-	delete shapesGrid;
+	if (shapesGrid != nullptr) {
+		delete shapesGrid;
+	}
 }
 
 int game::getLevel() const {
@@ -79,17 +80,22 @@ void game::setLevel(int lev) { level = lev; }
 
 void game::increment_steps() { 
 	int xInteger = config.toolbarItemWidth * 18 + 65;
-	steps += 1;
-	pWind->SetFont(20, BOLD, MODERN, "Arial");
-	pWind->SetPen(config.bkGrndColor);
-	pWind->SetBrush(config.bkGrndColor);
-	pWind->DrawRectangle(xInteger + 100, 0, 1370, 20);
-	pWind->SetPen(BLACK);
-	pWind->DrawInteger(xInteger + 100, 0, steps);
-	toolbar* tb = getToolBar();
-	delete tb;
-	tb = nullptr;
-	createToolBar();
+	if (steps != 80) {
+		steps += 1;
+		pWind->SetFont(20, BOLD, MODERN, "Arial");
+		pWind->SetPen(config.bkGrndColor);
+		pWind->SetBrush(config.bkGrndColor);
+		pWind->DrawRectangle(xInteger + 100, 0, 1370, 20);
+		pWind->SetPen(BLACK);
+		pWind->DrawInteger(xInteger + 100, 0, steps);
+		toolbar* tb = getToolBar();
+		delete tb;
+		tb = nullptr;
+		createToolBar();
+	}
+
+	else if (steps == 80)
+		lost();
 }
 
 
@@ -160,16 +166,30 @@ void game::decrement_score() {
 
 void game::increment_match() {
 	int xInteger = config.toolbarItemWidth * 18 + 65;
-	num_matched++;
+	num_matched ++;
 	pWind->SetFont(20, BOLD, MODERN, "Arial");
 	pWind->SetPen(config.bkGrndColor);
 	pWind->SetBrush(config.bkGrndColor);
 	pWind->DrawRectangle(xInteger + 120, 40, 1366, 60);
 	pWind->SetPen(BLACK);
-	pWind->DrawInteger(xInteger + 120, 40, Matched);
+	pWind->DrawInteger(xInteger + 120, 40, num_matched);
 	toolbar* tb = getToolBar();
 	delete tb;
 	createToolBar();
+}
+
+void game::lost() {
+	getWind()->SetPen(config.bkGrndColor);
+	getWind()->SetBrush(config.bkGrndColor);
+	getWind()->DrawRectangle(config.toolbarItemWidth * 17 + 65, 0, 1366, 60);
+	getWind()->SetFont(40, BOLD, MODERN, "Arial");
+	getWind()->SetPen(BLACK);
+	getWind()->DrawString(config.toolbarItemWidth * 17 + 65, 0, "Game Over");
+	setThink(1);
+	Sleep(3000);
+	delete pWind;
+	delete shapesGrid;
+	
 }
 
 void game::setsec(int s) { sec = s; }
@@ -183,31 +203,29 @@ void game::setact(int a) { act = a; }
 void game::thinkTimer(game* pGame)
 {
 	int xInteger = config.toolbarItemWidth * 18 + 65;
-	if (shapesGrid->getActiveShape() != nullptr) {
-		while (sec > 0) {
-			clock_t stop = clock() + CLOCKS_PER_SEC;
-			while (clock() < stop) {}
-			sec--;
+	while (sec > 0) {
+		clock_t stop = clock() + CLOCKS_PER_SEC;
+		while (clock() < stop) {}
+		sec--;
 
-			pWind->SetPen(config.bkGrndColor);
-			pWind->SetBrush(config.bkGrndColor);
-			pWind->DrawRectangle(xInteger + 94, 20, 1366, 40);
-			pWind->SetPen(BLACK);
-			pWind->DrawInteger(xInteger + 94, 20, sec);
-		}
-		sec = 11;
-		isThinking = false;
+		pWind->SetPen(config.bkGrndColor);
+		pWind->SetBrush(config.bkGrndColor);
+		pWind->DrawRectangle(xInteger + 94, 20, 1366, 40);
+		pWind->SetPen(BLACK);
+		pWind->DrawInteger(xInteger + 94, 20, sec);
+	}
+	sec = 21;
+	isThinking = false;
+	thread actThread(&game::actTimer, this, xInteger);
+	actThread.detach();
+	// Show power-up if matched
+	/*if (powerUpVisible) {
 		thread actThread(&game::actTimer, this, xInteger);
 		actThread.detach();
-		// Show power-up if matched
-		/*if (powerUpVisible) {
-			thread actThread(&game::actTimer, this, xInteger);
-			actThread.detach();
-		}
-		else {
-			showPowerUp();
-		}*/
 	}
+	else {
+		showPowerUp();
+	}*/
 }
 
 void game::actTimer(int xInteger){
@@ -222,13 +240,17 @@ void game::actTimer(int xInteger){
 		pWind->SetPen(BLACK);
 		pWind->DrawInteger(xInteger + 94, 20, act);
 	}
-	act = 16;
+	act = 31;
 
 	bool wasMatched = (num_matched - n_matched > 0);
 
 	if (/*act == 0 && */wasMatched == false) {
 		decrement_lives();
 		decrement_score();
+	}
+
+	if (lives == 0) {
+		lost();
 	}
 	// Hide power-up if visible
 	/*if (powerUpVisible) {
@@ -329,37 +351,30 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 	case ITM_SIGN:
 		op = new operAddSign(this);
 		printMessage("You clicked on the Sign shape!");
-		increment_steps();
 		break;
 	case ITM_ICE:
 		printMessage("You clicked on the Icecream shape!");
 		op = new operAddice(this);
-		increment_steps();
 		break;
 	case ITM_CAR:
 		printMessage("You clicked on the Car shape!");
 		op = new operAddCar(this);
-		increment_steps();
 		break;
 	case ITM_Person:
 		printMessage("You clicked on the Person shape!");
 		op = new operAddPerson(this);
-		increment_steps();
 		break;
 	case ITM_Home:
 		printMessage("You clicked on the Home shape!");
 		op = new operAddHome(this);
-		increment_steps();
 		break;
 	case ITM_Rocket:
 		printMessage("You clicked on the Rocket shape");
 		op = new operAddRocket(this);
-		increment_steps();
 		break;
 	case ITM_Tree:
 		printMessage("You clicked on the Tree shape!");
 		op = new operAddTree(this);
-		increment_steps();
 		break;
 	case ITM_Inc:
 		printMessage("You clicked on Upscale!");
@@ -384,7 +399,6 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 	case ITM_Ref:
 		printMessage("You clicked on Refresh!");
 		op = new operRef(this);
-		increment_steps();
 		break;
 	case ITM_Hint:
 		if (level < 3) {
@@ -392,7 +406,6 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		}
 		else {
 			op = new operHint(this);
-			printMessage("A hint was given!");
 			increment_steps();
 		}
 		break;
@@ -413,6 +426,9 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		op = new operLoad(this);
 		break;
 	case ITM_EXIT:
+		printMessage("Do You want to save cuurent progress? (y/n): ");
+		op = new operExit(this);
+		break;
 	default:
 		break;
 	}
@@ -528,7 +544,7 @@ void game::thread_hub() {
 		kin = pWind->WaitKeyPress(c);
 		pGrid = this->getGrid();
 		pGrid->setKey(c);
-		if (c == '1') {
+		if (c == '1' && shapesGrid->getActiveShape() != nullptr) {
 			isThinking = true;
 			thinkTimer(this);
 		}
