@@ -40,6 +40,7 @@ public:
 	void randomizecolor(int cn, shape* newshape);
 	void addRandomShape();
 	shape* getActiveShape();
+	void removeRandomShape();
 	void Delete();
 
 

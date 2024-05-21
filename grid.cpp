@@ -195,6 +195,23 @@ void grid::randomizecolor(int cn, shape* newshape) {
 	}
 }
 
+////////////////////////////////////RemoveRandomshape////////////////////////////////////
+void grid::removeRandomShape() {
+	if (shapeCount == 0) return;
+
+	int index = rand() % shapeCount; // Generate a random index within the range of the shape list
+
+	// Delete the shape at the randomly selected index
+	delete shapeList[index];
+	shapeList.erase(shapeList.begin() + index);
+
+	// Update the shape count
+	shapeCount--;
+
+	// Redraw the grid without the removed shape
+	clearGridArea();
+	draw();
+}
 
 void grid::addRandomShape()
 {

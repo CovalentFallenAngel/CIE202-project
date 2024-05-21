@@ -2,6 +2,7 @@
 #include "gameConfig.h"
 #include <thread>
 #include <memory>
+#include<chrono>
 using namespace std;
 
 
@@ -189,9 +190,7 @@ void game::setsec(int s) { sec = s; }
 
 void game::setact(int a) { act = a; }
 
-//bool startacting = false;
 
-//int v;
 
 void game::thinkTimer(game* pGame)
 {
@@ -200,7 +199,7 @@ void game::thinkTimer(game* pGame)
 		clock_t stop = clock() + CLOCKS_PER_SEC;
 		while (clock() < stop) {}
 		sec--;
-
+		
 		pWind->SetPen(config.bkGrndColor);
 		pWind->SetBrush(config.bkGrndColor);
 		pWind->DrawRectangle(xInteger + 94, 20, 1366, 40);
@@ -211,17 +210,11 @@ void game::thinkTimer(game* pGame)
 	isThinking = false;
 	thread actThread(&game::actTimer, this, xInteger);
 	actThread.detach();
-	// Show power-up if matched
-	/*if (powerUpVisible) {
-		thread actThread(&game::actTimer, this, xInteger);
-		actThread.detach();
-	}
-	else {
-		showPowerUp();
-	}*/
+	
 }
 
 void game::actTimer(int xInteger){
+	auto startTime = chrono::steady_clock::now();
 	int n_matched = num_matched;
 	while (act > 0) {
 		clock_t stop = clock() + CLOCKS_PER_SEC;
@@ -245,10 +238,14 @@ void game::actTimer(int xInteger){
 	if (lives == 0) {
 		lost();
 	}
-	// Hide power-up if visible
-	/*if (powerUpVisible) {
-		hidePowerUp();
-	}*/
+	// End the timer
+	auto endTime = chrono::steady_clock::now();
+	auto elapsedTimeInSeconds = chrono::duration_cast<chrono::seconds>(endTime - startTime).count();
+
+	// Show power-up if a match was made within 10 seconds
+	if (elapsedTimeInSeconds <= 10 && wasMatched) {
+		showPowerUp();
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -288,52 +285,49 @@ void game::createGrid()
 	shapesGrid = new grid(gridUpperLeftPoint, config.windWidth, gridHeight, this);
 }
 ////////////////////////////////////////power up//////////////////////////
-//void game::showPowerUp()
-//{
-//	powerUpX = rand() % config.windWidth;
-//	powerUpY = rand() % (config.windHeight - config.toolBarHeight);
-//	powerUpVisible = true;
-//	powerUpDuration = 5;
-//
-//	// Draw power-up on screen
-//	pWind->SetPen(BLUE);
-//	pWind->SetBrush(BLUE);
-//	pWind->DrawCircle(powerUpX, powerUpY, 20);
-//
-//	// Start timer to hide power-up after 5 seconds
-//	thread powerUpThread(&game::powerUpTimer, this);
-//	powerUpThread.detach();
-//}
-//
-//void game::hidePowerUp()
-//{
-//	powerUpVisible = false;
-//	// Clear power-up from screen
-//	pWind->SetPen(config.bkGrndColor);
-//	pWind->SetBrush(config.bkGrndColor);
-//	pWind->DrawCircle(powerUpX, powerUpY, 20);
-//}
-//
-//void game::powerUpTimer()
-//{
-//	while (powerUpDuration > 0) {
-//		clock_t stop = clock() + CLOCKS_PER_SEC;
-//		while (clock() < stop) {}
-//		powerUpDuration--;
-//	}
-//	hidePowerUp();
-//}
-//
-//void game::handlePowerUpClick(int x, int y)
-//{
-//	if (powerUpVisible && (x - powerUpX) * (x - powerUpX) + (y - powerUpY) * (y - powerUpY) <= 400) { // Radius = 20
-//		powerUpVisible = false;
-//		hidePowerUp();
-//
-//		// Remove one smaller shape
-//		shapesGrid->removeRandomShape();
-//	}
-//}
+void game::showPowerUp() {
+	powerUpX = rand() % config.windWidth;
+	powerUpY = (config.toolBarHeight)+rand() % (config.toolBarHeight- config.windHeight+1);
+	powerUpVisible = true;
+	powerUpDuration = 5;
+
+	// Draw power-up on screen
+	pWind->SetPen(BLUE);
+	pWind->SetBrush(BLUE);
+	pWind->DrawCircle(powerUpX, powerUpY, 20);
+
+	// Start timer to hide power-up after 5 seconds
+	thread powerUpThread(&game::powerUpTimer, this);
+	powerUpThread.detach();
+
+}
+
+void game::hidePowerUp() {
+	powerUpVisible = false;
+	// Clear power-up from screen
+	pWind->SetPen(config.bkGrndColor);
+	pWind->SetBrush(config.bkGrndColor);
+	pWind->DrawCircle(powerUpX, powerUpY, 20);
+}
+
+void game::powerUpTimer() {
+	while (powerUpDuration > 0) {
+		clock_t stop = clock() + CLOCKS_PER_SEC;
+		while (clock() < stop) {}
+		powerUpDuration--;
+	}
+	hidePowerUp();
+}
+
+void game::handlePowerUpClick(int x, int y) {
+	if (powerUpVisible && (x - powerUpX) * (x - powerUpX) + (y - powerUpY) * (y - powerUpY) <= 400) { // Radius = 20
+		powerUpVisible = false;
+		hidePowerUp();
+
+		// Remove one smaller shape
+		shapesGrid->removeRandomShape();
+	}
+}
 
 operation* game::createRequiredOperation(toolbarItem clickedItem)
 {
@@ -485,6 +479,7 @@ void game::matching_proxy() {
 	shape* ashape = nullptr;
 	shape* matchedShape = nullptr;
 	int isMatched = 0;
+	
 	for (int i = 0; i < this->getGrid()->getShapeCount(); i++) {
 
 		shape_array = this->getGrid()->getShapeList();
@@ -518,7 +513,8 @@ void game::matching_proxy() {
 		createToolBar();
 
 	}
-
+	
+	
 	if (isMatched == 0) {
 		decrement_score();
 	}
@@ -560,10 +556,6 @@ void game::run()
 	hub_thread = thread(&game::thread_hub, this);
 	hub_thread.detach();
 
-	/*operMove* p1;
-	p1 = new operMove(this);
-	thread new_thread(&operMove::Act, p1);
-	new_thread.detach();*/
 	
 	//Change the title
 	pWind->ChangeTitle("- - - - - - - - - - SHAPE HUNT Team 1 - - - - - - - - - -");
@@ -583,7 +575,9 @@ void game::run()
 			current_level = level;
 		}
 		pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
-		
+		if (powerUpVisible && isThinking == false) {
+			handlePowerUpClick(x, y);
+		}
 		/*if (powerUpVisible) {
 			handlePowerUpClick(x, y);
 		}*/
