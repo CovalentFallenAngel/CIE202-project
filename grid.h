@@ -39,7 +39,7 @@ public:
 	void randomrotate(int rotate_times, shape* newshape, point RPoint);
 	void randomizecolor(int cn, shape* newshape);
 	void addRandomShape();
-	shape* getActiveShape() const;
+	
 	void Delete();
 	friend void operSave::Act();
 };
