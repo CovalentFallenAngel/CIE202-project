@@ -111,19 +111,19 @@ void Sign::flip() {
 
 }
 
-double Sign::getRadius() {
+double Sign::getRadius() const {
 	return NULL;
 }
 
-vector<point> Sign::getCorners() {
+vector<point> Sign::getCorners() const {
 	return vector<point>();
 }
 
-vector<point> Sign::getPoints() {
+vector<point> Sign::getPoints() const {
 	return vector<point>();
 }
 
-vector<point> Sign::getRevertedPoints() {
+vector<point> Sign::getRevertedPoints() const{
 	return vector<point>();
 }
 
@@ -139,11 +139,11 @@ void Sign::saveOrnaments(ofstream& file) {
 	file << "Sign" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
 	file << rotation_angle << " " << resizes << " " << isFlipped << " ";
-	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(getColor().ucRed) << " " << static_cast<int>(getColor().ucGreen) << " " << static_cast<int>(getColor().ucBlue) << " ";
 	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
-string Sign::getID() {
+string Sign::getID() const{
 	return "Sign";
 }
 
@@ -181,7 +181,6 @@ void Home::resize(double factor, point composite_reference)
 	base->resize(factor, RefPoint);
 
 	topRef = top->getPosition();
-	pGame->increment_steps();
 	if (factor < 1) {
 		addResizes(-1);
 	}
@@ -261,19 +260,19 @@ void Home::flip() {
 	}
 }
 
-double Home::getRadius() {
+double Home::getRadius() const{
 	return NULL;
 }
 
-vector<point> Home::getCorners() {
+vector<point> Home::getCorners()const {
 	return vector<point>();
 }
 
-vector<point> Home::getPoints() {
+vector<point> Home::getPoints() const {
 	return vector<point>();
 }
 
-vector<point> Home::getRevertedPoints() {
+vector<point> Home::getRevertedPoints() const {
 	return vector<point>();
 }
 
@@ -289,11 +288,11 @@ void Home::saveOrnaments(ofstream& file) {
 	file << "Home" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
 	file << rotation_angle << " " << resizes << " " << isFlipped << " ";
-	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(getColor().ucRed) << " " << static_cast<int>(getColor().ucGreen) << " " << static_cast<int>(getColor().ucBlue) << " ";
 	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
-string Home::getID() {
+string Home::getID() const {
 	return "Home";
 }
 void Home::setcolor(color c) {
@@ -484,19 +483,19 @@ void Person::move(char c)
 
 }
 
-double Person::getRadius() {
+double Person::getRadius() const{
 	return NULL;
 }
 
-vector<point> Person::getCorners() {
+vector<point> Person::getCorners() const {
 	return vector<point>();
 }
 
-vector<point> Person::getPoints() {
+vector<point> Person::getPoints() const{
 	return vector<point>();
 }
 
-vector<point> Person::getRevertedPoints() {
+vector<point> Person::getRevertedPoints()const {
 	return vector<point>();
 }
 
@@ -521,11 +520,11 @@ void Person::saveOrnaments(ofstream& file) {
 	file << "Person" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
 	file << rotation_angle << " " << resizes << " " << isFlipped << " ";
-	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(getColor().ucRed) << " " << static_cast<int>(getColor().ucGreen) << " " << static_cast<int>(getColor().ucBlue) << " ";
 	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
-string Person::getID() {
+string Person::getID() const{
 	return "Person";
 }
 void Person::setcolor(color c) {
@@ -649,19 +648,19 @@ void ice_cream::flip() {
 	}
 }
 
-double ice_cream::getRadius() {
+double ice_cream::getRadius() const {
 	return NULL;
 }
 
-vector<point> ice_cream::getCorners() {
+vector<point> ice_cream::getCorners() const{
 	return vector<point>();
 }
 
-vector<point> ice_cream::getPoints() {
+vector<point> ice_cream::getPoints() const{
 	return vector<point>();
 }
 
-vector<point> ice_cream::getRevertedPoints() {
+vector<point> ice_cream::getRevertedPoints() const{
 	return vector<point>();
 }
 
@@ -669,7 +668,7 @@ void ice_cream::saveOrnaments(ofstream& file) {
 	file << "Ice-Cream" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
 	file << rotation_angle << " " << resizes << " " << isFlipped << " ";
-	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(getColor().ucRed) << " " << static_cast<int>(getColor().ucGreen) << " " << static_cast<int>(getColor().ucBlue) << " ";
 	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
@@ -681,7 +680,7 @@ bool ice_cream::matching_detection(game* pGame, shape* predicate) {
 	return cond;
 }
 
-string ice_cream::getID() {
+string ice_cream::getID() const{
 	return "Ice-Cream";
 }
 
@@ -833,19 +832,19 @@ void Tree::flip() {
 	}
 }
 
-double Tree::getRadius() {
+double Tree::getRadius()const {
 	return NULL;
 }
 
-vector<point> Tree::getCorners() {
+vector<point> Tree::getCorners()const {
 	return vector<point>();
 }
 
-vector<point> Tree::getPoints() {
+vector<point> Tree::getPoints()const {
 	return vector<point>();
 }
 
-vector<point> Tree::getRevertedPoints() {
+vector<point> Tree::getRevertedPoints()const {
 	return vector<point>();
 }
 
@@ -859,7 +858,7 @@ bool Tree::matching_detection(game* pGame, shape* predicate) {
 	return cond;
 }
 
-string Tree::getID() {
+string Tree::getID()const {
 	return "Tree";
 }
 
@@ -867,7 +866,7 @@ void Tree::saveOrnaments(ofstream& file) {
 	file << "Tree" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
 	file << rotation_angle << " " << resizes << " " << isFlipped << " ";
-	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(getColor().ucRed) << " " << static_cast<int>(getColor().ucGreen) << " " << static_cast<int>(getColor().ucBlue) << " ";
 	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
@@ -1022,19 +1021,19 @@ void Rocket::flip() {
 	}
 }
 
-double Rocket::getRadius() {
+double Rocket::getRadius() const{
 	return NULL;
 }
 
-vector<point> Rocket::getCorners() {
+vector<point> Rocket::getCorners() const {
 	return vector<point>();
 }
 
-vector<point> Rocket::getPoints() {
+vector<point> Rocket::getPoints() const {
 	return vector<point>();
 }
 
-vector<point> Rocket::getRevertedPoints() {
+vector<point> Rocket::getRevertedPoints() const{
 	return vector<point>();
 }
 
@@ -1104,7 +1103,7 @@ void Rocket::saveOrnaments(ofstream& file) {
 	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
-string Rocket::getID() {
+string Rocket::getID() const{
 	return "Rocket";
 }
 void Rocket::setcolor(color c) {
@@ -1280,19 +1279,19 @@ void Car::flip() {
 
 }
 
-double Car::getRadius() {
+double Car::getRadius() const {
 	return NULL;
 }
 
-vector<point> Car::getCorners() {
+vector<point> Car::getCorners() const{
 	return vector<point>();
 }
 
-vector<point> Car::getPoints() {
+vector<point> Car::getPoints() const {
 	return vector<point>();
 }
 
-vector<point> Car::getRevertedPoints() {
+vector<point> Car::getRevertedPoints() const{
 	return vector<point>();
 }
 
@@ -1313,11 +1312,11 @@ void Car::saveOrnaments(ofstream& file) {
 	file << "Car" << " ";
 	file << RefPoint.x << " " << RefPoint.y << " ";
 	file << rotation_angle << " " << resizes << " " << isFlipped << " ";
-	file << static_cast<int>(fillColor.ucRed) << " " << static_cast<int>(fillColor.ucGreen) << " " << static_cast<int>(fillColor.ucBlue) << " ";
+	file << static_cast<int>(getColor().ucRed) << " " << static_cast<int>(getColor().ucGreen) << " " << static_cast<int>(getColor().ucBlue) << " ";
 	file << static_cast<int>(borderColor.ucRed) << " " << static_cast<int>(borderColor.ucGreen) << " " << static_cast<int>(borderColor.ucBlue) << endl;
 }
 
-string Car::getID() {
+string Car::getID() const {
 	return "Car";
 }
 

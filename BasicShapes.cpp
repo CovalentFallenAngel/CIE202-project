@@ -111,22 +111,22 @@ void Rect::move(char c) {
 }
 
 
-vector<point> Rect::getCorners() {
+vector<point> Rect::getCorners() const {
 	vector<point> corners;
 	corners.push_back(upperLeft); 
 	corners.push_back(lowerBottom);
 	return corners;
 }
 
-vector<point> Rect::getPoints() {
+vector<point> Rect::getPoints() const {
 	return vector<point>();
 }
 
-vector<point> Rect::getRevertedPoints() {
+vector<point> Rect::getRevertedPoints() const {
 	return vector<point>();
 }
 
-double Rect::getRadius() {
+double Rect::getRadius() const {
 	return NULL;
 }
 
@@ -254,19 +254,19 @@ void circle::flip(point reference)
 	}
 }
 
-double circle::getRadius() {
+double circle::getRadius() const {
 	return rad;
 }
 
-vector<point> circle::getCorners() {
+vector<point> circle::getCorners()const {
 	return vector<point>();
 }
 
-vector<point> circle::getPoints() {
+vector<point> circle::getPoints()const {
 	return vector<point>();
 }
 
-vector<point> circle::getRevertedPoints() {
+vector<point> circle::getRevertedPoints()const {
 	return vector<point>();
 }
 
@@ -424,7 +424,7 @@ void EqTriangle::resize(double factor, point composite_reference) {
 
 }
 
-vector<point> EqTriangle::getPoints() {
+vector<point> EqTriangle::getPoints() const {
 	vector<point> points;
 	points.push_back(point1);
 	points.push_back(point2);
@@ -432,7 +432,7 @@ vector<point> EqTriangle::getPoints() {
 	return points;
 }
 
-vector<point> EqTriangle::getRevertedPoints() {
+vector<point> EqTriangle::getRevertedPoints() const {
 	vector<point> points;
 	points.push_back(point2);
 	points.push_back(point1);
@@ -440,11 +440,11 @@ vector<point> EqTriangle::getRevertedPoints() {
 	return points;
 }
 
-double EqTriangle::getRadius() {
+double EqTriangle::getRadius() const {
 	return NULL;
 }
 
-vector<point> EqTriangle::getCorners() {
+vector<point> EqTriangle::getCorners() const {
 	return vector<point>();
 }
 
@@ -595,7 +595,7 @@ void RightTriangle::move(char c) {
 	calculate_reference();
 }
 
-vector<point> RightTriangle::getPoints() {
+vector<point> RightTriangle::getPoints() const{
 	vector<point> points;
 	points.push_back(point1);
 	points.push_back(point2);
@@ -603,7 +603,7 @@ vector<point> RightTriangle::getPoints() {
 	return points;
 }
 
-vector<point> RightTriangle::getRevertedPoints() {
+vector<point> RightTriangle::getRevertedPoints() const {
 	vector<point> points;
 	points.push_back(reflect_coordinates(point1, point1));
 	points.push_back(reflect_coordinates(point2, point1));
@@ -611,11 +611,11 @@ vector<point> RightTriangle::getRevertedPoints() {
 	return points;
 }
 
-double RightTriangle::getRadius() {
+double RightTriangle::getRadius() const {
 	return NULL;
 }
 
-vector<point> RightTriangle::getCorners() {
+vector<point> RightTriangle::getCorners() const {
 	return vector<point>(); 
 }
 

@@ -16,7 +16,9 @@ game::game()
 	sec = 21;
 	act = 31;
 	isThinking = false;
+	isLevelingUp = true;
 	num_matched = 0;
+	num_matched_lvl = 0;
 
 
 	//Create the main window
@@ -113,9 +115,14 @@ void game::decrement_lives() {
 	createToolBar();
 }
 
+void game::setIsLevelingUp(bool cond) {
+	isLevelingUp = cond;
+}
+
 void game::increment_level() {
 	int xInteger = config.toolbarItemWidth * 18 + 65;
 	level += 1;
+	setIsLevelingUp(true);
 	pWind->SetFont(20, BOLD, MODERN, "Arial");
 	pWind->SetPen(config.bkGrndColor);
 	pWind->SetBrush(config.bkGrndColor);
@@ -492,10 +499,12 @@ void game::matching_proxy() {
 
 				if (check == true) {
 					isMatched++;
+					num_matched_lvl++;
 					increment_match();
 					increment_score();
-					if (num_matched >= level * level) {
+					if (num_matched_lvl >= 2 * level - 1) {
 						increment_level();
+						num_matched_lvl = 0;
 					}
 					delete shape_array[i];
 					shape_array.erase(std::next(shape_array.begin(), i));
@@ -566,7 +575,7 @@ void game::run()
 		//printMessage("Ready...");
 		//1- Get user click
 		//if (startacting) {
-		if (level > current_level) {
+		if (level > current_level && isLevelingUp) {
 			int numofShapes = (2 * level) - 1;
 			for (int i = 0; i < numofShapes; i++) {
 				shapesGrid->addRandomShape();
