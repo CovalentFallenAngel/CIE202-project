@@ -66,7 +66,7 @@ public:
 	void increment_level();
 	void increment_score();
 	void decrement_score();
-	int getMatched();
+	int getMatched() const;
 	void increment_match();
 	void setThink(int i);
 	void lost();

@@ -232,11 +232,11 @@ void grid::addRandomShape()
 	addShape(newShape);
 }
 
-shape* grid::getActiveShape() {
+shape* grid::getActiveShape() const{
 	return activeShape;
 }
 
-vector<shape*> grid::getShapeList() {
+vector<shape*> grid::getShapeList() const{
 	return shapeList;
 }
 
@@ -244,7 +244,7 @@ void grid::setShapeList(vector<shape*> new_list) {
 	shapeList = new_list;
 }
 
-int grid::getShapeCount() {
+int grid::getShapeCount()const {
 	return shapeCount;
 }
 
@@ -253,7 +253,7 @@ void grid::setShapeCount(int count) {
 }
 
 
-char grid::getKey() {
+char grid::getKey() const {
 	return key;
 }
 
